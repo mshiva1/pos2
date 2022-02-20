@@ -109,7 +109,7 @@ function uploadRows(){
 	//Update progress
 	updateUploadDialog();
 	//If everything processed then return
-	if(processCount==fileData.length){
+	if(processCount==fileData.length|| processCount >5000){
 		return;
 	}
 	

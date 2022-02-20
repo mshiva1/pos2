@@ -55,7 +55,7 @@ public class SiteUiController extends AbstractUiController {
     }
 
     @RequestMapping(value = "/site/pos")
-    public ModelAndView employee() {
+    public ModelAndView pos() {
         return mav("pos.html");
     }
 
