@@ -6,7 +6,9 @@ import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.dao.OrderItemDao;
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.ProductData;
+import com.increff.pos.model.ProductData1;
 import com.increff.pos.model.ProductForm;
+import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,11 +79,15 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductData> getAll() throws ApiException {
+    public List<ProductData1> getAll() throws ApiException {
         List<ProductPojo> list = dao.selectAll();
-        List<ProductData> list2 = new ArrayList<ProductData>();
+        List<ProductData1> list2 = new ArrayList<ProductData1>();
+        Integer quantity;
         for (ProductPojo p : list) {
-            list2.add(convert.convert(p, daoB.getBname(p.getCategoryId()),daoB.getCname(p.getCategoryId())));
+            InventoryPojo ip =daoI.select(p.getId());
+            if(ip==null) quantity=0;
+            else quantity=ip.getQuantity();
+            list2.add(convert.convert(p, daoB.getBname(p.getCategoryId()),daoB.getCname(p.getCategoryId()),quantity));
         }
         return list2;
     }

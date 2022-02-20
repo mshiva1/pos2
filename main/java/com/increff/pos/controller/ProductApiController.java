@@ -1,6 +1,7 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.model.ProductData;
+import com.increff.pos.model.ProductData1;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
@@ -40,7 +41,7 @@ public class ProductApiController {
 
     @ApiOperation(value = "Gets list of all Products")
     @RequestMapping(path = "/api/product", method = RequestMethod.GET)
-    public List<ProductData> getAll() throws ApiException {
+    public List<ProductData1> getAll() throws ApiException {
         return service.getAll();
     }
 
@@ -50,7 +51,7 @@ public class ProductApiController {
         service.update(id, f);
     }
 
-    @ApiOperation(value = "Gets list of all Products")
+    @ApiOperation(value = "Gets list of all Brandnames")
     @RequestMapping(path = "/api/product/brands", method = RequestMethod.GET)
     public List<String> getBrandNames() throws ApiException {
         return service.getBrandNames();

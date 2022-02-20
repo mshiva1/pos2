@@ -56,13 +56,14 @@ function displayProductList(data){
 	for(var i in data){
 		var e = data[i];
 		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
 		+ '<td>' + e.bname + '</td>'
 		+ '<td>'  + e.cname + '</td>'
 		+ '<td>' + e.name + '</td>'
         + '<td>'  + e.barcode + '</td>'
         + '<td>' + e.mrp + '</td>'
+        + '<td>' + e.quantity + '</td>'
 		+ '</tr>';
+        if(e.quantity!=0)
         $tbody.append(row);
 	}
 }

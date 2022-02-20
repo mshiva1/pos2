@@ -78,6 +78,18 @@ public class Convert1 {
         return d;
     }
 
+    public ProductData1 convert(ProductPojo p, String bname, String cname,Integer quantity) throws ApiException {
+        ProductData1 d = new ProductData1();
+        d.setQuantity(quantity);
+        d.setBarcode(p.getBarcode());
+        d.setBname(bname);
+        d.setCname(cname);
+        d.setMrp(p.getMrp());
+        d.setName(p.getName());
+        d.setId(p.getId());
+        return d;
+    }
+
     public ProductPojo convert(ProductForm p, Integer bid) throws ApiException {
         ProductPojo d = new ProductPojo();
         d.setBarcode(p.getBarcode());
