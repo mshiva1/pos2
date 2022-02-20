@@ -56,6 +56,13 @@ public class InventoryApiController {
         service.update(p);
     }
 
+    @ApiOperation(value = "Gets list of barcodes")
+    @RequestMapping(path = "/api/inventory/barcodes", method = RequestMethod.GET)
+    public List<String> getBarcodes() throws ApiException {
+        return service.getBarcodes();
+    }
+
+
     private InventoryPojo convert(InventoryData1 f) throws ApiException {
         InventoryPojo p = new InventoryPojo();
         p.setQuantity(f.getQuantity());

@@ -89,5 +89,8 @@ public class InventoryService {
             throw new ApiException("Barcode doesnt exist");
         }
     }
+    public List <String> getBarcodes(){
+        return daoP.getBarcodes();
+    }
 
 }
