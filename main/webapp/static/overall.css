@@ -1,0 +1,159 @@
+#logo{
+    width:auto;
+    height:45px;
+}
+#download-errors {
+    display:none;
+}
+#buttons{
+    width:400px;
+    margin-left:0px;
+}
+
+#brand-form{
+border : 2px solid grey;
+border-radius: 5px;
+padding : 2px 25px 2px 10px;
+}
+#add-brand{
+width:20%;
+position:absolute;
+right :10px;
+}
+#sales-form{
+border : 2px solid grey;
+border-radius: 5px;
+padding : 2px 25px 2px 10px;
+}
+#check{
+width:20%;
+position:absolute;
+right :10px;
+}
+#download-image{
+    height:25px;
+    width:auto;
+}
+#product-form{
+border : 2px solid grey     ;
+border-radius: 5px;
+padding : 2px 25px 2px 10px;
+}
+#add-product{
+width:20%;
+position:absolute;
+bottom:10px;
+right :10px;
+}
+
+#inventory-form{
+border : 2px solid grey     ;
+border-radius: 5px;
+padding : 2px 25px 2px 10px;
+}
+
+#add-inventory{
+width:20%;
+position:absolute;
+right :10px;
+}
+
+#item-form{
+border : 2px solid grey     ;
+border-radius: 5px;
+padding : 2px 25px 2px 10px;
+}
+#add-item{
+width:20%;
+position:absolute;
+right :10px;
+}
+
+#order-control{
+    z-index: 5;
+    position:fixed;
+    right:0;
+    top:85px;
+}
+html {
+	position: relative;
+	min-height: 100%;
+}
+#navigationbar{
+    z-index:2;
+    top:0px;
+    position: sticky;
+    width:100%;
+    height:60px;
+    background-color: #f5f5f5;
+}
+.content{
+    position: static;
+    width: 98%;
+    align: center;
+    margin: 5px 10px 60px 10px;
+}
+.footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 60px; /* Set the fixed height of the footer here */
+	line-height: 60px; /* Vertically center the text there */
+	text-align: center;
+	background-color: #f5f5f5;
+}
+label{
+    font-weight:600;
+}
+#reportshow{
+    display:none;
+}
+#reportshow:hover{
+    display:block;
+}
+ul #reporthover:hover + #reportshow{
+    display:block;
+}
+.nav-item{
+    border:1px ;
+}
+.userdef{
+    background-color: #abedac;
+}
+.nav-item .nav-link:hover{
+    background-color: #a6a6a6;
+    border-radius: 2px;
+}
+#error_box{
+    z-index: 2;
+    position: fixed;
+    top:5px;
+    right:5px;
+    max-width:800px;
+    background-color:red;
+    color: white;
+    border: 1px solid red;
+    border-radius: 5px;
+    display:none;
+    }
+
+#error_head{
+        font-weight: 600;
+    padding :5px 0 0 20px;
+    }
+#error_panel{
+    padding: 10px 20px 20px 20px;
+    }
+.form-inline label{
+    display:block;
+    width:200px;
+    padding: 10px;
+    }
+.custom-file-label{
+    display:flex;
+    width:auto;
+}
+label {
+    width:100px;
+}
+

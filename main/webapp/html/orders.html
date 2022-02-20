@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<link rel="stylesheet" th:href="@{/static/overall.css}">
+
+<body>
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+<div class="content">
+    <h3>Orders</h3>
+    <div class="row" id="buttons">
+        &nbsp;
+        <button type="button" class="btn btn-outline-primary" id="refresh-data">Refresh data</button>
+    </div>
+    <br>
+    <div class="row">
+
+        <!-- Table -->
+        <div class="col-12">
+            <table class="table table-bordered table-striped" id="orders-table">
+                <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Order Time</th>
+                    <th scope="col">Invoice Time</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<footer th:replace="snippets.html :: name_footer"></footer>
+<script th:src="@{/static/orders.js}"></script>
+<script th:src="@{/static/app.js}"></script>
+</body>
+
+</html>

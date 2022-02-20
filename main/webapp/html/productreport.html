@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<link rel="stylesheet" th:href="@{/static/overall.css}">
+
+<body>
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+<div class="content">
+    <h3>Products</h3>
+
+    <br>
+    <br>
+    <div class="row" id="buttons">
+        &nbsp;
+        <button type="button" class="btn btn-outline-primary" id="download-data">Download <img id="download-image" src="https://cdn2.iconfinder.com/data/icons/flat-file-types-1-1/300/icon_file-CSV_plano-512.png"></button>
+        &nbsp;
+    </div>
+    <br>
+    <div class="row">
+
+        <!-- Table -->
+        <div class="col-12">
+            <table class="table table-bordered table-striped" id="product-table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Barcode</th>
+                    <th scope="col">MRP</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+
+</div>
+<footer th:replace="snippets.html :: name_footer"></footer>
+<script th:src="@{/static/productreport.js}"></script>
+<script th:src="@{/static/app.js}"></script>
+</body>
+
+</html>
