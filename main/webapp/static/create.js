@@ -176,7 +176,6 @@ function displayEditItem(id){
 	});
 }
 
-
 function displayItem(data){
 	$("#item-edit-form input[name=productId]").val(data.productId);
 	$("#item-edit-form input[name=barcode]").val(data.barcode);
@@ -186,6 +185,26 @@ function displayItem(data){
 	$('#edit-item-modal').modal('toggle');
 }
 
+// dropdown handler
+
+function updateBarcodes(data){
+    var str='';
+    for (var i in data)
+        str+="<option value="+data[i]+">"
+    $("#codelist").html(str);
+}
+function setInventory(){
+    var url = getOrdersUrl()+'barcodes';
+    	$.ajax({
+    	   url: url,
+    	   type: 'GET',
+    	   success: function(data) {
+    	   		updateBarcodes(data);
+    	   },
+    	   error: handleAjaxError
+    	});
+}
+
 
 //INITIALIZATION CODE
 function init(){
@@ -193,6 +212,7 @@ function init(){
 	$('#update-item').click(updateItem);   //inside modal
 	$('#confirm').click(confirmOrder);
 	$('#cancel-order').click(deleteOrder);
+	setInventory();
 }
 
 

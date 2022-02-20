@@ -136,6 +136,15 @@ public class OrderService {
         p.setOrder_time(Timestamp.from(Instant.now()));
     }
 
+    public List <String> getBarcodes(){
+
+        List<Integer>pids= daoI.getProducts();
+        List <String> retval= new ArrayList<>();
+        for (Integer i : pids){
+            retval.add(daoP.selectId(i).getBarcode());
+        }
+        return retval;
+    }
 
     @Transactional
     public List<SaleReport> report(String start, String end, String bname, String cname) throws ApiException {

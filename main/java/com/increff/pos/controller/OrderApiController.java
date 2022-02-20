@@ -79,4 +79,9 @@ public class OrderApiController {
     public List<SaleReport> getReport(String start, String end, String bname, String cname) throws ApiException {
         return service.report(start, end, bname, cname);
     }
+    @ApiOperation(value = "Gets list of barcodes that are in inventory")
+    @RequestMapping(path = "/api/order/barcodes", method = RequestMethod.GET)
+    public List<String> getBarcodes() throws ApiException {
+        return service.getBarcodes();
+    }
 }
