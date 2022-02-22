@@ -140,7 +140,7 @@ function uploadRows(){
 }
 
 function downloadErrors(){
-	writeFileData(errorData);
+	writeFileData(errorData,"inventory_error.tsv");
 }
 
 //UI DISPLAY METHODS
@@ -150,9 +150,9 @@ function displayInventoryList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteInventory(' + e.productId + ')">Delete</button>';
-		buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="displayEditInventory(' + e.productId + ')">Edit</button>';
+		buttonHtml = ' <button class="btn-sm btn-outline-primary" onclick="displayEditInventory(' + e.productId + ')">Edit</button>';
 		var row = '<tr>'
+		+ '<td>' + (parseInt(i)+1) + '</td>'
 		+ '<td>' + e.barcode + '</td>'
 		+ '<td>'  + e.quantity + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
@@ -214,7 +214,8 @@ function displayUploadData(){
 }
 
 function displayInventory(data){
-	$("#inventory-edit-form input[name=barcode]").val(data.barcode);
+
+	$("#barcode_set").html(data.barcode);
 	$("#inventory-edit-form input[name=quantity]").val(data.quantity);
 	$("#inventory-edit-form input[name=productId]").val(data.productId);
 	$('#edit-inventory-modal').modal('toggle');

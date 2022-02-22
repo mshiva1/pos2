@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -103,7 +104,9 @@ public class OrderService {
 
     @Transactional
     public List<OrderPojo> getAll() {
-        return dao.selectAll();
+        List <OrderPojo> op=dao.selectAll();
+        Collections.reverse(op);
+        return op;
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -252,7 +255,7 @@ public class OrderService {
         Integer i=0;
         for(OrderItemData1 oip : items){
             ret.append("<table-data><sno>");
-            ret.append(i++);
+            ret.append(++i);
             ret.append("</sno><bc>");
             ret.append(oip.getBname()).append('-').append(oip.getCname());
             ret.append("</bc><name>");

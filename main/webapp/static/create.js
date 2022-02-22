@@ -144,9 +144,10 @@ function displayItemList(data){
 		var buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteItem(' + e.id + ')">Delete</button>'
 		buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="displayEditItem(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
-		+ '<td>' + e.barcode + '</td>'
-		+ '<td>'  +e.bname+e.cname + '</td>'
+		+ '<td>' + (parseInt(i)+1) + '</td>'
 		+ '<td>' + e.name + '</td>'
+		+ '<td>' + e.barcode + '</td>'
+		+ '<td>'  +e.bname+'-'+e.cname + '</td>'
 		+ '<td>' + e.mrp + '</td>'
 		+ '<td>'  +e.sellingPrice + '</td>'
 		+ '<td>' + e.quantity + '</td>'
@@ -176,7 +177,7 @@ function displayEditItem(id){
 }
 
 function displayItem(data){
-	$("#item-edit-form input[name=barcode]").val(data.barcode);
+	$("#barcode_set").html(data.barcode);
     $("#item-edit-form input[name=sellingPrice]").val(data.sellingPrice);
     $("#item-edit-form input[name=quantity]").val(data.quantity);
     $("#item-edit-form input[name=id]").val(data.id);

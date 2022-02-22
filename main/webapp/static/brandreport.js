@@ -55,7 +55,6 @@ function displayBrandList(data){
 	for(var i in data){
 		var e = data[i];
 		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
 		+ '<td>' + e.bname + '</td>'
 		+ '<td>'  + e.cname + '</td>'
 		+ '</tr>';

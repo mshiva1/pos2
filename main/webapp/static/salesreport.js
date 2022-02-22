@@ -65,7 +65,6 @@ function display(data){
 	for(var i in data){
 		var e = data[i];
 		var row = '<tr>'
-		+ '<td>' + e.categoryId + '</td>'
 		+ '<td>' + e.bname + '</td>'
 		+ '<td>'  + e.cname + '</td>'
 		+ '<td>' + e.quantity + '</td>'
@@ -98,10 +97,19 @@ function updateMin(){
     "min": date
     });
 }
+
+function updateMax(){
+    var date= $('#inputEnd').val();
+    if(date==null) return;
+    $("#inputStart").attr({
+    "max": date
+    });
+}
 //INITIALIZATION CODE
 function init(){
     setMax();
     $('#inputStart').change(updateMin);
+    $('#inputEnd').change(updateMax);
 	$('#download-data').click(tableToCSV);
 	$('#check').click(getReport);
 }

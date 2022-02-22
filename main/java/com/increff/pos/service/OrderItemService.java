@@ -40,7 +40,7 @@ public class OrderItemService {
 
         Integer available;
         if (ip == null)
-            available = 0;
+            throw new ApiException("Product not in Inventory");
         else
             available = ip.getQuantity();
 

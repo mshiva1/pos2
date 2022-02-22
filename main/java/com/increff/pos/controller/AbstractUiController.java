@@ -12,7 +12,6 @@ public abstract class AbstractUiController {
     private String baseUrl;
 
     protected ModelAndView mav(String page) {
-
         // Set info
         ModelAndView mav = new ModelAndView(page);
         mav.addObject("baseUrl", baseUrl);

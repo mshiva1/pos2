@@ -144,7 +144,7 @@ function uploadRows(){
 }
 
 function downloadErrors(){
-	writeFileData(errorData);
+	writeFileData(errorData,"product_error.tsv");
 }
 
 //UI DISPLAY METHODS
@@ -154,13 +154,13 @@ function displayProductList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteProduct(' + e.id + ')">Delete</button>'
-		buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
+		buttonHtml = ' <button class="btn-sm btn-outline-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
-		+ '<td>' + e.bname + '</td>'
-		+ '<td>'  + e.cname + '</td>'
+		+ '<td>' + (parseInt(i)+1) + '</td>'
 		+ '<td>' + e.name + '</td>'
         + '<td>'  + e.barcode + '</td>'
+		+ '<td>' + e.bname + '</td>'
+		+ '<td>'  + e.cname + '</td>'
         + '<td>' + e.mrp + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
@@ -221,8 +221,8 @@ function displayUploadData(){
 }
 
 function displayProduct(data){
-	$("#product-edit-form input[name=bname]").val(data.bname);
-	$("#product-edit-form input[name=cname]").val(data.cname);
+	$("#bname_set").html(data.bname+'<br>');
+	$("#cname_set").html(data.cname);
 	$("#product-edit-form input[name=name]").val(data.name);
 	$("#product-edit-form input[name=barcode]").val(data.barcode);
 	$("#product-edit-form input[name=mrp]").val(data.mrp);

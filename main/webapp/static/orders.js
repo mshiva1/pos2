@@ -26,9 +26,9 @@ function displayOrdersList(data){
     var e = data[i];
     var buttonHtml;
     if(e.status=='confirmed'){
-      buttonHtml = '<button class="btn-sm btn-danger" onclick="deleteOrder(' + e.id + ')">Delete</button>'
-      buttonHtml += ' <button class="btn-sm btn-primary" onclick="editOrder(' + e.id + ')">Edit</button>'
-      buttonHtml += ' <button class="btn-sm btn-success" onclick="fulfilOrder(' + e.id + ')">Fulfil</button>'
+      buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteOrder(' + e.id + ')">Delete</button>'
+      buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="editOrder(' + e.id + ')">Edit</button>'
+      buttonHtml += ' <button class="btn-sm btn-outline-success" onclick="fulfilOrder(' + e.id + ')">Generate Invoice</button>'
     }
     else{
       buttonHtml = '<button class="btn-sm btn-outline-success" onclick="downloadInvoice(' + e.id + ')">Download Invoice</button>'
@@ -113,7 +113,7 @@ function downloadInvoice(id){
 
 
          let blob = new Blob([arrayBuffer], {type: "application/pdf"});
-         download(blob,id+"invoice.pdf");
+         download(blob,"invoice_"+id+".pdf");
      },
      error: handleAjaxError
   });

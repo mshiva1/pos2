@@ -105,12 +105,10 @@
                         </fo:table-body>
                     </fo:table>
 
-                    <fo:block text-align="left"  font-size="125%">
+                    <fo:block text-align="right"  font-size="125%">
                         Total    :<xsl:value-of select="header-section/total"/>
                     </fo:block>
-                    <fo:block text-align="left"  font-size="125%">
-                        Quantity :<xsl:value-of select="header-section/quantity"/>
-                    </fo:block>
+
                     <fo:block id="end-of-document">
                     </fo:block>
                 </fo:flow>

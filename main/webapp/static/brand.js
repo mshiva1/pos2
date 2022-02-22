@@ -140,7 +140,7 @@ function uploadRows(){
 }
 
 function downloadErrors(){
-	writeFileData(errorData);
+	writeFileData(errorData,"brand_error.tsv");
 }
 
 //UI DISPLAY METHODS
@@ -150,9 +150,9 @@ function displayBrandList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteBrand(' + e.id + ')">Delete</button>'
-		buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="displayEditBrand(' + e.id + ')">Edit</button>'
+		buttonHtml = ' <button class="btn-sm btn-outline-primary" onclick="displayEditBrand(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
+		+ '<td>' + (parseInt(i)+1) + '</td>'
 		+ '<td>' + e.bname + '</td>'
 		+ '<td>'  + e.cname + '</td>'
 		+ '<td>' + buttonHtml + '</td>'

@@ -68,9 +68,9 @@
     <br>
     <div class="row" id="buttons">
         &nbsp;
-        <button type="button" class="btn btn-outline-primary" id="refresh-data">Refresh</button>
-        &nbsp;
         <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+        &nbsp;
+        <button type="button" class="btn btn-outline-primary" id="refresh-data">Refresh</button>
     </div>
     <br>
     <div class="row">
@@ -80,10 +80,12 @@
             <table class="table table-bordered table-striped" id="product-table">
                 <thead>
                 <tr>
-                    <th scope="col">Brand</th>
-                    <th scope="col">Category</th>
+
+                    <th scope="col">S No</th>
                     <th scope="col">Name</th>
                     <th scope="col">Barcode</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Category</th>
                     <th scope="col">MRP</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -109,14 +111,13 @@
                     <form class="form-inline" id="product-edit-form">
                         <div class="form-group">
                             <label for="inputBrand" class="col-sm-2 col-form-label">Brand</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="bname" disabled>
+                            <div class ="info" id="bname_set">
                             </div>
+                            <br>
                         </div>
                         <div class="form-group">
                             <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="cname" disabled>
+                            <div class ="info1" id="cname_set">
                             </div>
                         </div>
                         <div class="form-group">

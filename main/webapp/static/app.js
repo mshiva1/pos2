@@ -32,7 +32,7 @@ function readFileData(file, callback){
 }
 
 
-function writeFileData(arr){
+function writeFileData(arr,filename){
 	var config = {
 		quoteChar: '',
 		escapeChar: '',
@@ -44,7 +44,7 @@ function writeFileData(arr){
     var fileUrl =  null;
 
     if (navigator.msSaveBlob) {
-        fileUrl = navigator.msSaveBlob(blob, 'download.tsv');
+        fileUrl = navigator.msSaveBlob(blob,filename);
     } else {
         fileUrl = window.URL.createObjectURL(blob);
     }
