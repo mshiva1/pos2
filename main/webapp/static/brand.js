@@ -95,6 +95,7 @@ function processData(){
 	var file = $('#brandFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
 	getBrandList();
+	resetUploadDialog();
 }
 
 function readFileDataCallback(results){

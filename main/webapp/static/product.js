@@ -97,6 +97,7 @@ var errorCount=0;
 function processData(){
 	var file = $('#productFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
+	resetUploadDialog();
 }
 
 function readFileDataCallback(results){
@@ -189,7 +190,7 @@ function resetUploadDialog(){
 	fileData = [];
 	errorData = [];
 	//Update counts
-	updateUploadDialog()
+	updateUploadDialog();
 }
 
 function updateUploadDialog(){

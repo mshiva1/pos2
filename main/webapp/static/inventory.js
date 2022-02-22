@@ -93,6 +93,7 @@ var errorCount=0;
 function processData(){
 	var file = $('#inventoryFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
+	resetUploadDialog();
 }
 
 function readFileDataCallback(results){
