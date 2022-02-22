@@ -156,7 +156,6 @@ function displayProductList(data){
 		var buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteProduct(' + e.id + ')">Delete</button>'
 		buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
 		+ '<td>' + e.bname + '</td>'
 		+ '<td>'  + e.cname + '</td>'
 		+ '<td>' + e.name + '</td>'
