@@ -38,6 +38,8 @@ public class OrderItemService {
         ProductPojo p1 = daoP.selectId(product_id);
         InventoryPojo ip = daoI.select(product_id);
 
+
+        p.setSellingPrice((float)((double) Math.round(p.getSellingPrice() * 100) )/ 100);
         Integer available;
         if (ip == null)
             throw new ApiException("Product not in Inventory");
@@ -138,6 +140,8 @@ public class OrderItemService {
         if (form.getSellingPrice() == 0)
             form.setSellingPrice(p1.getMrp());
 
+
+        form.setSellingPrice((float)((double) Math.round(form.getSellingPrice() * 100) )/ 100);
         if (p1.getMrp() < form.getSellingPrice())
             throw new ApiException("Selling Price cant be more than MRP");
 

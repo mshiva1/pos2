@@ -212,7 +212,9 @@ function displayUploadData(){
 	$('#upload-brand-modal').modal('toggle');
 
 }
-
+function displayAddBrand(){
+	$('#add-brand-modal').modal('toggle');
+	}
 function displayBrand(data){
 
 	$("#brand-edit-form input[name=bname]").val(data.bname);
@@ -231,6 +233,7 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#brandFile').on('change', updateFileName);
+    $('#add-data').click(displayAddBrand);
 }
 
 $(document).ready(init);

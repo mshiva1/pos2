@@ -10,34 +10,11 @@
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 <div class="content">
     <h3>Inventory</h3>
-    <!-- Top row with form-->
-    <div class="row">
-        <div class="col-12">
-            <form class="form-inline" id="inventory-form">
-                <div class="form-group">
-                    <label for="barcode" class="col-sm-2 col-form-label">Barcode</label>
-                    <div class="col-sm-10">
-                        <input list="barcodelist" class="form-control" name="barcode" id="Barcode" placeholder="Enter Barcode">
-                        <datalist id="barcodelist">
-                            <div id=codelist>
-                            </div >
-                        </datalist>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="Quantity" class="col-sm-2 col-form-label">Quantity</label>
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" name="quantity" id="Quantity" placeholder="Enter Quantity">
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary" id="add-inventory">Add</button>
-            </form>
-        </div>
-    </div>
-    <br>
+    
     <br>
     <div class="row" id="buttons">
+        &nbsp;
+        <button type="button" class="btn btn-primary" id="add-data">Add</button>
         &nbsp;
         <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
         &nbsp;
@@ -61,6 +38,45 @@
                 </tbody>
             </table>
 
+        </div>
+    </div>
+
+    <!-- Inventory Add Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="add-inventory-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Items to Inventory</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline" id="inventory-form">
+                        <div class="form-group">
+                            <label for="barcode" class="col-sm-2 col-form-label">Barcode</label>
+                            <div class="col-sm-10">
+                                <input list="barcodelist" class="form-control" name="barcode" id="Barcode" placeholder="Enter Barcode">
+                                <datalist id="barcodelist">
+                                    <div id=codelist>
+                                    </div >
+                                </datalist>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Quantity" class="col-sm-2 col-form-label">Quantity</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" name="quantity" id="Quantity" placeholder="Enter Quantity">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="add-inventory">Add</button>
+                </div>
+            </div>
         </div>
     </div>
 

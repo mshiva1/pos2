@@ -241,6 +241,9 @@ function setInventory(){
     	});
 }
 
+function displayAddInventory(){
+	$('#add-inventory-modal').modal('toggle');
+	}
 //INITIALIZATION CODE
 function init(){
 	$('#add-inventory').click(addInventory);
@@ -250,6 +253,7 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#inventoryFile').on('change', updateFileName);
+    $('#add-data').click(displayAddInventory);
     setInventory();
 }
 

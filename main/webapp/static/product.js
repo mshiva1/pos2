@@ -267,6 +267,9 @@ function setCat(){
     	});
 }
 
+function displayAddProduct(){
+	$('#add-product-modal').modal('toggle');
+	}
 //INITIALIZATION CODE
 function init(){
 	$('#add-product').click(addProduct);
@@ -277,6 +280,7 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#productFile').on('change', updateFileName);
     $('#inputBrand').on('change',setCat);
+    $('#add-data').click(displayAddProduct);
     getProductList();
     setBrands();
 }

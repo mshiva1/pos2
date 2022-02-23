@@ -34,6 +34,7 @@ public class ProductService {
     private Convert1 convert;
 
     protected static void normalize(ProductPojo p) throws ApiException {
+        p.setMrp((float)((double) Math.round(p.getMrp() * 100) )/ 100);
         p.setName(StringUtil.toLowerCase(p.getName()));
         if (p.getMrp() <= 0)
             throw new ApiException("MRP should be Positive");

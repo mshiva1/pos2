@@ -13,11 +13,7 @@
 padding : 2px 25px 2px 10px;
 }
 
-#add-brand{
-width:20%;
-position:absolute;
-right :20px;
-}
+
 
 #sales-form{
 padding : 2px 25px 2px 10px;
@@ -35,22 +31,11 @@ right :20px;
 #product-form{
 padding : 2px 25px 2px 10px;
 }
-#add-product{
-width:20%;
-position:absolute;
-bottom:10px;
-right :20px;
-}
 
 #inventory-form{
 padding : 2px 25px 2px 10px;
 }
 
-#add-inventory{
-width:20%;
-position:absolute;
-right :20px;
-}
 
 #item-form{
 padding : 2px 250px 2px 10px;
