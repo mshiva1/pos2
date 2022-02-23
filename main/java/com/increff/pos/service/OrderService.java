@@ -79,7 +79,7 @@ public class OrderService {
             }
         }
         daoOI.deleteItem(id);
-        dao.delete(id);
+        dao.select(id).setStatus("cancelled");
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -124,20 +124,12 @@ public class OrderService {
         OrderPojo p = dao.select(id);
         if (p == null)
             throw new ApiException("Order Not Found");
-        p.setStatus("fulfilled");
+        p.setStatus("completed");
         p.setInvoice_time(Timestamp.from(Instant.now()));
         p.setInvoice(generateInvoice(p.getId(),p.getOrder_time(),p.getInvoice_time()));
         System.out.println("invoice saved");
     }
 
-    @Transactional(rollbackOn = ApiException.class)
-    public void sendBack(int id) throws ApiException {
-        OrderPojo p = dao.select(id);
-        if (p == null)
-            throw new ApiException("Order Not Found");
-        p.setStatus("created");
-        p.setOrder_time(Timestamp.from(Instant.now()));
-    }
 
     public List <String> getBarcodes(){
 

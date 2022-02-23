@@ -26,7 +26,7 @@ function downloadCsvFile(csv_data) {
 			});
 
 			var temp_link = document.createElement('a');
-			temp_link.download = "Brands.csv";
+			temp_link.download = "Brand_Report.csv";
 			var url = window.URL.createObjectURL(CSVFile);
 			temp_link.href = url;
 			temp_link.style.display = "none";
@@ -66,6 +66,7 @@ function displayBrandList(data){
 //INITIALIZATION CODE
 function init(){
 	$('#download-data').click(tableToCSV);
+	$('#refresh-data').click(getBrandList);
 }
 
 $(document).ready(init);

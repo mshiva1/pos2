@@ -24,9 +24,13 @@ function downloadCsvFile(csv_data) {
 			CSVFile = new Blob([csv_data], {
 				type: "text/csv"
 			});
-
+            var currentdate = new Date();
+                        var datetime = currentdate.getDate() + "-" + (parseInt(currentdate.getMonth())+1)
+                        + "-" + currentdate.getFullYear() + "_"
+                        + currentdate.getHours() + "-"
+                        + currentdate.getMinutes() + "-" + currentdate.getSeconds();
 			var temp_link = document.createElement('a');
-			temp_link.download = "Products.csv";
+			temp_link.download = currentdate+"Inventory_Report.csv";
 			var url = window.URL.createObjectURL(CSVFile);
 			temp_link.href = url;
 			temp_link.style.display = "none";
@@ -56,11 +60,10 @@ function displayProductList(data){
 	for(var i in data){
 		var e = data[i];
 		var row = '<tr>'
-		+ '<td>' + e.bname + '</td>'
-		+ '<td>'  + e.cname + '</td>'
 		+ '<td>' + e.name + '</td>'
         + '<td>'  + e.barcode + '</td>'
-        + '<td>' + e.mrp + '</td>'
+		+ '<td>' + e.bname + '</td>'
+		+ '<td>'  + e.cname + '</td>'
         + '<td>' + e.quantity + '</td>'
 		+ '</tr>';
         if(e.quantity!=0)
@@ -72,6 +75,7 @@ function displayProductList(data){
 //INITIALIZATION CODE
 function init(){
 	$('#download-data').click(tableToCSV);
+	$('#refresh-data').click(getProductList);
 }
 
 $(document).ready(init);

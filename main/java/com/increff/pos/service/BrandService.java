@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -55,7 +57,9 @@ public class BrandService {
 
     @Transactional
     public List<BrandPojo> getAll() {
-        return dao.selectAll();
+        List<BrandPojo> retval=dao.selectAll();
+        Collections.reverse(retval);
+        return retval;
     }
 
     public List<Integer> getAllId() {

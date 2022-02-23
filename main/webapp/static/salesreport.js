@@ -24,9 +24,14 @@ function downloadCsvFile(csv_data) {
 			CSVFile = new Blob([csv_data], {
 				type: "text/csv"
 			});
+            var currentdate = new Date();
+            var datetime = currentdate.getDate() + "-" + (parseInt(currentdate.getMonth())+1)
+            + "-" + currentdate.getFullYear() + "_"
+            + currentdate.getHours() + "-"
+            + currentdate.getMinutes() + "-" + currentdate.getSeconds();
 
 			var temp_link = document.createElement('a');
-			temp_link.download = "Brands.csv";
+			temp_link.download = datetime+"Sales_Report.csv";
 			var url = window.URL.createObjectURL(CSVFile);
 			temp_link.href = url;
 			temp_link.style.display = "none";
@@ -34,14 +39,18 @@ function downloadCsvFile(csv_data) {
 			temp_link.click();
 			document.body.removeChild(temp_link);
 		}
+		var string;
 function getReport(){
-	var url = getReportUrl();
-	var $form = $("#sales-form");
 	var start=$("#sales-form input[name=start]").val();
 	var end=$("#sales-form input[name=end]").val();
 	var bname=$("#sales-form input[name=bname]").val();
 	var cname=$("#sales-form input[name=cname]").val();
-	var string = 'start='+ start+'&end='+end+'&bname='+ bname+'&cname='+ cname;
+	string = 'start='+ start+'&end='+end+'&bname='+ bname+'&cname='+ cname;
+	getReport1();
+}
+
+function getReport1(){
+	var url = getReportUrl();
 
 	$.ajax({
 	   url: url,
@@ -112,6 +121,7 @@ function init(){
     $('#inputEnd').change(updateMax);
 	$('#download-data').click(tableToCSV);
 	$('#check').click(getReport);
+    $('#refresh-data').click(getReport1);
 }
 
 $(document).ready(init);

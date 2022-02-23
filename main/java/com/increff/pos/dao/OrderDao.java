@@ -29,11 +29,6 @@ public class OrderDao extends AbstractDao {
         return p.getId();
     }
 
-    public void delete(int id) {
-        Query query = em.createQuery(delete_id);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
 
     public OrderPojo select(int id) {
         TypedQuery<OrderPojo> query = getQuery(select_id, OrderPojo.class);

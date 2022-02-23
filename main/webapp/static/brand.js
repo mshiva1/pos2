@@ -189,6 +189,7 @@ function resetUploadDialog(){
 function updateUploadDialog(){
     if(errorData.length!=0){
         $('#download-errors').css('display','block');
+        handleUiError("One are more errors occured while parsing");
 	}
 	else{
 	$('#download-errors').css('display','none');

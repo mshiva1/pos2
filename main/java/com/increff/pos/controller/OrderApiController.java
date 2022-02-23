@@ -68,11 +68,6 @@ public class OrderApiController {
         service.fulfil(id);
     }
 
-    @ApiOperation(value = "confirmed to created")
-    @RequestMapping(path = "/api/order/sendback-{id}", method = RequestMethod.POST)
-    public void sendBack(@PathVariable int id) throws ApiException {
-        service.sendBack(id);
-    }
 
     @ApiOperation(value = "Gets Sale Record")
     @RequestMapping(path = "/api/order/sale/", method = RequestMethod.GET)

@@ -195,6 +195,7 @@ function resetUploadDialog(){
 
 function updateUploadDialog(){
     if(errorData.length!=0){
+        handleUiError("One are more errors occured while parsing");
         $('#download-errors').css('display','block');
 	}
 	else{
@@ -269,7 +270,7 @@ function setCat(){
 //INITIALIZATION CODE
 function init(){
 	$('#add-product').click(addProduct);
-	$('#update-product').click(updateProduct);  //
+	$('#update-product').click(updateProduct);
 	$('#refresh-data').click(getProductList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);

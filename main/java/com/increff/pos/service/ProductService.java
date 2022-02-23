@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -42,12 +43,6 @@ public class ProductService {
     public void add(ProductForm form) throws ApiException {
         ProductPojo p = convert.convert(form,getBid(form.getBname(), form.getCname()));
         normalize(p);
-        if (StringUtil.isEmpty(p.getName())) {
-            throw new ApiException("Name is required");
-        }
-        if (StringUtil.isEmpty(p.getBarcode())) {
-            throw new ApiException("Barcode is required");
-        }
         if (dao.selectBarcode(p.getBarcode()) != null) {
             throw new ApiException("This Barcode Exists");
         }
@@ -89,6 +84,7 @@ public class ProductService {
             else quantity=ip.getQuantity();
             list2.add(convert.convert(p, daoB.getBname(p.getCategoryId()),daoB.getCname(p.getCategoryId()),quantity));
         }
+        Collections.reverse(list2);
         return list2;
     }
 
@@ -117,6 +113,10 @@ public class ProductService {
     }
 
     public Integer getBid(String bname, String cname) throws ApiException {
+        if(bname.isEmpty())
+            throw new ApiException("Brand Name is Required");
+        if(cname.isEmpty())
+            throw new ApiException("Category Name is Required");
         try {
             return (daoB.getBid(bname, cname)).getId();
         } catch (Exception e) {

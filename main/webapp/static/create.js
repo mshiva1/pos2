@@ -178,6 +178,7 @@ function displayEditItem(id){
 
 function displayItem(data){
 	$("#barcode_set").html(data.barcode);
+	$('#item-edit-form input[name=productId]').val(data.productId);
     $("#item-edit-form input[name=sellingPrice]").val(data.sellingPrice);
     $("#item-edit-form input[name=quantity]").val(data.quantity);
     $("#item-edit-form input[name=id]").val(data.id);

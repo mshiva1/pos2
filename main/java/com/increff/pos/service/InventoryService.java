@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -69,6 +70,7 @@ public class InventoryService {
         for (InventoryPojo p : ret) {
             retval.add(convert(p));
         }
+        Collections.reverse(retval);
         return retval;
     }
 

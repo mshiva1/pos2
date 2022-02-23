@@ -10,8 +10,6 @@
     margin-left:0px;
 }
 #brand-form{
-border : 2px solid grey;
-border-radius: 5px;
 padding : 2px 25px 2px 10px;
 }
 
@@ -22,8 +20,6 @@ right :20px;
 }
 
 #sales-form{
-border : 2px solid grey;
-border-radius: 5px;
 padding : 2px 25px 2px 10px;
 }
 #check{
@@ -37,8 +33,6 @@ right :20px;
     width:auto;
 }
 #product-form{
-border : 2px solid grey     ;
-border-radius: 5px;
 padding : 2px 25px 2px 10px;
 }
 #add-product{
@@ -49,8 +43,6 @@ right :20px;
 }
 
 #inventory-form{
-border : 2px solid grey     ;
-border-radius: 5px;
 padding : 2px 25px 2px 10px;
 }
 
@@ -61,8 +53,6 @@ right :20px;
 }
 
 #item-form{
-border : 2px solid grey     ;
-border-radius: 5px;
 padding : 2px 250px 2px 10px;
 }
 #add-item{
@@ -92,16 +82,16 @@ html {
 .content{
     position: static;
     align: center;
-    margin: 5px 100px 60px 50px;
+    margin: 5px 50px 60px 50px;
 }
 .footer {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	height: 60px; /* Set the fixed height of the footer here */
-	line-height: 60px; /* Vertically center the text there */
-	text-align: center;
-	background-color: #f5f5f5;
+	    position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        text-align:center;
+        background-color: #f5f5f5;
 }
 label{
     font-weight:600;
@@ -118,14 +108,14 @@ ul #reporthover:hover + #reportshow{
 .nav-item{
     font-weight: 750;
     font-color: #000000;
-    border:1px ;
 }
 .userdef{
-    background-color: #abedac;
+    background-color: #9dc3f5;
+    border-radius: 5px;
 }
 .nav-item .nav-link:hover{
     background-color: #a6a6a6;
-    border-radius: 2px;
+    border-radius: 5px;
 }
 #error_box{
     z-index: 1056;
@@ -154,7 +144,8 @@ ul #reporthover:hover + #reportshow{
     }
 .custom-file-label{
     display:flex;
-    width:auto;
+    width:90%;
+    margin :2% 5%;
 }
 label {
     width:100px;

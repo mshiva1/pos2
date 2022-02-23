@@ -19,6 +19,12 @@ function handleAjaxError(response){
 	$("#error_panel").html(response.message);
 	$("#error_box").css('display','block');
 }
+function handleUiError(response){
+	$("#error_head").html("Error:");
+	$("#error_panel").html(response);
+	$("#error_box").css('display','block');
+}
+
 function readFileData(file, callback){
 	var config = {
 		header: true,
@@ -50,7 +56,7 @@ function writeFileData(arr,filename){
     }
     var tempLink = document.createElement('a');
     tempLink.href = fileUrl;
-    tempLink.setAttribute('download', 'download.tsv');
+    tempLink.setAttribute('download', filename);
     tempLink.click(); 
 }
 function setNavbar(){
@@ -66,6 +72,7 @@ function closeError(){
 function init(){
 
 	$('#error_close').click(closeError);
+
     }
 
 $(document).ready(init);
