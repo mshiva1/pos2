@@ -24,17 +24,22 @@ function displayOrdersList(data){
   $tbody.empty();
   for(var i in data){
     var e = data[i];
-    var buttonHtml;
+    var buttonHtml='';
+    var row = '';
     if(e.status=='confirmed'){
-      buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteOrder(' + e.id + ')">Delete</button>'
+    row="<tr>"
+      buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteOrder(' + e.id + ')">Cancel</button>'
       buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="editOrder(' + e.id + ')">Edit</button>'
       buttonHtml += ' <button class="btn-sm btn-outline-success" onclick="fulfilOrder(' + e.id + ')">Generate Invoice</button>'
     }
-    else{
+    else if(e.status=='completed'){
+    row="<tr style='color:darkgreen'>"
       buttonHtml = '<button class="btn-sm btn-outline-success" onclick="downloadInvoice(' + e.id + ')">Download Invoice</button>'
     }
-    var row = '<tr>'
-    + '<td>' + e.id + '</td>'
+    else{
+    row="<tr style='color:red'>"
+    }
+    row+= '<td>' + e.id + '</td>'
     + '<td>' + fromTimestamp(e.order_time) + '</td>'
     + '<td>' + fromTimestamp(e.invoice_time) + '</td>'
     + '<td>'  + (e.status).toUpperCase() + '</td>'

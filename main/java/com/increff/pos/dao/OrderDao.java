@@ -15,10 +15,10 @@ public class OrderDao extends AbstractDao {
 
     private static final String delete_id = "delete from OrderPojo p where id=:id";
     private static final String select_id = "select p from OrderPojo p where id=:id";
-    private static final String select_all = "select p from OrderPojo p where status='fulfilled' or status='confirmed'";
+    private static final String select_all = "select p from OrderPojo p where status!='created'";
     private static final String select_all_order = "select p.id from OrderPojo p";
     private static final String get_order = "select p.id from OrderPojo p where status=:status";
-    private static final String get_between = "select p.id from OrderPojo p where (status='fulfilled' or status='confirmed') and invoice_time < :end and invoice_time > :start";
+    private static final String get_between = "select p.id from OrderPojo p where (status='completed' or status='confirmed') and invoice_time < :end and invoice_time > :start";
 
     @PersistenceContext
     private EntityManager em;

@@ -77,7 +77,6 @@ public class OrderItemService {
             ex.setQuantity(ex.getQuantity() + p.getQuantity());
         } else
             dao.insert(p2);
-
     }
 
     @Transactional
