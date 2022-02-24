@@ -19,11 +19,10 @@ import java.io.File;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -65,17 +64,20 @@ public class OrderService {
         if (get(id).getStatus().equals("fulfilled"))
             throw new ApiException("Fulfilled Orders cant be deleted");
         List <OrderItemPojo> items=daoOI.selectByOrderId(id);
+        String status=dao.select(id).getStatus();
         for(OrderItemPojo oip : items) {
-            InventoryPojo ip= new InventoryPojo();
-            ip.setProductId(oip.getProduct_id());
-            ip.setQuantity(oip.getQuantity());
-            {
-                InventoryPojo e = daoI.select(ip.getProductId());
-                if (e == null)
-                    daoI.insert(ip);
-                else
-                    e.setQuantity(e.getQuantity() + ip.getQuantity());
+            if(status.equals("confirmed")) {
+                InventoryPojo ip = new InventoryPojo();
+                ip.setProductId(oip.getProduct_id());
+                ip.setQuantity(oip.getQuantity());
+                {
+                    InventoryPojo e = daoI.select(ip.getProductId());
+                    if (e == null)
+                        daoI.insert(ip);
+                    else
+                        e.setQuantity(e.getQuantity() + ip.getQuantity());
 
+                }
             }
         }
         daoOI.deleteItem(id);
@@ -112,6 +114,14 @@ public class OrderService {
     @Transactional(rollbackOn = ApiException.class)
     public void confirm(int id) throws ApiException {
         OrderPojo p = dao.select(id);
+        //remove items from inventory
+        List <OrderItemPojo> items =daoOI.selectByOrderId(id);
+            for (OrderItemPojo oip : items){
+                InventoryPojo ip=daoI.select(oip.getProduct_id());
+                if(ip.getQuantity()< oip.getQuantity())
+                    throw new ApiException("Quantity in Stock changed for Item"+daoP.selectId(oip.getProduct_id()).getName()+"("+daoP.selectId(oip.getProduct_id()).getBarcode()+")Try removing it and adding it again");
+                ip.setQuantity(ip.getQuantity()- oip.getQuantity());
+            }
         if (p == null)
             throw new ApiException("Order Not Found");
         if (p.getStatus().equals("created"))
@@ -194,10 +204,10 @@ public class OrderService {
             Float revenue = (float) 0;
             for (Integer pid : productsList)
                 for (Integer oid : ordersList) {
-                    OrderItemPojo p = daoOI.select(pid, oid);
-                    if (p != null) {
-                        quantity += p.getQuantity();
-                        revenue += p.getQuantity() * p.getSellingPrice();
+                    List<OrderItemPojo> p = daoOI.select(pid, oid);
+                    for(OrderItemPojo oip :p){
+                        quantity += oip.getQuantity();
+                        revenue += oip.getQuantity() * oip.getSellingPrice();
                     }
                 }
             r.setQuantity(quantity);
@@ -233,10 +243,11 @@ public class OrderService {
     }
     String getxmlStream(Timestamp order,Timestamp invoice,Integer id,List<OrderItemData1> items,Integer quantity,Float total){
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
         StringBuilder ret= new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <?xml-stylesheet type=\"application/xml\"?> <users-data> <header-section> <data-type >Invoice</data-type> <odate>");
-        ret.append(order);
+        ret.append(dateFormat.format(new Date(order.getTime())));
         ret.append("</odate><idate>");
-        ret.append(invoice);
+        ret.append(dateFormat.format(new Date(invoice.getTime())));
         ret.append("</idate><id>");
         ret.append(id);
         ret.append("</id><total>");
@@ -248,9 +259,11 @@ public class OrderService {
         for(OrderItemData1 oip : items){
             ret.append("<table-data><sno>");
             ret.append(++i);
-            ret.append("</sno><bc>");
-            ret.append(oip.getBname()).append('-').append(oip.getCname());
-            ret.append("</bc><name>");
+            ret.append("</sno><bname>");
+            ret.append(oip.getBname());
+            ret.append("</bname><cname>");
+            ret.append(oip.getCname());
+            ret.append("</cname><name>");
             ret.append(oip.getName());
             ret.append("</name><barcode>");
             ret.append(oip.getBarcode());

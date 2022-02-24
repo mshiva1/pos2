@@ -15,7 +15,7 @@
             <fo:page-sequence master-reference="A4-portrait">
                 <fo:static-content flow-name="xsl-region-before">
                     <fo:block text-align="center"  font-size="200%">
-                        <fo:basic-link external-destination="http://increff.com">INCREFF POS</fo:basic-link>
+                        <fo:basic-link external-destination="http://increff.com">INVOICE</fo:basic-link>
                     </fo:block>
                     <fo:block>Order Id:<xsl:value-of select="header-section/id"/></fo:block>
                     <fo:block>Invoice Date: <xsl:value-of select="header-section/idate"/></fo:block>
@@ -34,24 +34,28 @@
                     <fo:table table-layout="fixed" width="100%" font-size="10pt" border-color="black" border-width="0.35mm" border-style="solid" text-align="center" display-align="center" space-after="5mm">
                         <fo:table-column column-width="proportional-column-width(10)"/>
                         <fo:table-column column-width="proportional-column-width(30)"/>
-                        <fo:table-column column-width="proportional-column-width(30)"/>
-                        <fo:table-column column-width="proportional-column-width(40)"/>
-                        <fo:table-column column-width="proportional-column-width(25)"/>
-                        <fo:table-column column-width="proportional-column-width(25)"/>
                         <fo:table-column column-width="proportional-column-width(35)"/>
+                        <fo:table-column column-width="proportional-column-width(30)"/>
+                        <fo:table-column column-width="proportional-column-width(30)"/>
+                        <fo:table-column column-width="proportional-column-width(20)"/>
+                        <fo:table-column column-width="proportional-column-width(25)"/>
+                        <fo:table-column column-width="proportional-column-width(30)"/>
                         <fo:table-body font-size="95%">
                             <fo:table-row height="8mm">
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
                                     <fo:block>S No</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block>Brand Category</fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell xsl:use-attribute-sets="tableBorder">
                                     <fo:block>Name</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
                                     <fo:block>Barcode</fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell xsl:use-attribute-sets="tableBorder">
+                                    <fo:block>Brand</fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell xsl:use-attribute-sets="tableBorder">
+                                    <fo:block>Category</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
                                     <fo:block>Quantity</fo:block>
@@ -66,13 +70,8 @@
                             <xsl:for-each select="table-data">
                                 <fo:table-row>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="right">
-                                            <xsl:value-of select="sno"/>
-                                        </fo:block>
-                                    </fo:table-cell>
-                                    <fo:table-cell xsl:use-attribute-sets="tableBorder">
                                         <fo:block text-align="left">
-                                            <xsl:value-of select="bc"/>
+                                            <xsl:value-of select="sno"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
@@ -86,17 +85,27 @@
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="right">
+                                        <fo:block text-align="left">
+                                            <xsl:value-of select="bname"/>
+                                        </fo:block>
+                                    </fo:table-cell>
+                                        <fo:table-cell xsl:use-attribute-sets="tableBorder">
+                                        <fo:block text-align="left">
+                                            <xsl:value-of select="cname"/>
+                                        </fo:block>
+                                    </fo:table-cell>
+                                    <fo:table-cell xsl:use-attribute-sets="tableBorder">
+                                        <fo:block text-align="left">
                                             <xsl:value-of select="quantity"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="right">
+                                        <fo:block text-align="left">
                                             <xsl:value-of select="price"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="right">
+                                        <fo:block text-align="left">
                                             <xsl:value-of select="total"/>
                                         </fo:block>
                                     </fo:table-cell>

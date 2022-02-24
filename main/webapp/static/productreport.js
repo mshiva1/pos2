@@ -30,7 +30,7 @@ function downloadCsvFile(csv_data) {
                         + currentdate.getHours() + "-"
                         + currentdate.getMinutes() + "-" + currentdate.getSeconds();
 			var temp_link = document.createElement('a');
-			temp_link.download = currentdate+"Inventory_Report.csv";
+			temp_link.download = datetime+"-InventoryReport.csv";
 			var url = window.URL.createObjectURL(CSVFile);
 			temp_link.href = url;
 			temp_link.style.display = "none";

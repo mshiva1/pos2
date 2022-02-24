@@ -116,9 +116,18 @@ function uploadRows(){
 	
 	//Process next row
 	var row = fileData[processCount];
+	var row2 = {
+                bname: row["Brand"],
+                cname: row["Category"],
+                name: row["Name"],
+                barcode: row["Barcode"],
+                mrp: row["Mrp"]
+            }
+            console.log(row);
+            console.log(row2);
 	processCount++;
 	
-	var json = JSON.stringify(row);
+	var json = JSON.stringify(row2);
 	var url = getProductUrl();
 
 	//Make ajax call
@@ -144,7 +153,7 @@ function uploadRows(){
 }
 
 function downloadErrors(){
-	writeFileData(errorData,"product_error.tsv");
+	writeFileData(errorData,"ProductError.tsv");
 }
 
 //UI DISPLAY METHODS

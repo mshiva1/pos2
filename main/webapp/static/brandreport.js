@@ -26,7 +26,7 @@ function downloadCsvFile(csv_data) {
 			});
 
 			var temp_link = document.createElement('a');
-			temp_link.download = "Brand_Report.csv";
+			temp_link.download = "BrandsReport.csv";
 			var url = window.URL.createObjectURL(CSVFile);
 			temp_link.href = url;
 			temp_link.style.display = "none";

@@ -113,10 +113,14 @@ function uploadRows(){
 
 	//Process next row
 	var row = fileData[processCount];
+	var row2 = {
+            bname: row["Brand"],
+            cname: row["Category"]
+        }
 	processCount++;
 	//change brand-category to categoryId
 
-	var json = JSON.stringify(row);
+	var json = JSON.stringify(row2);
 	var url = getBrandUrl();
 
 	//Make ajax call
@@ -140,7 +144,7 @@ function uploadRows(){
 }
 
 function downloadErrors(){
-	writeFileData(errorData,"brand_error.tsv");
+	writeFileData(errorData,"BrandsError.tsv");
 }
 
 //UI DISPLAY METHODS

@@ -112,9 +112,13 @@ function uploadRows(){
 	
 	//Process next row
 	var row = fileData[processCount];
+	var row2 = {
+                barcode: row["Barcode"],
+                quantity: row["Quantity"]
+            }
 	processCount++;
 	
-	var json = JSON.stringify(row);
+	var json = JSON.stringify(row2);
 	var url = getInventoryUrl();
 
 	//Make ajax call
@@ -140,7 +144,7 @@ function uploadRows(){
 }
 
 function downloadErrors(){
-	writeFileData(errorData,"inventory_error.tsv");
+	writeFileData(errorData,"InventoryError.tsv");
 }
 
 //UI DISPLAY METHODS

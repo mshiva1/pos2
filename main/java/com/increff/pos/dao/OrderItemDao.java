@@ -32,14 +32,6 @@ public class OrderItemDao extends AbstractDao {
         query.setParameter("id", id);
         return query.executeUpdate();
     }
-
-    public OrderItemPojo search(OrderItemPojo p) {
-        TypedQuery<OrderItemPojo> query = getQuery(select_pid_oid, OrderItemPojo.class);
-        query.setParameter("pid", p.getProduct_id());
-        query.setParameter("oid", p.getOrder_id());
-        return getSingle(query);
-    }
-
     public OrderItemPojo select(int id) {
         TypedQuery<OrderItemPojo> query = getQuery(select_id, OrderItemPojo.class);
         query.setParameter("id", id);
@@ -66,10 +58,10 @@ public class OrderItemDao extends AbstractDao {
         return query.getResultList();
     }
 
-    public OrderItemPojo select(Integer pid, Integer oid) {
+    public List<OrderItemPojo> select(Integer pid, Integer oid) {
         TypedQuery<OrderItemPojo> query = getQuery(select_with, OrderItemPojo.class);
         query.setParameter("pid", pid);
         query.setParameter("oid", oid);
-        return getSingle(query);
+        return query.getResultList();
     }
 }

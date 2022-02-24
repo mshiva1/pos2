@@ -31,7 +31,7 @@ function downloadCsvFile(csv_data) {
             + currentdate.getMinutes() + "-" + currentdate.getSeconds();
 
 			var temp_link = document.createElement('a');
-			temp_link.download = datetime+"Sales_Report.csv";
+			temp_link.download = datetime+"-SalesReport.csv";
 			var url = window.URL.createObjectURL(CSVFile);
 			temp_link.href = url;
 			temp_link.style.display = "none";

@@ -118,7 +118,7 @@ function downloadInvoice(id){
 
 
          let blob = new Blob([arrayBuffer], {type: "application/pdf"});
-         download(blob,"invoice_"+id+".pdf");
+         download(blob,id+"_invoice"+".pdf");
      },
      error: handleAjaxError
   });
