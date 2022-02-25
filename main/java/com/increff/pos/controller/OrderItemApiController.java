@@ -22,7 +22,7 @@ public class OrderItemApiController {
     @ApiOperation(value = "Adds or update items")
     @RequestMapping(path = "/api/item/", method = RequestMethod.POST)
     public void addItem(@RequestBody OrderItemForm form) throws ApiException {
-        service.add(form);
+        service.add(form,true);
     }
 
     @ApiOperation(value = "Deletes Items")
@@ -34,15 +34,13 @@ public class OrderItemApiController {
     @ApiOperation(value = "Gets list of all Items in Order")
     @RequestMapping(path = "/api/item/order/{id}", method = RequestMethod.GET)
     public List<OrderItemData1> getAll(@PathVariable Integer id) {
-        List<OrderItemData1> list = service.getAll(id);
-        return list;
+        return service.getAll(id);
     }
 
     @ApiOperation(value = "Gets specific Item")
     @RequestMapping(path = "/api/item/{id}", method = RequestMethod.GET)
     public OrderItemData1 get(@PathVariable Integer id) throws ApiException {
-        OrderItemData1 list = service.get(id);
-        return list;
+        return service.get(id);
     }
 
     @ApiOperation(value = "Update item")

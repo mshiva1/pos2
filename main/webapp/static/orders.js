@@ -60,17 +60,9 @@ function deleteOrder(id){
   });
 }
 function editOrder(id){
-    var url = getOrdersUrl() + "/sendback-" + id;
-    $.ajax({
-       url: url,
-       type: 'POST',
-       success: function(data) {
+        sessionStorage.setItem("toEditId", id);
         var baseUrl = $("meta[name=baseUrl]").attr("content");
-        window.location.replace(baseUrl+'/site/create');
-
-       },
-       error: handleAjaxError
-    });
+        window.location.replace(baseUrl+'/site/edit');
   }
 function fulfilOrder(id){
   var url = getOrdersUrl() + "/fulfil-" + id;

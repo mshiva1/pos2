@@ -9,46 +9,6 @@
 <body>
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 <div class="content1">
-
-    <!-- Top row with form-->
-    <div class="row">
-        <div class="col-12">
-            <form class="form-inline" id="item-form">
-                <div class="form-group">
-                    <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
-                    <div class="col-sm-9">
-                        <input list="barcodelist" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
-                        <datalist id="barcodelist">
-                            <div id=codelist>
-                            </div >
-                        </datalist>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
-                    <div class="col-sm-9">
-                        <input type="number" class="form-control" name="quantity" id="inputQuantity"
-                               placeholder="Enter Quantity">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputPrice" class="col-sm-2 col-form-label">Price</label>
-                    <div class="col-sm-9">
-                        <input type="number" class="form-control" name="sellingPrice" id="inputPrice"
-                               placeholder="Enter Price" step="any">
-                    </div>
-                </div>
-                <input type="hidden" name="orderId">
-                <input type="hidden" name="productId">
-                <button type="button" class="btn btn-primary" id="add-item">Add</button>
-                &nbsp;
-            </form>
-        </div>
-    </div>
-    <br>
-    <br>
-    <div class="row">
-
         <!-- Table -->
         <div class="col-12">
             <table class="table  table-striped" id="item-table">
@@ -85,22 +45,23 @@
                 <div class="modal-body">
                     <form class="form-inline" id="item-edit-form">
                         <div class="form-group">
-                            <label for="inputBarcode" class="col-sm-2 col-form-label" >Barcode</label>
+                            <label for="barcode_set" class="col-sm-2 col-form-label" >Barcode</label>
                             <div class ="info" id="barcode_set">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPrice" class="col-sm-2 col-form-label">Price</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="sellingPrice" step="any" >
+                                <input type="number" class="form-control" id="inputPrice" name="sellingPrice" step="any" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="quantity" >
+                                <input type="number" class="form-control" name="quantity" id="inputQuantity">
                             </div>
                         </div>
+
                         <input type="hidden" name="productId">
                         <input type="hidden" name="orderId">
                         <input type="hidden" name="id" disabled>
@@ -117,14 +78,15 @@
 </div>
 <div id="order-control">
     <h3>
-        <h3>Amount:<span id="order-total-value">0</span>
+        <h3>Order Id:<span id="old-order">0</span>&nbsp;
+            Amount:<span id="order-total-value">0</span>
             <button type="button" class="btn btn-outline-secondary" id="cancel-order">Cancel</button>
             <button type="button" class="btn btn-success" id="confirm" disabled="true">Confirm</button>
         </h3>
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>
-<script th:src="@{/static/create.js}"></script>
 <script th:src="@{/static/app.js}"></script>
+<script th:src="@{/static/edit.js}"></script>
 </body>
 
 </html>

@@ -73,9 +73,9 @@ public class BrandService {
         if (dao.search(p) != null) {
             throw new ApiException("This Brand-Category Pair Exists");
         }
-        if (p.getBname().isEmpty() == false) ex.setBname(p.getBname());
+        if (!p.getBname().isEmpty()) ex.setBname(p.getBname());
 
-        if (p.getCname().isEmpty() == false) ex.setCname(p.getCname());
+        if (!p.getCname().isEmpty()) ex.setCname(p.getCname());
         dao.update(ex);
     }
 

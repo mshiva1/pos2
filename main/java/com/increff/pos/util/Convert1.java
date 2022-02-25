@@ -1,4 +1,4 @@
-package com.increff.pos.controller;
+package com.increff.pos.util;
 
 import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;

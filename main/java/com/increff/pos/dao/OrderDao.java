@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.Timestamp;
 import java.util.List;
@@ -17,7 +16,7 @@ public class OrderDao extends AbstractDao {
     private static final String select_id = "select p from OrderPojo p where id=:id";
     private static final String select_all = "select p from OrderPojo p where status!='created'";
     private static final String select_all_order = "select p.id from OrderPojo p";
-    private static final String get_order = "select p.id from OrderPojo p where status=:status";
+    private static final String get_order = "select p.id from OrderPojo p where status=:status and p.id > 0";
     private static final String get_between = "select p.id from OrderPojo p where (status='completed' or status='confirmed') and invoice_time < :end and invoice_time > :start";
 
     @PersistenceContext

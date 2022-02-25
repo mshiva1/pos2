@@ -1,9 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.*;
-import com.increff.pos.model.IntegerData;
-import com.increff.pos.model.OrderItemData1;
-import com.increff.pos.model.SaleReport;
+import com.increff.pos.model.*;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -78,10 +76,12 @@ public class OrderService {
                         e.setQuantity(e.getQuantity() + ip.getQuantity());
 
                 }
+
+                dao.select(id).setStatus("cancelled");
             }
         }
         daoOI.deleteItem(id);
-        dao.select(id).setStatus("cancelled");
+
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -152,6 +152,35 @@ public class OrderService {
     }
 
     @Transactional
+    public void copy(CopyForm cf) throws ApiException {
+        Integer fromId=cf.getFromId();
+        Integer toId=cf.getToId();
+
+        if(dao.select(toId).getStatus().equals("completed"))
+            throw new ApiException(" This order is completed.No Changes Allowed");
+        this.get(toId);
+        this.delete(toId);
+        //remove all items of to
+        this.get(toId).setStatus("created");
+        //set status of to to created
+        List<OrderItemPojo> oip=daoOI.selectByOrderId(fromId);
+        for(OrderItemPojo i :oip){
+            OrderItemForm oif= new OrderItemForm();
+            oif.setBarcode(daoP.selectId(i.getProduct_id()).getBarcode());
+            oif.setOrderId(toId);
+            oif.setQuantity(i.getQuantity());
+            oif.setSellingPrice(i.getSellingPrice());
+            serOI.add(oif,false);
+        }
+        //copy all items from from to to
+
+        if(cf.getFromId()==0){
+            this.confirm(toId);
+            //confirm to
+        }
+    }
+
+    @Transactional
     public List<SaleReport> report(String start, String end, String bname, String cname) throws ApiException {
 
         List<SaleReport> retval = new ArrayList<>();
@@ -168,7 +197,7 @@ public class OrderService {
             Timestamp timeStart = Timestamp.valueOf(start + " 00:00:01");
             Timestamp timeEnd = Timestamp.valueOf(end + " 23:59:59");
             if(timeStart.after(timeEnd))
-                throw new ApiException("Startdate cant be after Enddate");
+                throw new ApiException("Start Date cant be after End Date");
             ordersList = dao.getBetween(timeStart, timeEnd);
         }
         if (bname.isEmpty() && cname.isEmpty()) {
@@ -278,4 +307,5 @@ public class OrderService {
         ret.append("</users-data>");
         return ret.toString();
     }
+
 }

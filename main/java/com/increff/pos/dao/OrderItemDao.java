@@ -15,7 +15,6 @@ public class OrderItemDao extends AbstractDao {
     private static final String delete_id = "delete from OrderItemPojo p where id=:id";
     private static final String select_id = "select p from OrderItemPojo p where id=:id";
     private static final String select_order = "select p from OrderItemPojo p where order_id=:order_id";
-    private static final String select_pid_oid = "select p from OrderItemPojo p where order_id=:oid and product_id=:pid";
     private static final String select_pid = "select p.product_id from OrderItemPojo p";
     private static final String delete_items = "delete from OrderItemPojo where order_id=:id";
     private static final String select_with = "select p from OrderItemPojo p where product_id=:pid AND order_id=:oid";

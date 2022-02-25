@@ -1,6 +1,6 @@
 package com.increff.pos.service;
 
-import com.increff.pos.controller.Convert1;
+import com.increff.pos.util.Convert1;
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.dao.OrderItemDao;

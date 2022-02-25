@@ -1,6 +1,6 @@
 package com.increff.pos.service;
 
-import com.increff.pos.controller.Convert1;
+import com.increff.pos.util.Convert1;
 import com.increff.pos.dao.*;
 import com.increff.pos.model.OrderItemData1;
 import com.increff.pos.model.OrderItemForm;
@@ -33,53 +33,51 @@ public class OrderItemService {
     private BrandDao daoB;
 
     @Transactional(rollbackOn = ApiException.class)
-    public void add(OrderItemForm p) throws ApiException {
+    public void add(OrderItemForm p,Boolean validations) throws ApiException {
         Integer product_id = daoP.getProductIdBarcode(p.getBarcode());
         ProductPojo p1 = daoP.selectId(product_id);
-        List<OrderItemPojo> oip=dao.select(product_id,p.getOrderId()); //currently present item
+        List<OrderItemPojo> oip=dao.select(product_id,p.getOrderId()); // currently present item
         InventoryPojo ip = daoI.select(product_id);
-
-        Integer added=0;
-        for (OrderItemPojo oip1 : oip){
-            added+=oip1.getQuantity();
-        }
-        p.setSellingPrice((float)((double) Math.round(p.getSellingPrice() * 100) )/ 100);
-        Integer available;
-        if (ip == null)
-            throw new ApiException("Product not in Inventory");
-        else if(oip!=null)
-            available = ip.getQuantity()-added;     //since quantity that can be added
-        else
-            available = ip.getQuantity();
-        if (!(daoO.getAllOrderId()).contains(p.getOrderId()))
-            throw new ApiException("This Order doesnt exist");
-
-        if (p.getQuantity() > available)
-            throw new ApiException("Quantity required is not Available (Available :" + available + ")");
-
-        if (p.getSellingPrice() < 0)
-            throw new ApiException("Selling Price should be positive");
-
-        if (p.getSellingPrice() > p1.getMrp())
-            throw new ApiException("Selling Price Error (Mrp:"+p1.getMrp()+")");
 
         if (p.getSellingPrice() == 0)
             p.setSellingPrice(p1.getMrp());
-
-        if (p.getQuantity() <= 0)
-            throw new ApiException("Quantity should be Positive");
-    /*
-        if (available == p.getQuantity())
-            daoI.delete(product_id);
-        else
-            ip.setQuantity(ip.getQuantity() - p.getQuantity());
-    */
         OrderItemPojo p2 = convert.convert(p, product_id);
-        for(OrderItemPojo oip1: oip) {
-            if (oip1.getSellingPrice() == p.getSellingPrice()) {
-                oip1.setQuantity(oip1.getQuantity() + p.getQuantity());
-                return;
+
+        if(validations) {
+            p.setSellingPrice((float) ((double) Math.round(p.getSellingPrice() * 100)) / 100);
+            Integer added = 0;
+            for (OrderItemPojo oip1 : oip) {
+                added += oip1.getQuantity();
             }
+
+            Integer available;
+            if (ip == null)
+                throw new ApiException("Product not in Inventory");
+            else if (!oip.isEmpty())
+                available = ip.getQuantity() - added;     //since quantity that can be added
+            else
+                available = ip.getQuantity();
+            if (!(daoO.getAllOrderId()).contains(p.getOrderId()))
+                throw new ApiException("This Order do not exist");
+
+            if (p.getQuantity() > available)
+                throw new ApiException("Quantity required is not Available (Available :" + available + ")");
+
+            if (p.getSellingPrice() < 0)
+                throw new ApiException("Selling Price should be positive");
+
+            if (p.getSellingPrice() > p1.getMrp())
+                throw new ApiException("Selling Price Error (Mrp:" + p1.getMrp() + ")");
+            if (p.getQuantity() <= 0)
+                throw new ApiException("Quantity should be Positive");
+
+            for (OrderItemPojo oip1 : oip) {
+                if (oip1.getSellingPrice() == p.getSellingPrice()) {
+                    oip1.setQuantity(oip1.getQuantity() + p.getQuantity());
+                    return;
+                }
+            }
+
         }
         dao.insert(p2);
     }
@@ -133,7 +131,7 @@ public class OrderItemService {
         return t;
     }
 
-    @Transactional
+    @Transactional(rollbackOn = ApiException.class)
     public void update(OrderItemForm1 form, Integer id) throws ApiException {
 
         ProductPojo p1 = daoP.selectId(form.getProductId());
@@ -145,11 +143,11 @@ public class OrderItemService {
         if (form.getSellingPrice() == 0)
             form.setSellingPrice(p1.getMrp());
 
-        //available = ip.getQuantity()-oip.getQuantity();
-
         form.setSellingPrice((float)((double) Math.round(form.getSellingPrice() * 100) )/ 100);
         if (p1.getMrp() < form.getSellingPrice())
-            throw new ApiException("Selling Price cant be more than MRP");
+            throw new ApiException("Selling Price cannot be more than MRP");
+        if (form.getSellingPrice()<=0)
+            throw new ApiException("Selling Price should be Positive");
 
         if (form.getQuantity() <= 0)
             throw new ApiException("Quantity should be positive");
@@ -157,19 +155,16 @@ public class OrderItemService {
         OrderItemPojo p = dao.select(id);
 
 
-        if(daoO.select(form.getOrderId()).getStatus().equals("confirmed"))
+        if(form.getOrderId()!=0)    //          confirmed order editing
         {
-            if (form.getQuantity() > available + p.getQuantity())
+            if (form.getQuantity() > available)
                 throw new ApiException("Quantity required is not Available (Available :" + available + ")");
         }
-        else{
-            if (form.getQuantity() > available + p.getQuantity()) //todo
-                throw new ApiException("Quantity required is not Available (Available :" + available + ")");
+        else{                       //          not confirmed order editing
+            if (form.getQuantity() > available + p.getQuantity())
+                throw new ApiException("Quantity required is not Available (Available :" + (available+p.getQuantity()) + ")");
         }
         p.setSellingPrice(form.getSellingPrice());
-
-        if(daoO.select(form.getOrderId()).getStatus().equals("confirmed"))
-        ip.setQuantity(ip.getQuantity() + p.getQuantity() - form.getQuantity());  // only change if order confirmed
         p.setQuantity(form.getQuantity());
     }
 }

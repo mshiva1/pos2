@@ -6,6 +6,7 @@ import com.increff.pos.model.InventoryData2;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.InventoryService;
+import com.increff.pos.util.Convert1;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +39,13 @@ public class InventoryApiController {
     @ApiOperation(value = "Gets a Inventory by ID")
     @RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.GET)
     public InventoryData2 getInventory(@PathVariable int id) throws ApiException {
-        InventoryData2 p = service.get(id);
-        return p;
+        return service.get(id);
     }
 
     @ApiOperation(value = "Gets list of all Inventory")
     @RequestMapping(path = "/api/inventory", method = RequestMethod.GET)
     public List<InventoryData2> getAll() {
-        List<InventoryData2> list = service.getAll();
-        return list;
+        return service.getAll();
     }
 
     @ApiOperation(value = "Change Quantity by PId")

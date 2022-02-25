@@ -1,18 +1,17 @@
 package com.increff.pos.controller;
 
+import com.increff.pos.model.CopyForm;
 import com.increff.pos.model.IntegerData;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.SaleReport;
 import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.OrderService;
+import com.increff.pos.util.Convert1;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -62,12 +61,17 @@ public class OrderApiController {
         service.confirm(id);
     }
 
-    @ApiOperation(value = "created to fulfilled")
+    @ApiOperation(value = "confirmed to fulfilled")
     @RequestMapping(path = "/api/order/fulfil-{id}", method = RequestMethod.POST)
     public void fulfilOrder(@PathVariable int id) throws ApiException {
         service.fulfil(id);
     }
 
+    @ApiOperation(value = "copying orders ")
+    @RequestMapping(path = "/api/order/copy", method = RequestMethod.PUT)
+    public void copy(@RequestBody CopyForm cf) throws ApiException {
+        service.copy(cf);
+    }
 
     @ApiOperation(value = "Gets Sale Record")
     @RequestMapping(path = "/api/order/sale/", method = RequestMethod.GET)
