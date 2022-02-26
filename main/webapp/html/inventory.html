@@ -54,9 +54,9 @@
                 <div class="modal-body">
                     <form class="form-inline" id="inventory-form">
                         <div class="form-group">
-                            <label class="col-sm-2 col-form-label" for="barcode">Barcode</label>
+                            <label class="col-sm-2 col-form-label" for="barcode" >Barcode</label>
                             <div class="col-sm-10">
-                                <select class="form-select mb-3" name="barcode" id="barcode">
+                                <select class="form-control" name="barcode" id="barcode" required>
                                 </select>
                             </div>
                         </div>
@@ -65,14 +65,14 @@
                             <label class="col-sm-2 col-form-label" for="Quantity">Quantity</label>
                             <div class="col-sm-10">
                                 <input class="form-control" id="Quantity" name="quantity" placeholder="Enter Quantity"
-                                       type="number">
+                                       type="number" required step="1" min="1">
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-primary" id="add-inventory" type="button">Add</button>
+                    <button class="btn btn-primary" form="inventory-form" id="add-inventory" type="submit">Add</button>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="Quantity">Quantity</label>
                             <div class="col-sm-10">
-                                <input class="form-control" name="quantity" type="number">
+                                <input class="form-control" name="quantity" type="number" step="1" required min="1">
                             </div>
                         </div>
 
@@ -107,7 +107,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-primary" id="update-inventory" type="button">Update</button>
+                    <button class="btn btn-primary" id="update-inventory" form="inventory-edit-form" type="submit">Update</button>
                 </div>
             </div>
         </div>

@@ -75,6 +75,19 @@ function setNavbar(){
 function closeError(){
     $("#error_box").css("display","none");
     }
+
+
+function updateDropdown(data,id){
+    var str='';
+    var i=0;
+    for (var i in data){
+        str+='<option value="'+data[i]+'">'+data[i]+'</option>';
+        i++;
+        }
+    if(i!=1)
+        str="<option value='' disabled selected>Select</option>"+str;
+    $("#"+id).html(str);
+}
 function init(){
 
 	$('#error_close').click(closeError);

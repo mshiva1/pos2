@@ -173,7 +173,7 @@ function displayItem(data){
 
 //INITIALIZATION CODE
 function init(){
-	$('#update-item').click(updateItem);   //inside modal
+	$('#item-edit-form').submit(updateItem);   //inside modal
 	$('#confirm').click(confirmOrder);
 	$('#cancel-order').click(deleteOrder);
 }

@@ -235,7 +235,7 @@ function displayBrand(data){
 
 //INITIALIZATION CODE
 function init(){
-	$('#add-brand').click(addBrand);
+    $("#brand-form").submit(addBrand);
 	$('#update-brand').click(updateBrand);
 	$('#refresh-data').click(getBrandList);
 	$('#upload-data').click(displayUploadData);

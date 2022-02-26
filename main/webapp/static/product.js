@@ -245,28 +245,16 @@ function displayProduct(data){
 }
 
 //dropdown handler
-function updateBrands(data){
-    var str='';
-    for (var i in data)
-        str+='<option value="'+data[i]+'">'+data[i]+'</option>'
-    $("#inputBrand").html(str);
-}
 function setBrands(){
     var url = getProductUrl()+'/brands';
     	$.ajax({
     	   url: url,
     	   type: 'GET',
     	   success: function(data) {
-    	   		updateBrands(data);
+    	   		updateDropdown(data,"inputBrand");
     	   },
     	   error: handleAjaxError
     	});
-}
-function updateCat(data){
-    var str='';
-    for (var i in data)
-        str+='<option value="'+data[i]+'">'+data[i]+'</option>'
-    $("#inputCategory").html(str);
 }
 function setCat(){
     var url = getProductUrl()+'/brands/'+$("#inputBrand").val();
@@ -274,7 +262,7 @@ function setCat(){
     	   url: url,
     	   type: 'GET',
     	   success: function(data) {
-    	   		updateCat(data);
+    	   		updateDropdown(data,"inputCategory");
     	   },
     	   error: handleAjaxError
     	});
@@ -285,8 +273,8 @@ function displayAddProduct(){
 	}
 //INITIALIZATION CODE
 function init(){
-	$('#add-product').click(addProduct);
-	$('#update-product').click(updateProduct);
+    $("#product-form").submit(addProduct);
+    $("#product-edit-form").submit(updateProduct);
 	$('#refresh-data').click(getProductList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
@@ -296,6 +284,7 @@ function init(){
     $('#add-data').click(displayAddProduct);
     getProductList();
     setBrands();
+    updateDropdown(null,"inputCategory");
 }
 
 

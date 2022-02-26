@@ -192,19 +192,13 @@ function displayItem(data){
 
 // dropdown handler
 
-function updateBarcodes(data){
-    var str='';
-    for (var i in data)
-        str+='<option value="'+data[i]+'">'+data[i]+'</option>'
-    $("#inputBarcode").html(str);
-}
 function setInventory(){
     var url = getOrdersUrl()+'barcodes';
     	$.ajax({
     	   url: url,
     	   type: 'GET',
     	   success: function(data) {
-    	   		updateBarcodes(data);
+    	   		updateDropdown(data,"inputBarcode");
     	   },
     	   error: handleAjaxError
     	});
@@ -213,8 +207,8 @@ function setInventory(){
 
 //INITIALIZATION CODE
 function init(){
-	$('#add-item').click(addItem);
-	$('#update-item').click(updateItem);   //inside modal
+	$("#item-form").submit(addItem);
+	$('#item-edit-form').submit(updateItem);   //inside modal
 	$('#confirm').click(confirmOrder);
 	$('#cancel-order').click(deleteOrder);
 	setInventory();

@@ -232,19 +232,13 @@ function displayInventory(data){
 	$('#edit-inventory-modal').modal('toggle');
 }
 // dropdown handler
-function updateBarcodes(data){
-    var str='';
-    for (var i in data)
-        str+='<option value="'+data[i]+'">'+data[i]+'</option>'
-    $("#barcode").html(str);
-}
 function setInventory(){
     var url = getInventoryUrl()+'/barcodes';
     	$.ajax({
     	   url: url,
     	   type: 'GET',
     	   success: function(data) {
-    	   		updateBarcodes(data);
+    	   		updateDropdown(data,"barcode");
     	   },
     	   error: handleAjaxError
     	});
@@ -255,8 +249,8 @@ function displayAddInventory(){
 	}
 //INITIALIZATION CODE
 function init(){
-	$('#add-inventory').click(addInventory);
-	$('#update-inventory').click(updateInventory);  //
+	$('#inventory-form').submit(addInventory);
+	$('#inventory-edit-form').submit(updateInventory);  //
 	$('#refresh-data').click(getInventoryList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
