@@ -20,8 +20,8 @@ public class BrandDao extends AbstractDao {
     private static final String select_all_bid = "select p.id from BrandPojo p where bname=:bname";
     private static final String select_all_cid = "select p.id from BrandPojo p where cname=:cname";
     private static final String search_combo = "select p from BrandPojo p where bname=:bname and cname=:cname";
-    private static final String select_all_bnames= "select distinct p.bname from BrandPojo p order by bname";
-    private static final String select_all_cnames= "select distinct p.cname from BrandPojo p where bname=:bname order by cname";
+    private static final String select_all_bnames = "select distinct p.bname from BrandPojo p order by bname";
+    private static final String select_all_cnames = "select distinct p.cname from BrandPojo p where bname=:bname order by cname";
 
     @PersistenceContext
     private EntityManager em;
@@ -89,12 +89,12 @@ public class BrandDao extends AbstractDao {
         return query.getResultList();
     }
 
-    public List<String> getBrandNames(){
+    public List<String> getBrandNames() {
         TypedQuery<String> query = getQuery(select_all_bnames, String.class);
         return query.getResultList();
     }
 
-    public List<String> getCatNames(String bname){
+    public List<String> getCatNames(String bname) {
         TypedQuery<String> query = getQuery(select_all_cnames, String.class);
         query.setParameter("bname", bname);
         return query.getResultList();

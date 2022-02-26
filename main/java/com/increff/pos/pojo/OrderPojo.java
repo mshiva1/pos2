@@ -1,4 +1,5 @@
 package com.increff.pos.pojo;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

@@ -15,11 +15,12 @@
     <br>
     <div class="row" id="buttons">
         &nbsp;
-        <button type="button" class="btn btn-primary" id="add-data">Add</button>
+        <button class="btn btn-primary" id="add-data" type="button">Add</button>
         &nbsp;
-        <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+        <button class="btn btn-primary" id="upload-data" type="button">Upload</button>
         &nbsp;
-        <button type="button" class="btn btn-outline-secondary" id="refresh-data">Refresh</button>    </div>
+        <button class="btn btn-outline-secondary" id="refresh-data" type="button">Refresh</button>
+    </div>
     <br>
     <div class="row">
 
@@ -46,120 +47,126 @@
     </div>
 
     <!-- Product Add Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="add-product-modal">
+    <div class="modal" id="add-product-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="product-form">
                         <div class="form-group">
-                            <label for="inputBrand" class="col-sm-2 col-form-label">Brand</label>
+                            <label class="col-sm-2 col-form-label" for="inputBrand">Brand</label>
                             <div class="col-sm-9">
-                                <!input type="text" class="form-control" name="bname" id="inputBrand" placeholder="Enter Brand">
+                                <!input type="text" class="form-control" name="bname" id="inputBrand" placeholder="Enter
+                                Brand">
 
-                                <input list="brands" class="form-control" name="bname" id="inputBrand" placeholder="Enter Brand">
+                                <input class="form-control" id="inputBrand" list="brands" name="bname"
+                                       placeholder="Enter Brand">
                                 <datalist id="brands">
                                     <div id="brandslist">
-                                    </div >
+                                    </div>
                                 </datalist>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
+                            <label class="col-sm-2 col-form-label" for="inputCategory">Category</label>
                             <div class="col-sm-9">
-                                <!input type="text" class="form-control" name="cname" id="inputCategory" placeholder="Enter Category">
-                                <input list="categories" class="form-control" name="cname" id="inputCategory" placeholder="Enter Category">
+                                <!input type="text" class="form-control" name="cname" id="inputCategory"
+                                placeholder="Enter Category">
+                                <input class="form-control" id="inputCategory" list="categories" name="cname"
+                                       placeholder="Enter Category">
                                 <datalist id="categories">
                                     <div id="catlist">
-                                    </div >
+                                    </div>
                                 </datalist>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                            <label class="col-sm-2 col-form-label" for="inputName">Name</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter Product">
+                                <input class="form-control" id="inputName" name="name" placeholder="Enter Product"
+                                       type="text">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+                            <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="barcode" id="inputBarcode"
-                                       placeholder="Enter Barcode">
+                                <input class="form-control" id="inputBarcode" name="barcode" placeholder="Enter Barcode"
+                                       type="text">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="inputMrp" class="col-sm-2 col-form-label">MRP</label>
+                            <label class="col-sm-2 col-form-label" for="inputMrp">MRP</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="mrp" id="inputMrp" placeholder="Enter MRP">
+                                <input class="form-control" id="inputMrp" name="mrp" placeholder="Enter MRP"
+                                       type="number">
                             </div>
                         </div>
                         &nbsp;
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="add-product">Add</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="add-product" type="button">Add</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Product Edit Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="edit-product-modal">
+    <div class="modal" id="edit-product-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="product-edit-form">
                         <div class="form-group">
-                            <label for="inputBrand" class="col-sm-2 col-form-label">Brand</label>
-                            <div class ="info" id="bname_set">
+                            <label class="col-sm-2 col-form-label" for="inputBrand">Brand</label>
+                            <div class="info" id="bname_set">
                             </div>
                             <br>
                         </div>
                         <div class="form-group">
-                            <label for="inputCategory" class="col-sm-2 col-form-label">Category</label>
-                            <div class ="info1" id="cname_set">
+                            <label class="col-sm-2 col-form-label" for="inputCategory">Category</label>
+                            <div class="info1" id="cname_set">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                            <label class="col-sm-2 col-form-label" for="inputName">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="name" placeholder="Enter Product">
+                                <input class="form-control" name="name" placeholder="Enter Product" type="text">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+                            <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="barcode"
-                                       placeholder="Enter Barcode">
+                                <input class="form-control" name="barcode" placeholder="Enter Barcode"
+                                       type="text">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="inputMrp" class="col-sm-2 col-form-label">MRP</label>
+                            <label class="col-sm-2 col-form-label" for="inputMrp">MRP</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="mrp" placeholder="Enter MRP" step="any">
+                                <input class="form-control" name="mrp" placeholder="Enter MRP" step="any" type="number">
                             </div>
                         </div>
-                        <input type="hidden" name="id">
+                        <input name="id" type="hidden">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="update-product">Update</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="update-product" type="button">Update</button>
                 </div>
             </div>
         </div>
@@ -167,23 +174,23 @@
 
 
     <!-- Product Upload Modal-->
-    <div class="modal" tabindex="-1" role="dialog" id="upload-product-modal">
+    <div class="modal" id="upload-product-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
 
                 <div class="modal-header">
                     <h5 class="modal-title">Upload product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
                 <div class="modal-body">
                     <div class="product-file">
-                        <input type="file" class="custom-file-input" id="productFile" required>
+                        <input class="custom-file-input" id="productFile" required type="file">
                         <label class="custom-file-label" for="productFile" id="productFileName">Choose file</label>
                     </div>
-                    <a th:href="@{/sample/ProductSample.tsv}" target="_blank">Download Sample</a>
+                    <a target="_blank" th:href="@{/sample/ProductSample.tsv}">Download Sample</a>
                     <br>
                     <div id="error-stats">
                         Rows: <span id="rowCount">0</span>,
@@ -193,9 +200,9 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="process-data">Upload</button>
+                    <button class="btn btn-warning" id="download-errors" type="button">Download Errors</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="process-data" type="button">Upload</button>
                 </div>
             </div>
         </div>

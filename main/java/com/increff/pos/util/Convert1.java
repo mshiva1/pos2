@@ -78,7 +78,7 @@ public class Convert1 {
         return d;
     }
 
-    public ProductData1 convert(ProductPojo p, String bname, String cname,Integer quantity) throws ApiException {
+    public ProductData1 convert(ProductPojo p, String bname, String cname, Integer quantity) throws ApiException {
         ProductData1 d = new ProductData1();
         d.setQuantity(quantity);
         d.setBarcode(p.getBarcode());

@@ -1,6 +1,5 @@
 package com.increff.pos.service;
 
-import com.increff.pos.util.Convert1;
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.dao.OrderItemDao;
@@ -10,6 +9,7 @@ import com.increff.pos.model.ProductData1;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.util.Convert1;
 import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class ProductService {
     private Convert1 convert;
 
     protected static void normalize(ProductPojo p) throws ApiException {
-        p.setMrp((float)((double) Math.round(p.getMrp() * 100) )/ 100);
+        p.setMrp((float) ((double) Math.round(p.getMrp() * 100)) / 100);
         p.setName(StringUtil.toLowerCase(p.getName()));
         if (p.getMrp() <= 0)
             throw new ApiException("MRP should be Positive");
@@ -42,7 +42,7 @@ public class ProductService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(ProductForm form) throws ApiException {
-        ProductPojo p = convert.convert(form,getBid(form.getBname(), form.getCname()));
+        ProductPojo p = convert.convert(form, getBid(form.getBname(), form.getCname()));
         normalize(p);
         if (dao.selectBarcode(p.getBarcode()) != null) {
             throw new ApiException("This Barcode Exists");
@@ -70,8 +70,8 @@ public class ProductService {
 
     @Transactional(rollbackOn = ApiException.class)
     public ProductData get(int id) throws ApiException {
-        ProductPojo pp= getCheck(id);
-        return convert.convert(pp, daoB.getBname(pp.getCategoryId()),daoB.getCname(pp.getCategoryId()) );
+        ProductPojo pp = getCheck(id);
+        return convert.convert(pp, daoB.getBname(pp.getCategoryId()), daoB.getCname(pp.getCategoryId()));
     }
 
     @Transactional
@@ -80,10 +80,10 @@ public class ProductService {
         List<ProductData1> list2 = new ArrayList<ProductData1>();
         Integer quantity;
         for (ProductPojo p : list) {
-            InventoryPojo ip =daoI.select(p.getId());
-            if(ip==null) quantity=0;
-            else quantity=ip.getQuantity();
-            list2.add(convert.convert(p, daoB.getBname(p.getCategoryId()),daoB.getCname(p.getCategoryId()),quantity));
+            InventoryPojo ip = daoI.select(p.getId());
+            if (ip == null) quantity = 0;
+            else quantity = ip.getQuantity();
+            list2.add(convert.convert(p, daoB.getBname(p.getCategoryId()), daoB.getCname(p.getCategoryId()), quantity));
         }
         Collections.reverse(list2);
         return list2;
@@ -98,7 +98,7 @@ public class ProductService {
         }
         if (p.getBarcode() != null) ex.setBarcode(p.getBarcode());
         if (p.getName() != null) ex.setName(p.getName());
-        if(p.getMrp()<=0)
+        if (p.getMrp() <= 0)
             throw new ApiException("MRP should be Positive");
         ex.setMrp(p.getMrp());
         dao.update(ex);
@@ -114,9 +114,9 @@ public class ProductService {
     }
 
     public Integer getBid(String bname, String cname) throws ApiException {
-        if(bname.isEmpty())
+        if (bname.isEmpty())
             throw new ApiException("Brand Name is Required");
-        if(cname.isEmpty())
+        if (cname.isEmpty())
             throw new ApiException("Category Name is Required");
         try {
             return (daoB.getBid(bname, cname)).getId();
@@ -126,12 +126,12 @@ public class ProductService {
     }
 
     @Transactional
-    public List<String> getBrandNames(){
+    public List<String> getBrandNames() {
         return daoB.getBrandNames();
     }
 
     @Transactional
-    public List<String> getCatNames(String bname){
+    public List<String> getCatNames(String bname) {
         return daoB.getCatNames(bname);
     }
 

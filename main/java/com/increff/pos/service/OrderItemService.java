@@ -1,6 +1,5 @@
 package com.increff.pos.service;
 
-import com.increff.pos.util.Convert1;
 import com.increff.pos.dao.*;
 import com.increff.pos.model.OrderItemData1;
 import com.increff.pos.model.OrderItemForm;
@@ -9,6 +8,7 @@ import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.util.Convert1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,17 +33,17 @@ public class OrderItemService {
     private BrandDao daoB;
 
     @Transactional(rollbackOn = ApiException.class)
-    public void add(OrderItemForm p,Boolean validations) throws ApiException {
+    public void add(OrderItemForm p, Boolean validations) throws ApiException {
         Integer product_id = daoP.getProductIdBarcode(p.getBarcode());
         ProductPojo p1 = daoP.selectId(product_id);
-        List<OrderItemPojo> oip=dao.select(product_id,p.getOrderId()); // currently present item
+        List<OrderItemPojo> oip = dao.select(product_id, p.getOrderId()); // currently present item
         InventoryPojo ip = daoI.select(product_id);
 
         if (p.getSellingPrice() == 0)
             p.setSellingPrice(p1.getMrp());
         OrderItemPojo p2 = convert.convert(p, product_id);
 
-        if(validations) {
+        if (validations) {
             p.setSellingPrice((float) ((double) Math.round(p.getSellingPrice() * 100)) / 100);
             Integer added = 0;
             for (OrderItemPojo oip1 : oip) {
@@ -85,8 +85,8 @@ public class OrderItemService {
     @Transactional
     public void delete(int id) throws ApiException {
         OrderItemPojo ex = dao.select(id);
-        String status=daoO.select(ex.getOrder_id()).getStatus();
-        InventoryPojo e=daoI.select(ex.getProduct_id());
+        String status = daoO.select(ex.getOrder_id()).getStatus();
+        InventoryPojo e = daoI.select(ex.getProduct_id());
         if (status.equals("confirmed")) {       //only add inventory if order is confirmed
             if (e == null) {
                 InventoryPojo p = new InventoryPojo();
@@ -143,10 +143,10 @@ public class OrderItemService {
         if (form.getSellingPrice() == 0)
             form.setSellingPrice(p1.getMrp());
 
-        form.setSellingPrice((float)((double) Math.round(form.getSellingPrice() * 100) )/ 100);
+        form.setSellingPrice((float) ((double) Math.round(form.getSellingPrice() * 100)) / 100);
         if (p1.getMrp() < form.getSellingPrice())
             throw new ApiException("Selling Price cannot be more than MRP");
-        if (form.getSellingPrice()<=0)
+        if (form.getSellingPrice() <= 0)
             throw new ApiException("Selling Price should be Positive");
 
         if (form.getQuantity() <= 0)
@@ -155,14 +155,13 @@ public class OrderItemService {
         OrderItemPojo p = dao.select(id);
 
 
-        if(form.getOrderId()!=0)    //          confirmed order editing
+        if (form.getOrderId() != 0)    //          confirmed order editing
         {
             if (form.getQuantity() > available)
                 throw new ApiException("Quantity required is not Available (Available :" + available + ")");
-        }
-        else{                       //          not confirmed order editing
+        } else {                       //          not confirmed order editing
             if (form.getQuantity() > available + p.getQuantity())
-                throw new ApiException("Quantity required is not Available (Available :" + (available+p.getQuantity()) + ")");
+                throw new ApiException("Quantity required is not Available (Available :" + (available + p.getQuantity()) + ")");
         }
         p.setSellingPrice(form.getSellingPrice());
         p.setQuantity(form.getQuantity());

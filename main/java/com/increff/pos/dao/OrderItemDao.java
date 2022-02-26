@@ -31,6 +31,7 @@ public class OrderItemDao extends AbstractDao {
         query.setParameter("id", id);
         return query.executeUpdate();
     }
+
     public OrderItemPojo select(int id) {
         TypedQuery<OrderItemPojo> query = getQuery(select_id, OrderItemPojo.class);
         query.setParameter("id", id);

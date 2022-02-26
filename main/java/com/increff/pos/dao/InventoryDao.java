@@ -15,7 +15,7 @@ public class InventoryDao extends AbstractDao {
     private static final String delete_id = "delete from InventoryPojo p where productId=:id";
     private static final String select_id = "select p from InventoryPojo p where productId=:id";
     private static final String select_all = "select p from InventoryPojo p";
-    private static final String select_all_products="select p.productId from InventoryPojo p";
+    private static final String select_all_products = "select p.productId from InventoryPojo p";
 
 
     @PersistenceContext
@@ -41,10 +41,12 @@ public class InventoryDao extends AbstractDao {
         TypedQuery<InventoryPojo> query = getQuery(select_all, InventoryPojo.class);
         return query.getResultList();
     }
-    public List<Integer> getProducts(){
+
+    public List<Integer> getProducts() {
         TypedQuery<Integer> query = getQuery(select_all_products, Integer.class);
         return query.getResultList();
     }
+
     public void update(InventoryPojo p) {
     }
 

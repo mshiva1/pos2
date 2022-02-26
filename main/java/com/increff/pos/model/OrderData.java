@@ -2,6 +2,7 @@ package com.increff.pos.model;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
+
 public class OrderData {
 
     private int id;

@@ -15,32 +15,33 @@
         <div class="col-12">
             <form class="form-inline" id="item-form">
                 <div class="form-group">
-                    <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
+                    <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
                     <div class="col-sm-9">
-                        <input list="barcodelist" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
+                        <input class="form-control" id="inputBarcode" list="barcodelist" name="barcode"
+                               placeholder="Enter Barcode">
                         <datalist id="barcodelist">
                             <div id=codelist>
-                            </div >
+                            </div>
                         </datalist>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+                    <label class="col-sm-2 col-form-label" for="inputQuantity">Quantity</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" name="quantity" id="inputQuantity"
-                               placeholder="Enter Quantity">
+                        <input class="form-control" id="inputQuantity" name="quantity" placeholder="Enter Quantity"
+                               type="number">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPrice" class="col-sm-2 col-form-label">Price</label>
+                    <label class="col-sm-2 col-form-label" for="inputPrice">Price</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" name="sellingPrice" id="inputPrice"
-                               placeholder="Enter Price" step="any">
+                        <input class="form-control" id="inputPrice" name="sellingPrice" placeholder="Enter Price"
+                               step="any" type="number">
                     </div>
                 </div>
-                <input type="hidden" name="orderId">
-                <input type="hidden" name="productId">
-                <button type="button" class="btn btn-primary" id="add-item">Add</button>
+                <input name="orderId" type="hidden">
+                <input name="productId" type="hidden">
+                <button class="btn btn-primary" id="add-item" type="button">Add</button>
                 &nbsp;
             </form>
         </div>
@@ -73,42 +74,42 @@
     </div>
 
     <!-- Item Edit Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="edit-item-modal">
+    <div class="modal" id="edit-item-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="item-edit-form">
                         <div class="form-group">
-                            <label for="inputBarcode" class="col-sm-2 col-form-label" >Barcode</label>
-                            <div class ="info" id="barcode_set">
+                            <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
+                            <div class="info" id="barcode_set">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPrice" class="col-sm-2 col-form-label">Price</label>
+                            <label class="col-sm-2 col-form-label" for="inputPrice">Price</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="sellingPrice" step="any" >
+                                <input class="form-control" name="sellingPrice" step="any" type="number">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
+                            <label class="col-sm-2 col-form-label" for="inputQuantity">Quantity</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="quantity" >
+                                <input class="form-control" name="quantity" type="number">
                             </div>
                         </div>
-                        <input type="hidden" name="productId">
-                        <input type="hidden" name="orderId">
-                        <input type="hidden" name="id" disabled>
+                        <input name="productId" type="hidden">
+                        <input name="orderId" type="hidden">
+                        <input disabled name="id" type="hidden">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="update-item">Update</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="update-item" type="button">Update</button>
                 </div>
             </div>
         </div>
@@ -118,8 +119,8 @@
 <div id="order-control">
     <h3>
         <h3>Amount:<span id="order-total-value">0</span>
-            <button type="button" class="btn btn-outline-secondary" id="cancel-order">Cancel</button>
-            <button type="button" class="btn btn-success" id="confirm" disabled="true">Confirm</button>
+            <button class="btn btn-outline-secondary" id="cancel-order" type="button">Cancel</button>
+            <button class="btn btn-success" disabled="true" id="confirm" type="button">Confirm</button>
         </h3>
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>

@@ -13,8 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class PdfGeneration
-{
+public class PdfGeneration {
     public static final String RESOURCES_DIR;
     public static final String OUTPUT_DIR;
 
@@ -23,7 +22,7 @@ public class PdfGeneration
         OUTPUT_DIR = "src//main//resources//output//";
     }
 
-    public void convertToPDF(String xmlstr,Integer id) throws IOException, FOPException, TransformerException {
+    public void convertToPDF(String xmlstr, Integer id) throws IOException, FOPException, TransformerException {
         FileWriter myWriter = new FileWriter(RESOURCES_DIR + "//data.xml");
         myWriter.write(xmlstr);
         myWriter.close();
@@ -37,8 +36,8 @@ public class PdfGeneration
         FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
         // Setup output
         OutputStream out;
-        String name="//invoice.pdf";
-        out = new java.io.FileOutputStream(OUTPUT_DIR +name);
+        String name = "//invoice.pdf";
+        out = new java.io.FileOutputStream(OUTPUT_DIR + name);
 
         try {
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);

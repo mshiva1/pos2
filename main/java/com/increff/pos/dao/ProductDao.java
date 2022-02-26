@@ -21,7 +21,7 @@ public class ProductDao extends AbstractDao {
     private static final String select_all_pid = "select p.id from ProductPojo p";
     private static final String select_all_cid = "select p.categoryId from ProductPojo p";
     private static final String select_all_by_cid = "select p.id from ProductPojo p where categoryId=:bId";
-    private static final String select_all_barcode="select p.barcode from ProductPojo p order by barcode";
+    private static final String select_all_barcode = "select p.barcode from ProductPojo p order by barcode";
 
     @PersistenceContext
     private EntityManager em;
@@ -83,7 +83,8 @@ public class ProductDao extends AbstractDao {
     public void update(ProductPojo p) {
     }
 
-    public List<String> getBarcodes(){
+    public List<String> getBarcodes() {
         TypedQuery<String> query = getQuery(select_all_barcode, String.class);
         return query.getResultList();
-    }}
+    }
+}

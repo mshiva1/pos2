@@ -1,1 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?> <?xml-stylesheet type="application/xml"?> <users-data> <header-section> <data-type >Invoice</data-type> <odate>2022-02-25 10:02</odate><idate>2022-02-25 10:02</idate><id>85</id><total>1761.0</total><quantity>137</quantity></header-section><table-data><sno>1</sno><bname>b1</bname><cname>c78</cname><name>n3</name><barcode>udykfu</barcode><quantity>13</quantity><price>21.0</price><total>273.0</total></table-data><table-data><sno>2</sno><bname>b1</bname><cname>c34</cname><name>n3</name><barcode>qazx</barcode><quantity>120</quantity><price>12.0</price><total>1440.0</total></table-data><table-data><sno>3</sno><bname>b1</bname><cname>c34</cname><name>n3</name><barcode>qazx</barcode><quantity>4</quantity><price>12.0</price><total>48.0</total></table-data></users-data>
+<?xml version="1.0" encoding="UTF-8"?> <?xml-stylesheet type="application/xml"?>
+<users-data>
+    <header-section>
+        <data-type>Invoice</data-type>
+        <odate>2022-02-25 10:02</odate>
+        <idate>2022-02-25 10:02</idate>
+        <id>85</id>
+        <total>1761.0</total>
+        <quantity>137</quantity>
+    </header-section>
+    <table-data>
+        <sno>1</sno>
+        <bname>b1</bname>
+        <cname>c78</cname>
+        <name>n3</name>
+        <barcode>udykfu</barcode>
+        <quantity>13</quantity>
+        <price>21.0</price>
+        <total>273.0</total>
+    </table-data>
+    <table-data>
+        <sno>2</sno>
+        <bname>b1</bname>
+        <cname>c34</cname>
+        <name>n3</name>
+        <barcode>qazx</barcode>
+        <quantity>120</quantity>
+        <price>12.0</price>
+        <total>1440.0</total>
+    </table-data>
+    <table-data>
+        <sno>3</sno>
+        <bname>b1</bname>
+        <cname>c34</cname>
+        <name>n3</name>
+        <barcode>qazx</barcode>
+        <quantity>4</quantity>
+        <price>12.0</price>
+        <total>48.0</total>
+    </table-data>
+</users-data>

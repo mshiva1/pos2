@@ -22,7 +22,7 @@ public class OrderItemApiController {
     @ApiOperation(value = "Adds or update items")
     @RequestMapping(path = "/api/item/", method = RequestMethod.POST)
     public void addItem(@RequestBody OrderItemForm form) throws ApiException {
-        service.add(form,true);
+        service.add(form, true);
     }
 
     @ApiOperation(value = "Deletes Items")
