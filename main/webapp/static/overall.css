@@ -1,7 +1,7 @@
 #logo{
     width:auto;
     height:45px;
-    background-color:#abccf5;
+    background-color:#e9f3ff;
 }
 #download-errors {
     display:none;
@@ -57,7 +57,7 @@ html {
 	min-height: 100%;
 }
 .navbar{
-    background-color:   #abccf5;
+    background-color:   #e9f3ff;
 }
 #navigationbar{
     z-index:2;
@@ -83,31 +83,28 @@ html {
         height: 60px;
         line-height: 60px;
         text-align:center;
-        background-color: #abccf5;
+        background-color: #e9f3ff;
 }
 label{
     font-weight:600;
 }
-#reportshow{
-    display:none;
-}
-#reportshow:hover{
-    display:block;
-}
-ul #reporthover:hover + #reportshow{
-    display:block;
-}
 .nav-item{
     font-weight: 750;
-    font-color: #000000;
 }
 .userdef{
-    background-color: #9dc3f5;
+    background-color:   #c8e1ff;
     border-radius: 5px;
 }
 .nav-item .nav-link:hover{
-    background-color: #a6a6a6;
+    background-color: #c2c4c7;
     border-radius: 5px;
+}
+.dropdown-item{
+    background-color:#e9f3ff;
+    margin:0;
+}
+.dropdown-menu{
+padding:0;
 }
 #error_box{
     z-index: 1056;
@@ -115,9 +112,7 @@ ul #reporthover:hover + #reportshow{
     top:5px;
     right:5px;
     max-width:800px;
-    background-color:red;
     color: white;
-    border: 1px solid red;
     border-radius: 5px;
     display:none;
     }

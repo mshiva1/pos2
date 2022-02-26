@@ -53,6 +53,8 @@ function deleteOrder(event){
      url: url,
      type: 'DELETE',
      success: function(data) {
+
+	    successMessage("All Items Cleared Successfully");
         getOrderId();
      },
      error: handleAjaxError
@@ -74,6 +76,7 @@ function addItem(event){
 	   success: function(response) {
 	        resetForm();
 	   		getItemList();
+	        successMessage("Item added Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -100,6 +103,7 @@ function updateItem(event){
 	   success: function(response) {
 	   		getItemList();
 	        $('#edit-item-modal').modal('toggle');
+	        successMessage("Item Updated Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -128,6 +132,7 @@ function deleteItem(id){
 	   type: 'DELETE',
 	   success: function(data) {
 	   		getItemList();
+	        successMessage("Item removed Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -190,8 +195,8 @@ function displayItem(data){
 function updateBarcodes(data){
     var str='';
     for (var i in data)
-        str+="<option value="+data[i]+">"
-    $("#codelist").html(str);
+        str+='<option value="'+data[i]+'">'+data[i]+'</option>'
+    $("#inputBarcode").html(str);
 }
 function setInventory(){
     var url = getOrdersUrl()+'barcodes';

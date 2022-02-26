@@ -51,7 +51,7 @@ function confirmOrder(event){
              window.location.replace(baseUrl+'/site/orders');
 }
 function deleteOrder(event){
-    // go to ordrs page
+    // go to orders page
     var id=$("#item-edit-form input[name=orderId]").val();
   var url = getOrdersUrl() + id;
   $.ajax({
@@ -83,6 +83,7 @@ function updateItem(event){
 	   success: function(response) {
 	   		getItemList();
 	        $('#edit-item-modal').modal('toggle');
+	        successMessage("Item updated Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -111,6 +112,7 @@ function deleteItem(id){
 	   type: 'DELETE',
 	   success: function(data) {
 	   		getItemList();
+	        successMessage("Item removed Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -169,33 +171,11 @@ function displayItem(data){
 	$('#edit-item-modal').modal('toggle');
 }
 
-// dropdown handler
-
-function updateBarcodes(data){
-    var str='';
-    for (var i in data)
-        str+="<option value="+data[i]+">"
-    $("#codelist").html(str);
-}
-function setInventory(){
-    var url = getOrdersUrl()+'barcodes';
-    	$.ajax({
-    	   url: url,
-    	   type: 'GET',
-    	   success: function(data) {
-    	   		updateBarcodes(data);
-    	   },
-    	   error: handleAjaxError
-    	});
-}
-
-
 //INITIALIZATION CODE
 function init(){
 	$('#update-item').click(updateItem);   //inside modal
 	$('#confirm').click(confirmOrder);
 	$('#cancel-order').click(deleteOrder);
-	setInventory();
 }
 
 

@@ -244,6 +244,7 @@ public class OrderService {
             r.setRevenue(revenue);
             retval.add(r);
         }
+        Collections.sort(retval);
         return retval;
     }
 

@@ -23,6 +23,7 @@ function addBrand(event){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
+	        successMessage("Brand-Category added Successfully");
 	   		getBrandList();
 	   		resetForm();
 	   },
@@ -51,6 +52,7 @@ function updateBrand(event){
 	   success: function(response) {
 	   		getBrandList();
 	        $('#edit-brand-modal').modal('toggle');
+	        successMessage("Brand-Category updated Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -79,6 +81,7 @@ function deleteBrand(id){
 	   type: 'DELETE',
 	   success: function(data) {
 	   		getBrandList();
+	        successMessage("Given Brand-Category deleted Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -196,6 +199,8 @@ function updateUploadDialog(){
         handleUiError("One are more errors occured while parsing");
 	}
 	else{
+
+	successMessage("TSV file added successfully");
 	$('#download-errors').css('display','none');
 	}
     $('#rowCount').html("" + fileData.length);

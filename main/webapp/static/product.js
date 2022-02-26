@@ -27,6 +27,7 @@ function addProduct(event){
 	   success: function(response) {
 	   		getProductList();
 	   		resetForm();
+	   		successMessage("Product added successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -54,6 +55,7 @@ function updateProduct(event){
 	   success: function(response) {
 	   		getProductList();
 	   		$('#edit-product-modal').modal('toggle');
+	   		successMessage("Product updated successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -82,6 +84,7 @@ function deleteProduct(id){
 	   type: 'DELETE',
 	   success: function(data) {
 	   		getProductList();
+	   		successMessage("Product Deleted successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -208,7 +211,8 @@ function updateUploadDialog(){
         $('#download-errors').css('display','block');
 	}
 	else{
-	$('#download-errors').css('display','none');
+		successMessage("TSV file added successfully");
+	    $('#download-errors').css('display','none');
     //inform user that success
 	}
     $('#rowCount').html("" + fileData.length);
@@ -244,8 +248,8 @@ function displayProduct(data){
 function updateBrands(data){
     var str='';
     for (var i in data)
-        str+="<option value="+data[i]+">"
-    $("#brandslist").html(str);
+        str+='<option value="'+data[i]+'">'+data[i]+'</option>'
+    $("#inputBrand").html(str);
 }
 function setBrands(){
     var url = getProductUrl()+'/brands';
@@ -261,8 +265,8 @@ function setBrands(){
 function updateCat(data){
     var str='';
     for (var i in data)
-        str+="<option value="+data[i]+">"
-    $("#catlist").html(str);
+        str+='<option value="'+data[i]+'">'+data[i]+'</option>'
+    $("#inputCategory").html(str);
 }
 function setCat(){
     var url = getProductUrl()+'/brands/'+$("#inputBrand").val();

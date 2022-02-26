@@ -1,11 +1,13 @@
 package com.increff.pos.model;
 
-public class SaleReport {
+public class SaleReport implements Comparable<SaleReport>{
     Integer categoryId;
     String bname;
     String cname;
     Integer quantity;
     Float revenue;
+
+
 
     public Integer getCategoryId() {
         return categoryId;
@@ -45,5 +47,12 @@ public class SaleReport {
 
     public void setRevenue(Float revenue) {
         this.revenue = revenue;
+    }
+
+    @Override
+    public int compareTo(SaleReport o) {
+        int retval=getBname().compareTo(o.getBname());
+        if(retval!=0) return retval;
+        return getCname().compareTo(o.getCname());
     }
 }

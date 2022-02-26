@@ -61,6 +61,7 @@ function getReport1(){
        },
 	   success: function(data) {
 	   		display(data);
+	   		successMessage("Required data fetched successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -71,6 +72,9 @@ function getReport1(){
 function display(data){
 	var $tbody = $('#report-table').find('tbody');
 	$tbody.empty();
+	if(data==0){
+	    $tbody.append("<tr> <td>No Data found for selected Filters </td></tr>");
+	}
 	for(var i in data){
 		var e = data[i];
 		var row = '<tr>'

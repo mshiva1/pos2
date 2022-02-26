@@ -55,6 +55,7 @@ function deleteOrder(id){
      type: 'DELETE',
      success: function(data) {
         getOrdersList();
+        successMessage("Order Cancelled successfully");
      },
      error: handleAjaxError
   });
@@ -72,6 +73,7 @@ function fulfilOrder(id){
      success: function(data) {
         downloadInvoice(id);
         getOrdersList();
+        successMessage("Invoice generated and downloading started");
      },
      error: handleAjaxError
   });

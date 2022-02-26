@@ -24,6 +24,7 @@ function addInventory(event){
 	   success: function(response) {
 	        resetForm();
 	   		getInventoryList();
+	        successMessage("Inventory added Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -51,6 +52,7 @@ function updateInventory(event){
 	   success: function(response) {
 	   		getInventoryList();
 	   		$('#edit-inventory-modal').modal('toggle');
+	        successMessage("Inventory updated Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -78,6 +80,8 @@ function deleteInventory(id){
 	   type: 'DELETE',
 	   success: function(data) {
 	   		getInventoryList();
+
+	        successMessage("Inventory deleted Successfully");
 	   },
 	   error: handleAjaxError
 	});
@@ -196,6 +200,8 @@ function updateUploadDialog(){
         $('#download-errors').css('display','block');
 	}
 	else{
+
+	successMessage("TSV file added successfully");
 	$('#download-errors').css('display','none');
     //inform user that success
 	}
@@ -226,12 +232,11 @@ function displayInventory(data){
 	$('#edit-inventory-modal').modal('toggle');
 }
 // dropdown handler
-
 function updateBarcodes(data){
     var str='';
     for (var i in data)
-        str+="<option value="+data[i]+">"
-    $("#codelist").html(str);
+        str+='<option value="'+data[i]+'">'+data[i]+'</option>'
+    $("#barcode").html(str);
 }
 function setInventory(){
     var url = getInventoryUrl()+'/barcodes';

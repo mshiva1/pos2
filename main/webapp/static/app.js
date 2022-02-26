@@ -13,18 +13,24 @@ function toJson($form){
 }
 
 
+function notifyUser(bgcolor,head,body,delay){
+	$("#error_head").html(head);
+	$("#error_panel").html(body);
+	$("#error_box").css('background-color',bgcolor);
+    $("#error_box").css('display','block');
+    $("#error_box").css('border','1px solid'+bgcolor);
+
+}
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
-	$("#error_head").html("Error:");
-	$("#error_panel").html(response.message);
-	$("#error_box").css('display','block');
+    notifyUser("red","Error",response.message,0);
 }
 function handleUiError(response){
-	$("#error_head").html("Error:");
-	$("#error_panel").html(response);
-	$("#error_box").css('display','block');
+    notifyUser("red","Error",response,0);
 }
-
+function successMessage(response){
+    notifyUser("green","Success",response,5);
+}
 function readFileData(file, callback){
 	var config = {
 		header: true,

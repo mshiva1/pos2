@@ -16,13 +16,9 @@
             <form class="form-inline" id="item-form">
                 <div class="form-group">
                     <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" id="inputBarcode" list="barcodelist" name="barcode"
-                               placeholder="Enter Barcode">
-                        <datalist id="barcodelist">
-                            <div id=codelist>
-                            </div>
-                        </datalist>
+                    <div class="col-sm-10">
+                        <select class="form-select mb-3" name="barcode" id="inputBarcode">
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -119,7 +115,7 @@
 <div id="order-control">
     <h3>
         <h3>Amount:<span id="order-total-value">0</span>
-            <button class="btn btn-outline-secondary" id="cancel-order" type="button">Cancel</button>
+            <button class="btn btn-outline-secondary" id="cancel-order" type="button">Clear All</button>
             <button class="btn btn-success" disabled="true" id="confirm" type="button">Confirm</button>
         </h3>
 </div>
