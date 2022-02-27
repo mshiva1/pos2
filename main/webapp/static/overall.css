@@ -126,6 +126,9 @@ padding:0;
         text-align:center;
         background-color: #e9f3ff;
 }
+#notification{
+        z-index:1057;
+}
 .form-inline label{
     display:block;
     width:200px;

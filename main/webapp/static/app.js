@@ -12,14 +12,22 @@ function toJson($form){
     return json;
 }
 
-
+function removeNotification(){
+    $('#error_box').remove();
+}
 function notifyUser(bgcolor,head,body,delay){
-	$("#error_head").html(head);
-	$("#error_panel").html(body);
-	$("#error_box").css('background-color',bgcolor);
+    if(delay==0) delay=false;
+    else delay=delay*1000;
+    $('#error_box').remove();
+    $('body').append(
+   '<div class="error-box" id="error_box"> <button aria-label="Close" class="close" onclick="removeNotification()" id="error_close" type="button"><span aria-hidden="true">&times;</span></button>  <div id="error_head">Error</div> <div id="error_panel"></div></div>'
+    );
+    $('#error_head').html(head);
+    $('#error_panel').html(body);
+    $('#error_box').css('z-index',"z-index: 9000!important");
+    $('#error_box').css('background-color',bgcolor);
     $("#error_box").css('display','block');
-    $("#error_box").css('border','1px solid'+bgcolor);
-
+    if(delay!=false) setTimeout(removeNotification, delay)
 }
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
@@ -73,9 +81,8 @@ function setNavbar(){
     }
 }
 function closeError(){
-    $("#error_box").css("display","none");
+    removeNotification();
     }
-
 
 function updateDropdown(data,id){
     var str='';

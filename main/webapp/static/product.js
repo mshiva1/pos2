@@ -231,7 +231,7 @@ function updateFileName(){
 function displayUploadData(){
  	resetUploadDialog();
 	$('#upload-product-modal').modal('toggle');
-
+    removeNotification();
 }
 
 function displayProduct(data){

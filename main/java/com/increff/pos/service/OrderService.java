@@ -6,7 +6,7 @@ import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
-import com.increff.pos.util.PdfGeneration;
+import com.increff.pos.util.PdfHelper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,11 @@ import java.io.File;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -121,7 +122,10 @@ public class OrderService {
             InventoryPojo ip = daoI.select(oip.getProduct_id());
             if (ip.getQuantity() < oip.getQuantity())
                 throw new ApiException("Quantity in Stock changed for Item" + daoP.selectId(oip.getProduct_id()).getName() + "(" + daoP.selectId(oip.getProduct_id()).getBarcode() + ")Try removing it and adding it again");
-            ip.setQuantity(ip.getQuantity() - oip.getQuantity());
+            if (ip.getQuantity() > oip.getQuantity())
+                ip.setQuantity(ip.getQuantity() - oip.getQuantity());
+            else
+                daoI.delete(ip.getProductId());
         }
         if (p == null)
             throw new ApiException("Order Not Found");
@@ -161,9 +165,9 @@ public class OrderService {
             throw new ApiException(" This order is completed.No Changes Allowed");
         this.get(toId);
         this.delete(toId);
-        //remove all items of to
+        //remove all items of toId
         this.get(toId).setStatus("created");
-        //set status of to to created
+        //set status of to toId created
         List<OrderItemPojo> oip = daoOI.selectByOrderId(fromId);
         for (OrderItemPojo i : oip) {
             OrderItemForm oif = new OrderItemForm();
@@ -173,11 +177,11 @@ public class OrderService {
             oif.setSellingPrice(i.getSellingPrice());
             serOI.add(oif, false);
         }
-        //copy all items from from to to
+        //copy all items from fromId to toId
 
         if (cf.getFromId() == 0) {
             this.confirm(toId);
-            //confirm to
+            //confirm toId
         }
     }
 
@@ -258,8 +262,8 @@ public class OrderService {
             total += i.getSellingPrice() * i.getQuantity();
             quantity += i.getQuantity();
         }
-        PdfGeneration pdf = new PdfGeneration();
-        String xmlstr = getxmlStream(order, invoice, id, items, quantity, total);
+        PdfHelper pdf = new PdfHelper();
+        String xmlstr = pdf.getxmlStream(order, invoice, id, items, quantity, total);
         try {
             pdf.convertToPDF(xmlstr, id);
             String name = "src//main//resources//output//invoice.pdf";
@@ -270,44 +274,6 @@ public class OrderService {
             System.out.println(e);
         }
         return null;
-    }
-
-    String getxmlStream(Timestamp order, Timestamp invoice, Integer id, List<OrderItemData1> items, Integer quantity, Float total) {
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
-        StringBuilder ret = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <?xml-stylesheet type=\"application/xml\"?> <users-data> <header-section> <data-type >Invoice</data-type> <odate>");
-        ret.append(dateFormat.format(new Date(order.getTime())));
-        ret.append("</odate><idate>");
-        ret.append(dateFormat.format(new Date(invoice.getTime())));
-        ret.append("</idate><id>");
-        ret.append(id);
-        ret.append("</id><total>");
-        ret.append(total);
-        ret.append("</total><quantity>");
-        ret.append(quantity);
-        ret.append("</quantity></header-section>");
-        Integer i = 0;
-        for (OrderItemData1 oip : items) {
-            ret.append("<table-data><sno>");
-            ret.append(++i);
-            ret.append("</sno><bname>");
-            ret.append(oip.getBname());
-            ret.append("</bname><cname>");
-            ret.append(oip.getCname());
-            ret.append("</cname><name>");
-            ret.append(oip.getName());
-            ret.append("</name><barcode>");
-            ret.append(oip.getBarcode());
-            ret.append("</barcode><quantity>");
-            ret.append(oip.getQuantity());
-            ret.append("</quantity><price>");
-            ret.append(oip.getSellingPrice());
-            ret.append("</price><total>");
-            ret.append(oip.getQuantity() * oip.getSellingPrice());
-            ret.append("</total></table-data>");
-        }
-        ret.append("</users-data>");
-        return ret.toString();
     }
 
 }

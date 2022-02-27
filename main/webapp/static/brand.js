@@ -219,7 +219,7 @@ function updateFileName(){
 function displayUploadData(){
  	resetUploadDialog();
 	$('#upload-brand-modal').modal('toggle');
-
+    removeNotification();
 }
 function displayAddBrand(){
 	$('#add-brand-modal').modal('toggle');

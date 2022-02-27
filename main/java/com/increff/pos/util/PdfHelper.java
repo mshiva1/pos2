@@ -1,5 +1,6 @@
 package com.increff.pos.util;
 
+import com.increff.pos.model.OrderItemData1;
 import org.apache.fop.apps.*;
 
 import javax.xml.transform.Result;
@@ -12,14 +13,57 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
-public class PdfGeneration {
+public class PdfHelper {
     public static final String RESOURCES_DIR;
     public static final String OUTPUT_DIR;
 
     static {
         RESOURCES_DIR = "src//main//resources//";
         OUTPUT_DIR = "src//main//resources//output//";
+    }
+
+    public String getxmlStream(Timestamp order, Timestamp invoice, Integer id, List<OrderItemData1> items, Integer quantity, Float total) {
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+        StringBuilder ret = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <?xml-stylesheet type=\"application/xml\"?> <users-data> <header-section> <data-type >Invoice</data-type> <odate>");
+        ret.append(dateFormat.format(new Date(order.getTime())));
+        ret.append("</odate><idate>");
+        ret.append(dateFormat.format(new Date(invoice.getTime())));
+        ret.append("</idate><id>");
+        ret.append(id);
+        ret.append("</id><total>");
+        ret.append(total);
+        ret.append("</total><quantity>");
+        ret.append(quantity);
+        ret.append("</quantity></header-section>");
+        Integer i = 0;
+        for (OrderItemData1 oip : items) {
+            ret.append("<table-data><sno>");
+            ret.append(++i);
+            ret.append("</sno><bname>");
+            ret.append(oip.getBname());
+            ret.append("</bname><cname>");
+            ret.append(oip.getCname());
+            ret.append("</cname><name>");
+            ret.append(oip.getName());
+            ret.append("</name><barcode>");
+            ret.append(oip.getBarcode());
+            ret.append("</barcode><quantity>");
+            ret.append(oip.getQuantity());
+            ret.append("</quantity><price>");
+            ret.append(oip.getSellingPrice());
+            ret.append("</price><total>");
+            ret.append(oip.getQuantity() * oip.getSellingPrice());
+            ret.append("</total></table-data>");
+        }
+        ret.append("</users-data>");
+        return ret.toString();
     }
 
     public void convertToPDF(String xmlstr, Integer id) throws IOException, FOPException, TransformerException {

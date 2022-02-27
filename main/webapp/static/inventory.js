@@ -221,7 +221,7 @@ function updateFileName(){
 function displayUploadData(){
  	resetUploadDialog();
 	$('#upload-inventory-modal').modal('toggle');
-
+    removeNotification();
 }
 
 function displayInventory(data){
