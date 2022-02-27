@@ -6,6 +6,7 @@ import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
 import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.util.Convert1;
 import com.increff.pos.util.PdfHelper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class OrderService {
     private InventoryDao daoI;
     @Autowired
     private OrderItemService serOI;
+    @Autowired
+    private Convert1 convert1;
 
     @Transactional(rollbackOn = ApiException.class)
     public IntegerData add() throws ApiException {
@@ -60,12 +63,13 @@ public class OrderService {
 
     @Transactional
     public void delete(int id) throws ApiException {
-        if (get(id).getStatus().equals("fulfilled"))
-            throw new ApiException("Fulfilled Orders cant be deleted");
+        if (get(id).getStatus().equals("completed"))
+            throw new ApiException("Completed Orders cant be Cancelled");
         List<OrderItemPojo> items = daoOI.selectByOrderId(id);
         String status = dao.select(id).getStatus();
         for (OrderItemPojo oip : items) {
             if (status.equals("confirmed")) {
+                //only add to inventory if confirmed order is cancelled
                 InventoryPojo ip = new InventoryPojo();
                 ip.setProductId(oip.getProduct_id());
                 ip.setQuantity(oip.getQuantity());
@@ -77,12 +81,11 @@ public class OrderService {
                         e.setQuantity(e.getQuantity() + ip.getQuantity());
 
                 }
-
                 dao.select(id).setStatus("cancelled");
             }
         }
         daoOI.deleteItem(id);
-
+        //this deletes all its related items in OrderItemPojo
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -103,21 +106,26 @@ public class OrderService {
         Blob blb = p.getInvoice();
         byte[] bytes = blb.getBytes(1, (int) blb.length());
         return Base64.getEncoder().encodeToString(bytes);
-
+        //encoded to base64 to pass through api
     }
 
     @Transactional
-    public List<OrderPojo> getAll() {
-        List<OrderPojo> op = dao.selectAll();
-        Collections.reverse(op);
-        return op;
+    public List<OrderData> getAll() {
+        List<OrderPojo> list = dao.selectAll();
+        List<OrderData> list2 = new ArrayList<OrderData>();
+        for (OrderPojo p : list) {
+            list2.add(convert1.convert(p));
+        }
+        Collections.reverse(list2);
+        return list2;
     }
 
     @Transactional(rollbackOn = ApiException.class)
     public void confirm(int id) throws ApiException {
         OrderPojo p = dao.select(id);
-        //remove items from inventory
         List<OrderItemPojo> items = daoOI.selectByOrderId(id);
+
+        //remove items from inventory
         for (OrderItemPojo oip : items) {
             InventoryPojo ip = daoI.select(oip.getProduct_id());
             if (ip.getQuantity() < oip.getQuantity())
@@ -135,7 +143,7 @@ public class OrderService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void fulfil(int id) throws ApiException {
+    public void complete(int id) throws ApiException {
         OrderPojo p = dao.select(id);
         if (p == null)
             throw new ApiException("Order Not Found");
@@ -145,9 +153,7 @@ public class OrderService {
         System.out.println("invoice saved");
     }
 
-
     public List<String> getBarcodes() {
-
         List<Integer> pids = daoI.getProducts();
         List<String> retval = new ArrayList<>();
         for (Integer i : pids) {
@@ -185,26 +191,28 @@ public class OrderService {
         }
     }
 
-    @Transactional
-    public List<SaleReport> report(String start, String end, String bname, String cname) throws ApiException {
-
-        List<SaleReport> retval = new ArrayList<>();
+    public List<Integer> selectOrdersBetween(String start, String end) throws ApiException {
         List<Integer> ordersList = new ArrayList<>();
+        Timestamp timeStart = null, timeEnd = null;
+
+        //if start is empty means start time is -inf
+        if (start.isEmpty())
+            timeStart = new Timestamp(0);
+        else
+            timeStart = Timestamp.valueOf(start + " 00:00:01");
+
+        //if end is empty means end is today
+        if (end.isEmpty())
+            timeEnd = Timestamp.from(Instant.now());
+        else
+            timeEnd = Timestamp.valueOf(end + " 23:59:59");
+
+        return dao.getBetween(timeStart, timeEnd);
+    }
+
+    public List<Integer> selectBrandCategory(String bname, String cname) {
         List<Integer> brandsList = new ArrayList<>();
-        if (start.isEmpty() || end.isEmpty()) {
-            //sets all orders
-            List<OrderPojo> orderList = dao.selectAll();
-            for (OrderPojo op : orderList) {
-                ordersList.add(op.getId());
-            }
-        } else {
-            //orders between start and end
-            Timestamp timeStart = Timestamp.valueOf(start + " 00:00:01");
-            Timestamp timeEnd = Timestamp.valueOf(end + " 23:59:59");
-            if (timeStart.after(timeEnd))
-                throw new ApiException("Start Date cant be after End Date");
-            ordersList = dao.getBetween(timeStart, timeEnd);
-        }
+
         if (bname.isEmpty() && cname.isEmpty()) {
             //all bnames and cnames
             List<BrandPojo> brandList = daoB.selectAll();
@@ -218,7 +226,6 @@ public class OrderService {
             //all cnames
             brandsList = daoB.getAllCname(bname);
         } else {
-            brandsList = new ArrayList<>();
             try {
                 Integer id = daoB.getBid(bname, cname).getId();
                 brandsList.add(id);
@@ -228,15 +235,26 @@ public class OrderService {
                 return null;
             }
         }
+        return brandsList;
+    }
+
+    @Transactional
+    public List<SaleReport> saleReport(String start, String end, String bname, String cname) throws ApiException {
+
+        List<SaleReport> retval = new ArrayList<>();
+        List<Integer> brandsList = selectBrandCategory(bname, cname);
+        List<Integer> ordersList = selectOrdersBetween(start, end);
         for (Integer i : brandsList) {
             SaleReport r = new SaleReport();
             r.setCategoryId(i);
             r.setBname(daoB.getBname(i));
             r.setCname(daoB.getCname(i));
-            List<Integer> productsList = daoP.selectFromCatId(i);
+
             Integer quantity = 0;
             Float revenue = (float) 0;
-            for (Integer pid : productsList)
+
+            List<Integer> productsList = daoP.selectFromCatId(i);
+            for (Integer pid : productsList) {
                 for (Integer oid : ordersList) {
                     List<OrderItemPojo> p = daoOI.select(pid, oid);
                     for (OrderItemPojo oip : p) {
@@ -244,6 +262,7 @@ public class OrderService {
                         revenue += oip.getQuantity() * oip.getSellingPrice();
                     }
                 }
+            }
             r.setQuantity(quantity);
             r.setRevenue(revenue);
             retval.add(r);
@@ -255,15 +274,13 @@ public class OrderService {
     @Transactional
     public Blob generateInvoice(Integer id, Timestamp order, Timestamp invoice) {
         List<OrderItemData1> items;
-        Integer quantity = 0;
         Float total = (float) 0;
         items = serOI.getAll(id);
         for (OrderItemData1 i : items) {
             total += i.getSellingPrice() * i.getQuantity();
-            quantity += i.getQuantity();
         }
         PdfHelper pdf = new PdfHelper();
-        String xmlstr = pdf.getxmlStream(order, invoice, id, items, quantity, total);
+        String xmlstr = pdf.getxmlStream(order, invoice, id, items, total);
         try {
             pdf.convertToPDF(xmlstr, id);
             String name = "src//main//resources//output//invoice.pdf";
@@ -272,8 +289,7 @@ public class OrderService {
             return new SerialBlob(bytes);
         } catch (Exception e) {
             System.out.println(e);
+            return null;
         }
-        return null;
     }
-
 }

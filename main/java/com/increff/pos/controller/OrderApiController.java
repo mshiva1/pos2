@@ -4,17 +4,14 @@ import com.increff.pos.model.CopyForm;
 import com.increff.pos.model.IntegerData;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.SaleReport;
-import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.OrderService;
-import com.increff.pos.util.Convert1;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Api
@@ -23,8 +20,6 @@ public class OrderApiController {
 
     @Autowired
     private OrderService service;
-    @Autowired
-    private Convert1 convert1;
 
     @ApiOperation(value = "Adds Order")
     @RequestMapping(path = "/api/order/add", method = RequestMethod.GET)
@@ -47,12 +42,7 @@ public class OrderApiController {
     @ApiOperation(value = "Gets list of all Orders")
     @RequestMapping(path = "/api/order", method = RequestMethod.GET)
     public List<OrderData> getAll() {
-        List<OrderPojo> list = service.getAll();
-        List<OrderData> list2 = new ArrayList<OrderData>();
-        for (OrderPojo p : list) {
-            list2.add(convert1.convert(p));
-        }
-        return list2;
+        return service.getAll();
     }
 
     @ApiOperation(value = "created to confirmed")
@@ -64,7 +54,7 @@ public class OrderApiController {
     @ApiOperation(value = "confirmed to fulfilled")
     @RequestMapping(path = "/api/order/fulfil-{id}", method = RequestMethod.POST)
     public void fulfilOrder(@PathVariable int id) throws ApiException {
-        service.fulfil(id);
+        service.complete(id);
     }
 
     @ApiOperation(value = "copying orders ")
@@ -76,7 +66,7 @@ public class OrderApiController {
     @ApiOperation(value = "Gets Sale Record")
     @RequestMapping(path = "/api/order/sale/", method = RequestMethod.GET)
     public List<SaleReport> getReport(String start, String end, String bname, String cname) throws ApiException {
-        return service.report(start, end, bname, cname);
+        return service.saleReport(start, end, bname, cname);
     }
 
     @ApiOperation(value = "Gets list of barcodes that are in inventory")

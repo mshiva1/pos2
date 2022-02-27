@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public class OrderDao extends AbstractDao {
 
-    private static final String delete_id = "delete from OrderPojo p where id=:id";
     private static final String select_id = "select p from OrderPojo p where id=:id";
     private static final String select_all = "select p from OrderPojo p where status!='created'";
     private static final String select_all_order = "select p.id from OrderPojo p";
@@ -23,6 +22,7 @@ public class OrderDao extends AbstractDao {
     private EntityManager em;
 
     public Integer insert(OrderPojo p) {
+        //create a new order and return its ID
         em.persist(p);
         em.flush();
         return p.getId();

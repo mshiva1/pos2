@@ -38,8 +38,6 @@ function setOrderId(){
     $("#order-id-value").html(0);
     $("#item-edit-form input[name=orderId]").val(0);
     $("#old-order").html(edit);
-    console.log(edit);
-    console.log(edit);
     copyInto(edit,0);
     getItemList();
     }
@@ -126,7 +124,6 @@ function displayItemList(data){
 	var total=0;
 	for(var i in data){
 		var e = data[i];
-		console.log(e);
 		var buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteItem(' + e.id + ')">Delete</button>'
 		buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="displayEditItem(' + e.id + ')">Edit</button>'
 		var row = '<tr>'

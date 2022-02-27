@@ -44,6 +44,8 @@ public class ProductService {
     public void add(ProductForm form) throws ApiException {
         ProductPojo p = convert.convert(form, getBid(form.getBname(), form.getCname()));
         normalize(p);
+        if(p.getBarcode().isEmpty())
+            throw new ApiException("Barcode is required");
         if (dao.selectBarcode(p.getBarcode()) != null) {
             throw new ApiException("This Barcode Exists");
         }
@@ -54,18 +56,9 @@ public class ProductService {
             throw new ApiException("Brand-Category pair doesn't exist");
     }
 
-    @Transactional
+    @Transactional      //returns list of all Brand-Category Combo Ids
     public List<Integer> getAllCId() {
         return daoB.selectAllId();
-    }
-
-    @Transactional
-    public void delete(int id) throws ApiException {
-        if (daoOI.getAllPId().contains(id))
-            throw new ApiException("There are items in orders with this ProductId");
-        if (daoI.select(id) != null)
-            throw new ApiException("There are items in Inventory with this ProductId");
-        dao.delete(id);
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -85,7 +78,7 @@ public class ProductService {
             else quantity = ip.getQuantity();
             list2.add(convert.convert(p, daoB.getBname(p.getCategoryId()), daoB.getCname(p.getCategoryId()), quantity));
         }
-        Collections.reverse(list2);
+        Collections.sort(list2);
         return list2;
     }
 
@@ -96,10 +89,10 @@ public class ProductService {
         if (dao.selectBarcode(p.getBarcode()) != null && !ex.getBarcode().equals(p.getBarcode())) {
             throw new ApiException("This Barcode Exists");
         }
-        if (p.getBarcode() != null) ex.setBarcode(p.getBarcode());
-        if (p.getName() != null) ex.setName(p.getName());
-        if (p.getMrp() <= 0)
-            throw new ApiException("MRP should be Positive");
+        if (!p.getBarcode().isEmpty())
+            ex.setBarcode(p.getBarcode());
+        if (!p.getName().isEmpty())
+            ex.setName(p.getName());
         ex.setMrp(p.getMrp());
         dao.update(ex);
     }
@@ -113,6 +106,7 @@ public class ProductService {
         return p;
     }
 
+    //get Brand-CategoryId from arguments BrandName and CategoryName
     public Integer getBid(String bname, String cname) throws ApiException {
         if (bname.isEmpty())
             throw new ApiException("Brand Name is Required");
@@ -125,12 +119,12 @@ public class ProductService {
         }
     }
 
-    @Transactional
+    @Transactional      //get all Brand Names with specific categoryName
     public List<String> getBrandNames() {
         return daoB.getBrandNames();
     }
 
-    @Transactional
+    @Transactional      //get all Category Names with specific BrandName
     public List<String> getCatNames(String bname) {
         return daoB.getCatNames(bname);
     }

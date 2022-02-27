@@ -61,7 +61,7 @@ function getReport1(){
        },
 	   success: function(data) {
 	   		display(data);
-	   		successMessage("Required data fetched successfully");
+	   		successMessage("Data fetched successfully");
 	   },
 	   error: handleAjaxError
 	});

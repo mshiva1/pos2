@@ -2,7 +2,6 @@ package com.increff.pos.util;
 
 import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
-import com.increff.pos.service.ApiException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,16 +57,21 @@ public class Convert1 {
         return p;
     }
 
-    public OrderItemPojo convert(OrderItemForm f, Integer product_id) {
-        OrderItemPojo p = new OrderItemPojo();
+    public OrderItemData1 convert(OrderItemPojo f,ProductPojo pp,BrandPojo bp) {
+        OrderItemData1 p = new OrderItemData1();
+        p.setBname(bp.getBname());
+        p.setCname(bp.getCname());
+        p.setBarcode(pp.getBarcode());
+        p.setMrp(pp.getMrp());
+        p.setName(pp.getName());
         p.setQuantity(f.getQuantity());
-        p.setOrder_id(f.getOrderId());
-        p.setProduct_id(product_id);
+        p.setProductId(f.getProduct_id());
         p.setSellingPrice(f.getSellingPrice());
+        p.setId(f.getId());
         return p;
     }
 
-    public ProductData convert(ProductPojo p, String bname, String cname) throws ApiException {
+    public ProductData convert(ProductPojo p, String bname, String cname) {
         ProductData d = new ProductData();
         d.setBarcode(p.getBarcode());
         d.setBname(bname);
@@ -78,7 +82,7 @@ public class Convert1 {
         return d;
     }
 
-    public ProductData1 convert(ProductPojo p, String bname, String cname, Integer quantity) throws ApiException {
+    public ProductData1 convert(ProductPojo p, String bname, String cname, Integer quantity) {
         ProductData1 d = new ProductData1();
         d.setQuantity(quantity);
         d.setBarcode(p.getBarcode());
@@ -90,7 +94,7 @@ public class Convert1 {
         return d;
     }
 
-    public ProductPojo convert(ProductForm p, Integer bid) throws ApiException {
+    public ProductPojo convert(ProductForm p, Integer bid) {
         ProductPojo d = new ProductPojo();
         d.setBarcode(p.getBarcode());
         d.setCategoryId(bid);
@@ -99,5 +103,27 @@ public class Convert1 {
         return d;
     }
 
+    public InventoryPojo convert(InventoryData1 f, Integer pid) {
+        InventoryPojo p = new InventoryPojo();
+        p.setQuantity(f.getQuantity());
+        p.setProductId(pid);
+        return p;
+    }
 
+    public InventoryData2 convert(InventoryPojo p, String barcode) {
+        InventoryData2 i = new InventoryData2();
+        i.setProductId(p.getProductId());
+        i.setQuantity(p.getQuantity());
+        i.setBarcode(barcode);
+        return i;
+    }
+
+    public OrderItemPojo convert(OrderItemForm p, Integer product_id) {
+        OrderItemPojo oip= new OrderItemPojo();
+        oip.setProduct_id(product_id);
+        oip.setQuantity(p.getQuantity());
+        oip.setSellingPrice(p.getSellingPrice());
+        oip.setOrder_id(p.getOrderId());
+        return oip;
+    }
 }

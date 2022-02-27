@@ -14,7 +14,6 @@ function addBrand(event){
 	var $form = $("#brand-form");
 	var json = toJson($form);
 	var url = getBrandUrl();
-    console.log(json);
 	$.ajax({
 	   url: url,
 	   type: 'POST',

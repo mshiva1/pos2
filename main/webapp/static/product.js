@@ -126,8 +126,6 @@ function uploadRows(){
                 barcode: row["Barcode"],
                 mrp: row["Mrp"]
             }
-            console.log(row);
-            console.log(row2);
 	processCount++;
 	
 	var json = JSON.stringify(row2);

@@ -2,7 +2,6 @@
 //HELPER METHOD
 function toJson($form){
     var serialized = $form.serializeArray();
-    console.log(serialized);
     var s = '';
     var data = {};
     for(s in serialized){
@@ -15,6 +14,7 @@ function toJson($form){
 function removeNotification(){
     $('#error_box').remove();
 }
+var timeoutId=null;
 function notifyUser(bgcolor,head,body,delay){
     if(delay==0) delay=false;
     else delay=delay*1000;
@@ -27,7 +27,10 @@ function notifyUser(bgcolor,head,body,delay){
     $('#error_box').css('z-index',"z-index: 9000!important");
     $('#error_box').css('background-color',bgcolor);
     $("#error_box").css('display','block');
-    if(delay!=false) setTimeout(removeNotification, delay)
+    if(delay!=false) timeoutId=setTimeout(removeNotification, delay)
+    else if(timeoutId!=null){
+    clearTimeout(timeoutId);
+    }
 }
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);

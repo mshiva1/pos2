@@ -20,18 +20,12 @@ public class ProductApiController {
     @Autowired
     private ProductService service;
 
-
     @ApiOperation(value = "Adds Product")
     @RequestMapping(path = "/api/product", method = RequestMethod.POST)
     public void addProduct(@RequestBody ProductForm form) throws ApiException {
         service.add(form);
     }
 
-    @ApiOperation(value = "Deletes Product")
-    @RequestMapping(path = "/api/product/{id}", method = RequestMethod.DELETE)
-    public void deleteproduct(@PathVariable int id) throws ApiException {
-        service.delete(id);
-    }
 
     @ApiOperation(value = "Gets a Product by ID")
     @RequestMapping(path = "/api/product/{id}", method = RequestMethod.GET)
