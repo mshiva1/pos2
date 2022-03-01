@@ -57,7 +57,7 @@ public class Convert1 {
         return p;
     }
 
-    public OrderItemData1 convert(OrderItemPojo f,ProductPojo pp,BrandPojo bp) {
+    public OrderItemData1 convert(OrderItemPojo f, ProductPojo pp, BrandPojo bp) {
         OrderItemData1 p = new OrderItemData1();
         p.setBname(bp.getBname());
         p.setCname(bp.getCname());
@@ -120,7 +120,7 @@ public class Convert1 {
     }
 
     public OrderItemPojo convert(OrderItemForm p, Integer product_id) {
-        OrderItemPojo oip= new OrderItemPojo();
+        OrderItemPojo oip = new OrderItemPojo();
         oip.setProduct_id(product_id);
         oip.setQuantity(p.getQuantity());
         oip.setSellingPrice(p.getSellingPrice());

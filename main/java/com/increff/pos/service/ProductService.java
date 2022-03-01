@@ -44,7 +44,7 @@ public class ProductService {
     public void add(ProductForm form) throws ApiException {
         ProductPojo p = convert.convert(form, getBid(form.getBname(), form.getCname()));
         normalize(p);
-        if(p.getBarcode().isEmpty())
+        if (p.getBarcode().isEmpty())
             throw new ApiException("Barcode is required");
         if (dao.selectBarcode(p.getBarcode()) != null) {
             throw new ApiException("This Barcode Exists");

@@ -17,7 +17,8 @@
                 <div class="form-group col-4">
                     <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputBarcode" name="barcode" required placeholder="Enter Barcode">
+                        <input class="form-control" id="inputBarcode" name="barcode" placeholder="Enter Barcode" required
+                               type="text">
                         </input>
                     </div>
                 </div>
@@ -31,8 +32,8 @@
                 <div class="form-group col-4">
                     <label class="col-sm-4 col-form-label" for="inputPrice">Selling Price</label>
                     <div class="col-sm-8">
-                        <input class="form-control" id="inputPrice" min="0" name="sellingPrice" step="any"
-                               placeholder="Enter Price" type="number">
+                        <input class="form-control" id="inputPrice" min="0" name="sellingPrice" placeholder="Enter Price"
+                               step="any" type="number">
                     </div>
                 </div>
                 <input name="orderId" type="hidden">
@@ -88,7 +89,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputPrice">Price</label>
                             <div class="col-sm-10">
-                                <input class="form-control" min="0" name="sellingPrice" required type="number" step="any">
+                                <input class="form-control" min="0" name="sellingPrice" required step="any"
+                                       type="number">
                             </div>
                         </div>
                         <div class="form-group">

@@ -1,6 +1,6 @@
 package com.increff.pos.model;
 
-public class ProductData1 extends ProductData implements Comparable <ProductData1> {
+public class ProductData1 extends ProductData implements Comparable<ProductData1> {
 
     private int quantity;
 

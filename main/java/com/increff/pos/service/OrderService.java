@@ -124,7 +124,8 @@ public class OrderService {
     public void confirm(int id) throws ApiException {
         OrderPojo p = dao.select(id);
         List<OrderItemPojo> items = daoOI.selectByOrderId(id);
-
+        if (items.isEmpty())
+            throw new ApiException("Order cannot be empty");
         //remove items from inventory
         for (OrderItemPojo oip : items) {
             InventoryPojo ip = daoI.select(oip.getProduct_id());

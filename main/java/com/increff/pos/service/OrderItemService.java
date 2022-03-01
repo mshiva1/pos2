@@ -48,7 +48,7 @@ public class OrderItemService {
 
         if (validations) {
 
-            p=validateAdd(p,p1,oip,ip);
+            p = validateAdd(p, p1, oip, ip);
             for (OrderItemPojo oip1 : oip) {
                 if (oip1.getSellingPrice() == p.getSellingPrice()) {
                     //if match with existing item just add its quantity
@@ -110,7 +110,7 @@ public class OrderItemService {
         for (OrderItemPojo p : list) {
             ProductPojo p1 = daoP.selectId(p.getProduct_id());
             BrandPojo bp = daoB.select(p1.getCategoryId());
-            OrderItemData1 t = convert.convert(p,p1,bp);
+            OrderItemData1 t = convert.convert(p, p1, bp);
             retval.add(t);
         }
 
@@ -121,7 +121,7 @@ public class OrderItemService {
         OrderItemPojo p = dao.select(id);
         ProductPojo p1 = daoP.selectId(p.getProduct_id());
         BrandPojo bp = daoB.select(p1.getCategoryId());
-        return convert.convert(p,p1,bp);
+        return convert.convert(p, p1, bp);
     }
 
 
@@ -135,9 +135,9 @@ public class OrderItemService {
         if (ip != null)
             available = ip.getQuantity();
 
-        form=validateUpdate(form,p1);
+        form = validateUpdate(form, p1);
 
-        List <OrderItemPojo> existing=dao.select(form.getProductId(), form.getOrderId());
+        List<OrderItemPojo> existing = dao.select(form.getProductId(), form.getOrderId());
         Integer added = 0;
         for (OrderItemPojo oip1 : existing) {
             added += oip1.getQuantity();
@@ -146,11 +146,11 @@ public class OrderItemService {
         if (form.getOrderId() == 0)    //          confirmed order editing
         {
 
-            if (form.getQuantity() > available+p.getQuantity())
-                throw new ApiException("Quantity required is not Available (Available :" + (available +p.getQuantity()) + ")");
+            if (form.getQuantity() > available + p.getQuantity())
+                throw new ApiException("Quantity required is not Available (Available :" + (available + p.getQuantity()) + ")");
         } else {                       //          not confirmed order editing
-            if (form.getQuantity()+added > available + p.getQuantity())
-                throw new ApiException("Quantity required is not Available (Available :" + (available + p.getQuantity() -added) + ")");
+            if (form.getQuantity() + added > available + p.getQuantity())
+                throw new ApiException("Quantity required is not Available (Available :" + (available + p.getQuantity() - added) + ")");
         }
         p.setSellingPrice(form.getSellingPrice());
         p.setQuantity(form.getQuantity());
