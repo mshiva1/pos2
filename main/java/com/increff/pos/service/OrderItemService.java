@@ -145,11 +145,12 @@ public class OrderItemService {
 
         if (form.getOrderId() == 0)    //          confirmed order editing
         {
+
             if (form.getQuantity() > available+p.getQuantity())
-                throw new ApiException("Quantity required is not Available (Available :" + available + ")");
+                throw new ApiException("Quantity required is not Available (Available :" + (available +p.getQuantity()) + ")");
         } else {                       //          not confirmed order editing
             if (form.getQuantity()+added > available + p.getQuantity())
-                throw new ApiException("Quantity required is not Available (Available :" + (available + p.getQuantity()) + ")");
+                throw new ApiException("Quantity required is not Available (Available :" + (available + p.getQuantity() -added) + ")");
         }
         p.setSellingPrice(form.getSellingPrice());
         p.setQuantity(form.getQuantity());

@@ -3,7 +3,6 @@ function getProductUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/product";
 }
-
 function resetForm(){
     $("#product-form input[name=bname]").val(null);
     $("#product-form input[name=cname]").val(null);
@@ -25,6 +24,8 @@ function addProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+
+	        $('#add-product-modal').modal('toggle');
 	   		getProductList();
 	   		resetForm();
 	   		successMessage("Product added successfully");
@@ -114,6 +115,11 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length|| processCount >5000){
+		if($("#errorCount").html()== 0){
+		successMessage("TSV file added sucessfully");
+		}
+		else
+		handleUiError("There are some errors in TSV. Download and check Error file");
 		return;
 	}
 	
@@ -143,9 +149,8 @@ function uploadRows(){
 	   		uploadRows();
 	   },
 	   error: function(response){
-
 	   		response=JSON.parse(response.responseText);
-	   		row.error=response.message;
+	   		row.Error=response.message;
 	   		errorData.push(row);
 	   		uploadRows();
 	   }
@@ -205,11 +210,9 @@ function resetUploadDialog(){
 
 function updateUploadDialog(){
     if(errorData.length!=0){
-        handleUiError("One are more errors occured while parsing");
         $('#download-errors').css('display','block');
 	}
 	else{
-		successMessage("TSV file added successfully");
 	    $('#download-errors').css('display','none');
     //inform user that success
 	}
@@ -229,7 +232,6 @@ function updateFileName(){
 function displayUploadData(){
  	resetUploadDialog();
 	$('#upload-product-modal').modal('toggle');
-    removeNotification();
 }
 
 function displayProduct(data){

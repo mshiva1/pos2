@@ -6,7 +6,6 @@
 <head th:replace="snippets.html :: name_head"></head>
 
 <link rel="stylesheet" th:href="@{/static/overall.css}">
-<link rel="stylesheet" th:href="@{/static/toast.css}">
 <body>
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 <div class="content">
@@ -15,9 +14,9 @@
     <div class="row" id="buttons">
         &nbsp;
         <button class="btn btn-primary" id="add-data" type="button">Add</button>
-        &nbsp;
+        &nbsp;&nbsp;
         <button class="btn btn-primary" id="upload-data" type="button">Upload</button>
-        &nbsp;
+        &nbsp;&nbsp;
         <button class="btn btn-outline-secondary" id="refresh-data" type="button">Refresh</button>
     </div>
     <br>
@@ -120,7 +119,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Upload brand</h5>
+                    <h5 class="modal-title">Upload Brand</h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>

@@ -22,6 +22,8 @@ function addBrand(event){
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
+
+	        $('#add-brand-modal').modal('toggle');
 	        successMessage("Brand-Category added Successfully");
 	   		getBrandList();
 	   		resetForm();
@@ -97,7 +99,7 @@ function processData(){
 	var file = $('#brandFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
 	getBrandList();
-	resetUploadDialog();
+    resetUploadDialog();
 }
 
 function readFileDataCallback(results){
@@ -110,6 +112,11 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length|| processCount >5000){
+		if($("#errorCount").html()== 0){
+		successMessage("TSV file added sucessfully");
+		}
+		else
+		handleUiError("There are some errors in TSV. Download and check Error file");
 		return;
 	}
 
@@ -138,7 +145,7 @@ function uploadRows(){
 	   },
 	   error: function(response){
 	   		response=JSON.parse(response.responseText);
-	   		row.error=response.message;
+	   		row.Error=response.message;
 	   		errorData.push(row);
 	   		uploadRows();
 	   }
@@ -188,18 +195,16 @@ function resetUploadDialog(){
 	processCount = 0;
 	fileData = [];
 	errorData = [];
+
 	//Update counts
-	updateUploadDialog()
+	updateUploadDialog();
 }
 
 function updateUploadDialog(){
     if(errorData.length!=0){
         $('#download-errors').css('display','block');
-        handleUiError("One are more errors occured while parsing");
 	}
 	else{
-
-	successMessage("TSV file added successfully");
 	$('#download-errors').css('display','none');
 	}
     $('#rowCount').html("" + fileData.length);

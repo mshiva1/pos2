@@ -30,7 +30,7 @@ public class PdfHelper {
 
     public String getxmlStream(Timestamp order, Timestamp invoice, Integer id, List<OrderItemData1> items, Float total) {
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         StringBuilder ret = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <?xml-stylesheet type=\"application/xml\"?> <users-data> <header-section> <data-type >Invoice</data-type> <odate>");
         ret.append(dateFormat.format(new Date(order.getTime())));
         ret.append("</odate><idate>");

@@ -75,42 +75,42 @@
                             <xsl:for-each select="table-data">
                                 <fo:table-row>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="left">
+                                        <fo:block margin-left="1mm" text-align="left">
                                             <xsl:value-of select="sno"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="left">
+                                        <fo:block margin-left="1mm" text-align="left">
                                             <xsl:value-of select="name"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="left">
+                                        <fo:block margin-left="1mm" text-align="left">
                                             <xsl:value-of select="barcode"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="left">
+                                        <fo:block margin-left="1mm" text-align="left">
                                             <xsl:value-of select="bname"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="left">
+                                        <fo:block margin-left="1mm" text-align="left">
                                             <xsl:value-of select="cname"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="left">
+                                        <fo:block margin-left="1mm" text-align="left">
                                             <xsl:value-of select="quantity"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="left">
+                                        <fo:block margin-left="1mm" text-align="left">
                                             <xsl:value-of select="price"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                        <fo:block text-align="left">
+                                        <fo:block margin-left="1mm" text-align="left">
                                             <xsl:value-of select="total"/>
                                         </fo:block>
                                     </fo:table-cell>

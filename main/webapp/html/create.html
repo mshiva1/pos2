@@ -14,23 +14,23 @@
     <div class="row">
         <div class="col-12">
             <form class="form-inline" id="item-form">
-                <div class="form-group">
+                <div class="form-group col-4">
                     <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
                     <div class="col-sm-10">
-                        <select class="form-control" id="inputBarcode" name="barcode" required>
-                        </select>
+                        <input type="text" class="form-control" id="inputBarcode" name="barcode" required placeholder="Enter Barcode">
+                        </input>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-4">
                     <label class="col-sm-2 col-form-label" for="inputQuantity">Quantity</label>
                     <div class="col-sm-9">
                         <input class="form-control" id="inputQuantity" min="1" name="quantity"
                                placeholder="Enter Quantity" required step="1" type="number">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 col-form-label" for="inputPrice">Price</label>
-                    <div class="col-sm-9">
+                <div class="form-group col-4">
+                    <label class="col-sm-4 col-form-label" for="inputPrice">Selling Price</label>
+                    <div class="col-sm-8">
                         <input class="form-control" id="inputPrice" min="0" name="sellingPrice" step="any"
                                placeholder="Enter Price" type="number">
                     </div>
@@ -38,7 +38,6 @@
                 <input name="orderId" type="hidden">
                 <input name="productId" type="hidden">
                 <button class="btn btn-primary" form="item-form" id="add-item" type="submit">Add</button>
-                &nbsp;
             </form>
         </div>
     </div>

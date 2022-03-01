@@ -63,7 +63,7 @@ public class InventoryService {
         if (p == null) {
             throw new ApiException("Inventory Out of Stock for, Product Id: " + id);
         }
-        return convert1.convert(p, daoP.selectId(p.getProductId()).getBarcode());
+        return convert1.convert(p, daoP.selectId(p.getProductId()));
     }
 
 
@@ -72,7 +72,7 @@ public class InventoryService {
         List<InventoryPojo> ret = dao.selectAll();
         List<InventoryData2> retval = new ArrayList<>();
         for (InventoryPojo p : ret) {
-            retval.add(convert1.convert(p, daoP.selectId(p.getProductId()).getBarcode()));
+            retval.add(convert1.convert(p, daoP.selectId(p.getProductId())));
         }
         Collections.reverse(retval);
         return retval;

@@ -12,7 +12,7 @@ function tableToCSV() {
     for (var i = 0; i < rows.length; i++) {
         var cols = rows[i].querySelectorAll('td,th');
         var csvrow = [];
-        for (var j = 0; j < cols.length; j++) {
+        for (var j = 1; j < cols.length; j++) {
             csvrow.push(cols[j].innerHTML);
         }
         csv_data.push(csvrow.join(","));
@@ -55,6 +55,7 @@ function displayBrandList(data){
 	for(var i in data){
 		var e = data[i];
 		var row = '<tr>'
+		+ '<td>' + (parseInt(i)+1) + '</td>'
 		+ '<td>' + e.bname + '</td>'
 		+ '<td>'  + e.cname + '</td>'
 		+ '</tr>';

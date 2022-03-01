@@ -97,11 +97,14 @@ function setMax(){
     if(date1<10) date1= '0'+date1;
     var str= year+"-"+month+"-"+date1;
     $('#inputStart').attr({
+        "min": null,
         "max": str
         });
     $('#inputEnd').attr({
+        "min": null,
         "max": str
         });
+    getReport();
 }
 function updateMin(){
     var date= $('#inputStart').val();
@@ -121,13 +124,12 @@ function updateMax(){
 //INITIALIZATION CODE
 function init(){
     setMax();
+    $('#reset').click(setMax);
     $('#inputStart').change(updateMin);
     $('#inputEnd').change(updateMax);
 	$('#download-data').click(tableToCSV);
 	$('#check').click(getReport);
-    $('#refresh-data').click(getReport1);
 }
 
 $(document).ready(init);
-$(document).ready(getReport);
 

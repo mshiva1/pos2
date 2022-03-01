@@ -29,7 +29,7 @@ function notifyUser(bgcolor,head,body,delay){
     $("#error_box").css('display','block');
     if(delay!=false) timeoutId=setTimeout(removeNotification, delay)
     else if(timeoutId!=null){
-    clearTimeout(timeoutId);
+        clearTimeout(timeoutId);
     }
 }
 function handleAjaxError(response){
@@ -40,7 +40,7 @@ function handleUiError(response){
     notifyUser("red","Error",response,0);
 }
 function successMessage(response){
-    notifyUser("green","Success",response,5);
+    notifyUser("green","Success",response,3);
 }
 function readFileData(file, callback){
 	var config = {

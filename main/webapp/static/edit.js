@@ -122,6 +122,7 @@ function displayItemList(data){
 	var $tbody = $('#item-table').find('tbody');
 	$tbody.empty();
 	var total=0;
+	var quantity=0;
 	for(var i in data){
 		var e = data[i];
 		var buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteItem(' + e.id + ')">Delete</button>'
@@ -139,6 +140,28 @@ function displayItemList(data){
 		+ '</tr>';
 		total+=e.quantity*e.sellingPrice;
         $tbody.append(row);
+        quantity+=1;
+	}
+	if(quantity==1){
+		for(var i in data){
+				$tbody.empty();
+        		var e = data[i];
+        		var buttonHtml = '<button class="btn-sm btn-outline-disabled" disabled onclick="deleteItem(' + e.id + ')">Delete</button>'
+        		buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="displayEditItem(' + e.id + ')">Edit</button>'
+        		var row = '<tr>'
+        		+ '<td>' + (parseInt(i)+1) + '</td>'
+        		+ '<td>' + e.name + '</td>'
+        		+ '<td>' + e.barcode + '</td>'
+        		+ '<td>'  +e.bname+'-'+e.cname + '</td>'
+        		+ '<td>' + e.mrp + '</td>'
+        		+ '<td>'  +e.sellingPrice + '</td>'
+        		+ '<td>' + e.quantity + '</td>'
+        		+ '<td>' + e.quantity*e.sellingPrice + '</td>'
+        		+ '<td>' + buttonHtml + '</td>'
+        		+ '</tr>';
+        		total+=e.quantity*e.sellingPrice;
+                $tbody.append(row);
+        	}
 	}
 	if(total<=0)
 	    $("#confirm").prop('disabled',true);

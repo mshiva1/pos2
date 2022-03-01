@@ -76,7 +76,6 @@ function addItem(event){
 	   success: function(response) {
 	        resetForm();
 	   		getItemList();
-	        successMessage("Item added Successfully");
 	   },
 	   error: handleAjaxError
 	});

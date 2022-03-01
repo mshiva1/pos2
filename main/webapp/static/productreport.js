@@ -12,7 +12,7 @@ function tableToCSV() {
     for (var i = 0; i < rows.length; i++) {
         var cols = rows[i].querySelectorAll('td,th');
         var csvrow = [];
-        for (var j = 0; j < cols.length; j++) {
+        for (var j = 1; j < cols.length; j++) {
             csvrow.push(cols[j].innerHTML);
         }
         csv_data.push(csvrow.join(","));
@@ -57,17 +57,21 @@ function getProductList(){
 function displayProductList(data){
 	var $tbody = $('#product-table').find('tbody');
 	$tbody.empty();
+	var iter=1;
 	for(var i in data){
 		var e = data[i];
 		var row = '<tr>'
+		+ '<td>' + (parseInt(iter)) + '</td>'
 		+ '<td>' + e.name + '</td>'
         + '<td>'  + e.barcode + '</td>'
 		+ '<td>' + e.bname + '</td>'
 		+ '<td>'  + e.cname + '</td>'
         + '<td>' + e.quantity + '</td>'
 		+ '</tr>';
-        if(e.quantity!=0)
-        $tbody.append(row);
+        if(e.quantity!=0){
+            iter++;
+            $tbody.append(row);
+            }
 	}
 }
 

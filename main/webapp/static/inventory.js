@@ -24,6 +24,8 @@ function addInventory(event){
 	   success: function(response) {
 	        resetForm();
 	   		getInventoryList();
+
+	        $('#add-inventory-modal').modal('toggle');
 	        successMessage("Inventory added Successfully");
 	   },
 	   error: handleAjaxError
@@ -111,6 +113,11 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length|| processCount >5000){
+		if($("#errorCount").html()== 0){
+		successMessage("TSV file added sucessfully");
+		}
+		else
+		handleUiError("There are some errors in TSV. Download and check Error file");
 		return;
 	}
 	
@@ -139,7 +146,7 @@ function uploadRows(){
 	   error: function(response){
 
 	   		response=JSON.parse(response.responseText);
-	   		row.error=response.message;
+	   		row.Error=response.message;
 	   		errorData.push(row);
 	   		uploadRows();
 	   }
@@ -161,6 +168,7 @@ function displayInventoryList(data){
 		buttonHtml = ' <button class="btn-sm btn-outline-primary" onclick="displayEditInventory(' + e.productId + ')">Edit</button>';
 		var row = '<tr>'
 		+ '<td>' + (parseInt(i)+1) + '</td>'
+		+ '<td>' + e.name + '</td>'
 		+ '<td>' + e.barcode + '</td>'
 		+ '<td>'  + e.quantity + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
@@ -231,18 +239,6 @@ function displayInventory(data){
 	$("#inventory-edit-form input[name=productId]").val(data.productId);
 	$('#edit-inventory-modal').modal('toggle');
 }
-// dropdown handler
-function setInventory(){
-    var url = getInventoryUrl()+'/barcodes';
-    	$.ajax({
-    	   url: url,
-    	   type: 'GET',
-    	   success: function(data) {
-    	   		updateDropdown(data,"barcode");
-    	   },
-    	   error: handleAjaxError
-    	});
-}
 
 function displayAddInventory(){
 	$('#add-inventory-modal').modal('toggle');
@@ -257,7 +253,6 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#inventoryFile').on('change', updateFileName);
     $('#add-data').click(displayAddInventory);
-    setInventory();
 }
 
 

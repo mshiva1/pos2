@@ -55,5 +55,4 @@ public class InventoryApiController {
         return service.getBarcodes();
     }
 
-
 }

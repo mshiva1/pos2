@@ -110,11 +110,12 @@ public class Convert1 {
         return p;
     }
 
-    public InventoryData2 convert(InventoryPojo p, String barcode) {
+    public InventoryData2 convert(InventoryPojo p, ProductPojo pp) {
         InventoryData2 i = new InventoryData2();
         i.setProductId(p.getProductId());
         i.setQuantity(p.getQuantity());
-        i.setBarcode(barcode);
+        i.setBarcode(pp.getBarcode());
+        i.setName(pp.getName());
         return i;
     }
 
