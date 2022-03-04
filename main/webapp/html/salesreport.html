@@ -10,71 +10,49 @@
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 <div class="content">
     <h3>Sales Report</h3>
+    <br>
 
     <div class="row">
         <div class="col-12">
             <form class="form-inline" id="sales-form">
-                <div class="form-group">
-                    <label class="col-sm-3 col-form-label " for="inputStart">Start Date</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" id="inputStart" max="2022-01-15" name="start" type="date">
+                <div class="form-group col-3">
+                    <label class="col-sm-4 col-form-label " for="inputStart">Start Date</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" id="inputStart" name="start" required type="date">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-3 col-form-label" for="inputEnd">End Date</label>
-                    <div class="col-sm-9">
-                        <input class="form-control" id="inputEnd" name="end" type="date">
+                <div class="form-group col-3">
+                    <label class="col-sm-4 col-form-label" for="inputEnd">End Date</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" id="inputEnd" name="end" required type="date">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-3">
                     <label class="col-sm-3 col-form-label" for="inputBrand">Brand</label>
                     <div class="col-sm-9">
-                        <input class="form-control" id="inputBrand" name="bname" placeholder="enter Brand" type="text">
+                        <input class="form-control" id="inputBrand" name="brandName"
+                               placeholder="Enter Brand (Optional)" type="text">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-3">
                     <label class="col-sm-3 col-form-label" for="inputCategory">Category</label>
                     <div class="col-sm-9">
-                        <input class="form-control" id="inputCategory" name="cname" placeholder="enter Category"
+                        <input class="form-control" id="inputCategory" name="categoryName"
+                               placeholder="Enter Category (Optional)"
                                type="text">
                     </div>
                 </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn btn-outline-secondary" id="reset" type="reset">Reset</button>
-                &nbsp;&nbsp;
-                <button class="btn btn-primary" id="check" type="button">Submit</button>
-                &nbsp;
             </form>
         </div>
     </div>
-    <br>
+
+
     <br>
     <div class="row" id="buttons">
         &nbsp;
-        <button class="btn btn-outline-primary" id="download-data" type="button">Download CSV</button>
-
+        <button class="btn btn-outline-primary" form="sales-form" id="SalesReport" type="button">Sales Report CSV
+        </button>
     </div>
-    <br>
-    <div class="row">
-
-        <!-- Table -->
-        <div class="col-12">
-            <table class="table table-striped" id="report-table">
-                <thead>
-                <tr>
-                    <th scope="col">Brand</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Revenue</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-
 
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>

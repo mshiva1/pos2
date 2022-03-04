@@ -20,7 +20,7 @@ function notifyUser(bgcolor,head,body,delay){
     else delay=delay*1000;
     $('#error_box').remove();
     $('body').append(
-   '<div class="error-box" id="error_box"> <button aria-label="Close" class="close" onclick="removeNotification()" id="error_close" type="button"><span aria-hidden="true">&times;</span></button>  <div id="error_head">Error</div> <div id="error_panel"></div></div>'
+   '<div class="error-box" id="error_box"> <button aria-label="Close" class="close" onclick="removeNotification()" id="error_close" color="white" type="button"><span aria-hidden="true">&times;</span></button>  <div id="error_head">Error</div> <div id="error_panel"></div></div>'
     );
     $('#error_head').html(head);
     $('#error_panel').html(body);
@@ -76,13 +76,6 @@ function writeFileData(arr,filename){
     tempLink.setAttribute('download', filename);
     tempLink.click(); 
 }
-function setNavbar(){
-    var buttons=$('.nav-link');
-    for (var i=0;i<buttons.length;i++){
-        if((window.location.href).endsWith(buttons[i].getAttribute("href")))
-        buttons[i].setAttribute("class","nav-link userdef");
-    }
-}
 function closeError(){
     removeNotification();
     }
@@ -98,6 +91,91 @@ function updateDropdown(data,id){
         str="<option value='' disabled selected>Select</option>"+str;
     $("#"+id).html(str);
 }
+
+
+// reports functions
+function getBrandUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/brand";
+}
+function getProductUrl(){
+	var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/product";
+}
+
+function generateReport(items, filename,columns,columns_names) {
+    let csv = "";
+    let keysCounter = 0;
+    let row = 0;
+    let keysAmount = columns.length;
+    for (let key in items[row]) {
+        // This is to not add a comma at the last cell
+        // The '\r\n' adds a new line
+        index=columns_names.indexOf(key)
+        if(index>=0){
+            csv += columns[index] + (keysCounter + 1 < keysAmount ? ',' : '\r\n')
+            keysCounter++
+        }
+    }
+    keysCounter = 0
+
+    // Loop the array of objects
+    for (let row = 0; row < items.length; row++) {
+        let keysAmount = columns.length;
+        // If this is the first row, generate the headings
+        for (let key in items[row]) {
+		index=columns_names.indexOf(key)
+            if(index>=0){
+	            csv += items[row][key] + (keysCounter + 1 < keysAmount ? ',' : '\r\n')
+	            keysCounter++
+            }
+        }
+        keysCounter = 0
+    }
+
+    // Once we are done looping, download the .csv by creating a link
+    let link = document.createElement('a')
+    link.id = 'download-csv'
+    link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
+    link.setAttribute('download', filename);
+    document.body.appendChild(link)
+    document.querySelector('#download-csv').click()
+    document.getElementById("download-csv").remove();
+}
+function getBrandReport(){
+	var url = getBrandUrl();
+	const columns = ["Brand", "Category"];
+	const columns_names= ["brandName", "categoryName"];
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+	   		generateReport(data,"BrandsReports.csv",columns,columns_names);
+	   },
+	   error: handleAjaxError
+	});
+}
+
+function getProductReport(){
+		var currentdate = new Date();
+	const columns = ["Name","Barcode","Brand", "Category" , "Quantity in Inventory"];
+	const columns_names=["name","barcode","brandName", "categoryName","quantity"];
+
+	    var datetime = currentdate.getDate() + "-" + (parseInt(currentdate.getMonth())+1)
+	    + "-" + currentdate.getFullYear() + "_"
+	    + currentdate.getHours() + "-"
+	    + currentdate.getMinutes() + "-" + currentdate.getSeconds();
+	var url = getProductUrl();
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+	   		generateReport(data,datetime+"-InventoryReport.csv",columns,columns_names);
+	   },
+	   error: handleAjaxError
+	});
+}
+//
 function init(){
 
 	$('#error_close').click(closeError);
@@ -105,5 +183,4 @@ function init(){
     }
 
 $(document).ready(init);
-$(document).ready(setNavbar);
 

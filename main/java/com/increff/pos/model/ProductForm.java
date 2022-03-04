@@ -1,26 +1,26 @@
 package com.increff.pos.model;
 
 public class ProductForm {
-    private String bname;
-    private String cname;
-    private String barcode;
     private String name;
+    private String barcode;
+    private String brandName;
+    private String categoryName;
     private float mrp;
 
-    public String getBname() {
-        return bname;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setBname(String bname) {
-        this.bname = bname;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
-    public String getCname() {
-        return cname;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getBarcode() {

@@ -2,24 +2,24 @@ package com.increff.pos.model;
 
 public class BrandForm {
 
-    private String bname;
+    private String brandName;
 
-    private String cname;
+    private String categoryName;
 
-    public String getBname() {
-        return bname;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setBname(String bname) {
-        this.bname = bname;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
-    public String getCname() {
-        return cname;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
 

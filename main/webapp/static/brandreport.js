@@ -56,8 +56,8 @@ function displayBrandList(data){
 		var e = data[i];
 		var row = '<tr>'
 		+ '<td>' + (parseInt(i)+1) + '</td>'
-		+ '<td>' + e.bname + '</td>'
-		+ '<td>'  + e.cname + '</td>'
+		+ '<td>' + e.brandName + '</td>'
+		+ '<td>'  + e.categoryName + '</td>'
 		+ '</tr>';
         $tbody.append(row);
 	}

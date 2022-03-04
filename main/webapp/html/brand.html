@@ -26,7 +26,7 @@
         <div class="col-12">
             <table class="table  table-striped" id="brand-table">
                 <thead>
-                <tr>
+                <tr class="sticky">
                     <th scope="col">S No</th>
                     <th scope="col">Brand</th>
                     <th scope="col">Category</th>
@@ -46,23 +46,21 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add Brand</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="brand-form">
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputBrand">Brand</label>
                             <div class="col-sm-10">
-                                <input class="form-control" id="inputBrand" name="bname" placeholder="Enter Brand"
+                                <input class="form-control" id="inputBrand" name="brandName" placeholder="Enter Brand"
                                        required type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputCategory">Category</label>
                             <div class="col-sm-10">
-                                <input class="form-control" id="inputCategory" name="cname" placeholder="Enter Category"
+                                <input class="form-control" id="inputCategory" name="categoryName"
+                                       placeholder="Enter Category"
                                        required type="text">
                             </div>
                         </div>
@@ -82,22 +80,19 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Brand</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="brand-edit-form">
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputBrand">Brand</label>
                             <div class="col-sm-10">
-                                <input class="form-control" name="bname" type="text">
+                                <input class="form-control" name="brandName" type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputCategory">Category</label>
                             <div class="col-sm-10">
-                                <input class="form-control" name="cname" type="text">
+                                <input class="form-control" name="categoryName" type="text">
                             </div>
                         </div>
                         <input name="id" type="hidden">
@@ -120,16 +115,15 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title">Upload Brand</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
 
                 <div class="modal-body">
-                    <div class="brand-file">
-                        <input class="custom-file-input" id="brandFile" required type="file">
-                        <label class="custom-file-label" for="brandFile" id="brandFileName">Choose file</label>
-                    </div>
+                    <form id="upload-brand">
+                        <div class="brand-file">
+                            <input class="custom-file-input" id="brandFile" required type="file">
+                            <label class="custom-file-label" for="brandFile" id="brandFileName">Choose file</label>
+                        </div>
+                    </form>
                     <a target="_blank" th:href="@{/sample/BrandSample.tsv}">Download Sample</a>
                     <br>
                     <div id="error-stats">
@@ -142,7 +136,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-warning" id="download-errors" type="button">Download Errors</button>
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-primary" id="process-data" type="button">Upload</button>
+                    <button class="btn btn-primary" form="upload-brand" id="process-data" type="submit">Upload</button>
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ import java.util.List;
 
 @Api
 @RestController
-public class OrderApiController {
+public class OrderController {
 
     @Autowired
     private OrderService service;
@@ -29,13 +29,13 @@ public class OrderApiController {
 
     @ApiOperation(value = "Deletes Order")
     @RequestMapping(path = "/api/order/{id}", method = RequestMethod.DELETE)
-    public void deleteOrder(@PathVariable int id) throws ApiException {
+    public void deleteOrder(@PathVariable Integer id) throws ApiException {
         service.delete(id);
     }
 
     @ApiOperation(value = "Gets Invoice of Order by ID")
     @RequestMapping(path = "/api/order/{id}", method = RequestMethod.GET)
-    public String getOrder(@PathVariable int id) throws ApiException, SQLException {
+    public String getOrder(@PathVariable Integer id) throws ApiException, SQLException {
         return service.getInvoice(id);
     }
 
@@ -47,13 +47,13 @@ public class OrderApiController {
 
     @ApiOperation(value = "created to confirmed")
     @RequestMapping(path = "/api/order/confirm-{id}", method = RequestMethod.POST)
-    public void confirmOrder(@PathVariable int id) throws ApiException {
+    public void confirmOrder(@PathVariable Integer id) throws ApiException {
         service.confirm(id);
     }
 
-    @ApiOperation(value = "confirmed to fulfilled")
+    @ApiOperation(value = "confirmed to completed")
     @RequestMapping(path = "/api/order/fulfil-{id}", method = RequestMethod.POST)
-    public void fulfilOrder(@PathVariable int id) throws ApiException {
+    public void fulfilOrder(@PathVariable Integer id) throws ApiException {
         service.complete(id);
     }
 
@@ -65,13 +65,13 @@ public class OrderApiController {
 
     @ApiOperation(value = "Gets Sale Record")
     @RequestMapping(path = "/api/order/sale/", method = RequestMethod.GET)
-    public List<SaleReport> getReport(String start, String end, String bname, String cname) throws ApiException {
-        return service.saleReport(start, end, bname, cname);
+    public List<SaleReport> getReport(String start, String end, String brandName, String categoryName) {
+        return service.saleReport(start, end, brandName, categoryName);
     }
 
     @ApiOperation(value = "Gets list of barcodes that are in inventory")
     @RequestMapping(path = "/api/order/barcodes", method = RequestMethod.GET)
-    public List<String> getBarcodes() throws ApiException {
+    public List<String> getBarcodes() {
         return service.getBarcodes();
     }
 }

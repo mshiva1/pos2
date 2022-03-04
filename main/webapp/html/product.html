@@ -28,7 +28,7 @@
         <div class="col-12">
             <table class="table  table-striped" id="product-table">
                 <thead>
-                <tr>
+                <tr class="sticky">
 
                     <th scope="col">S No</th>
                     <th scope="col">Name</th>
@@ -52,37 +52,34 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Add Product</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="product-form">
-                        <div class="form-group">
-                            <label class="col-sm-2 col-form-label" for="inputBrand">Brand</label>
-                            <div class="col-sm-10">
-
-                                <select class="form-control" id="inputBrand" name="bname" required>
+                        <div class="form-group col-6">
+                            <label class="col-sm-4 col-form-label" for="inputBrand">Brand</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="inputBrand" name="brandName" required>
                                 </select>
                             </div>
+                            <br>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 col-form-label" for="inputCategory">Category</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="inputCategory" name="cname" required>
+                        <div class="form-group col-6">
+                            <label class="col-sm-4 col-form-label" for="inputCategory">Category</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="inputCategory" name="categoryName" required>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputName">Name</label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-10">
                                 <input class="form-control" id="inputName" name="name" placeholder="Enter Product"
                                        required type="text">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-10">
                                 <input class="form-control" id="inputBarcode" name="barcode" placeholder="Enter Barcode"
                                        required type="text">
                             </div>
@@ -91,8 +88,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputMrp">MRP</label>
                             <div class="col-sm-10">
-                                <input class="form-control" id="inputMrp" min="0" name="mrp" placeholder="Enter MRP"
-                                       required step="any" type="number">
+                                <input class="form-control" id="inputMrp" name="mrp" pattern="[0-9]*.[0-9]*"
+                                       placeholder="Enter MRP" required type="text">
                             </div>
                         </div>
                         &nbsp;
@@ -112,21 +109,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Product</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <form class="form-inline" id="product-edit-form">
-                        <div class="form-group">
-                            <label class="col-sm-2 col-form-label" for="inputBrand">Brand</label>
-                            <div class="info" id="bname_set">
+                        <div class="form-group col-6">
+                            <label class="col-sm-4 col-form-label" for="inputBrand">Brand</label>
+                            <div class="col-sm-8" id="brandName_set">
                             </div>
-                            <br>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 col-form-label" for="inputCategory">Category</label>
-                            <div class="info1" id="cname_set">
+                        <div class="form-group col-6">
+                            <label class="col-sm-4 col-form-label" for="inputCategory">Category</label>
+                            <div class="col-sm-8" id="categoryName_set">
                             </div>
                         </div>
                         <div class="form-group">
@@ -146,8 +139,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputMrp">MRP</label>
                             <div class="col-sm-10">
-                                <input class="form-control" min="0" name="mrp" placeholder="Enter MRP" step="any"
-                                       type="number">
+                                <input class="form-control" name="mrp"
+                                       pattern="[0-9]*.[0-9]*" placeholder="Enter MRP" type="text">
                             </div>
                         </div>
                         <input name="id" type="hidden">
@@ -170,16 +163,15 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title">Upload Product</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
 
                 <div class="modal-body">
-                    <div class="product-file">
-                        <input class="custom-file-input" id="productFile" required type="file">
-                        <label class="custom-file-label" for="productFile" id="productFileName">Choose file</label>
-                    </div>
+                    <form id="product-upload">
+                        <div class="product-file">
+                            <input class="custom-file-input" id="productFile" required type="file">
+                            <label class="custom-file-label" for="productFile" id="productFileName">Choose file</label>
+                        </div>
+                    </form>
                     <a target="_blank" th:href="@{/sample/ProductSample.tsv}">Download Sample</a>
                     <br>
                     <div id="error-stats">
@@ -192,7 +184,8 @@
                 <div class="modal-footer">
                     <button class="btn btn-warning" id="download-errors" type="button">Download Errors</button>
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-primary" id="process-data" type="button">Upload</button>
+                    <button class="btn btn-primary" form="product-upload" id="process-data" type="submit">Upload
+                    </button>
                 </div>
             </div>
         </div>

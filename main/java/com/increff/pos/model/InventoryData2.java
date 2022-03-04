@@ -2,10 +2,10 @@ package com.increff.pos.model;
 
 public class InventoryData2 {
 
-    private int productId;
+    private Integer productId;
     private String name;
     private String barcode;
-    private int quantity;
+    private Integer quantity;
 
     public String getName() {
         return name;
@@ -15,11 +15,11 @@ public class InventoryData2 {
         this.name = name;
     }
 
-    public int getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
@@ -31,11 +31,11 @@ public class InventoryData2 {
         this.barcode = barcode;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 }

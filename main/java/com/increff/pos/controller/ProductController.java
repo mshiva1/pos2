@@ -15,7 +15,7 @@ import java.util.List;
 
 @Api
 @RestController
-public class ProductApiController {
+public class ProductController {
 
     @Autowired
     private ProductService service;
@@ -29,7 +29,7 @@ public class ProductApiController {
 
     @ApiOperation(value = "Gets a Product by ID")
     @RequestMapping(path = "/api/product/{id}", method = RequestMethod.GET)
-    public ProductData getProduct(@PathVariable int id) throws ApiException {
+    public ProductData getProduct(@PathVariable Integer id) throws ApiException {
         return service.get(id);
     }
 
@@ -41,20 +41,20 @@ public class ProductApiController {
 
     @ApiOperation(value = "Updates an Product")
     @RequestMapping(path = "/api/product/{id}", method = RequestMethod.PUT)
-    public void updateProduct(@PathVariable int id, @RequestBody ProductPojo f) throws ApiException {
+    public void updateProduct(@PathVariable Integer id, @RequestBody ProductPojo f) throws ApiException {
         service.update(id, f);
     }
 
     @ApiOperation(value = "Gets list of all Brandnames")
     @RequestMapping(path = "/api/product/brands", method = RequestMethod.GET)
-    public List<String> getBrandNames() throws ApiException {
+    public List<String> getBrandNames() {
         return service.getBrandNames();
     }
 
-    @ApiOperation(value = "Gets list of Categories related to bname")
-    @RequestMapping(path = "/api/product/brands/{bname}", method = RequestMethod.GET)
-    public List<String> getBrandNames(@PathVariable String bname) throws ApiException {
-        return service.getCatNames(bname);
+    @ApiOperation(value = "Gets list of Categories related to brandName")
+    @RequestMapping(path = "/api/product/brands/{brandName}", method = RequestMethod.GET)
+    public List<String> getBrandNames(@PathVariable String brandName) {
+        return service.getCatNames(brandName);
     }
 
 }

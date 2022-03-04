@@ -1,7 +1,6 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.BrandDao;
-import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -14,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BrandService {
@@ -21,20 +21,18 @@ public class BrandService {
     @Autowired
     private BrandDao dao;
     @Autowired
-    private ProductDao daoP;
-    @Autowired
     private Convert1 convert1;
 
-    protected static void normalize(BrandPojo p) {
-        p.setBname(StringUtil.toLowerCase(p.getBname()));
-        p.setCname(StringUtil.toLowerCase(p.getCname()));
+    private static void normalize(BrandPojo p) {
+        p.setBrandName(StringUtil.toLowerCase(p.getBrandName()));
+        p.setCategoryName(StringUtil.toLowerCase(p.getCategoryName()));
     }
 
-    protected void validateAdd(BrandPojo p) throws ApiException {
-        if (StringUtil.isEmpty(p.getBname())) {
+    private void validateAdd(BrandPojo p) throws ApiException {
+        if (StringUtil.isEmpty(p.getBrandName())) {
             throw new ApiException("Brand Name is required");
         }
-        if (StringUtil.isEmpty(p.getCname())) {
+        if (StringUtil.isEmpty(p.getCategoryName())) {
             throw new ApiException("Category Name is required");
         }
     }
@@ -53,7 +51,7 @@ public class BrandService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public BrandData get(int id) throws ApiException {
+    public BrandData get(Integer id) throws ApiException {
         return convert1.convert(getCheck(id));
     }
 
@@ -66,29 +64,27 @@ public class BrandService {
             list2.add(convert1.convert(p));
         }
         Collections.sort(list2);
+        System.out.println(list2);
         return list2;
     }
 
-    public List<Integer> getAllId() {
-        return dao.selectAllId();
-    }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void update(int id, BrandForm f) throws ApiException {
+    public void update(Integer id, BrandForm f) throws ApiException {
         BrandPojo p = convert1.convert(f);
         normalize(p);
         BrandPojo ex = getCheck(id);
         BrandPojo exist = dao.search(p);
-        if (exist != null && exist.getId() != id) {
+        if (exist != null && !Objects.equals(exist.getId(), id)) {
             throw new ApiException("This Brand-Category Pair Exists");
         }
-        if (!p.getBname().isEmpty()) ex.setBname(p.getBname());
-        if (!p.getCname().isEmpty()) ex.setCname(p.getCname());
+        if (!p.getBrandName().isEmpty()) ex.setBrandName(p.getBrandName());
+        if (!p.getCategoryName().isEmpty()) ex.setCategoryName(p.getCategoryName());
         dao.update(ex);
     }
 
     @Transactional
-    public BrandPojo getCheck(int id) throws ApiException {
+    public BrandPojo getCheck(Integer id) throws ApiException {
         BrandPojo p = dao.select(id);
         if (p == null) {
             throw new ApiException("given ID does not exist, id: " + id);

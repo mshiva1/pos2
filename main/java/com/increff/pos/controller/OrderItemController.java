@@ -14,7 +14,7 @@ import java.util.List;
 
 @Api
 @RestController
-public class OrderItemApiController {
+public class OrderItemController {
 
     @Autowired
     private OrderItemService service;

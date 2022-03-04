@@ -2,29 +2,29 @@ package com.increff.pos.model;
 
 public class OrderItemData1 {
 
-    private int id;
-    private int productId;
+    private Integer id;
+    private Integer productId;
     private String barcode;
-    private int quantity;
+    private Integer quantity;
     private float sellingPrice;
-    private String bname;
-    private String cname;
+    private String brandName;
+    private String categoryName;
     private String name;
     private float mrp;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
@@ -36,11 +36,11 @@ public class OrderItemData1 {
         this.barcode = barcode;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -52,20 +52,20 @@ public class OrderItemData1 {
         this.sellingPrice = sellingPrice;
     }
 
-    public String getBname() {
-        return bname;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setBname(String bname) {
-        this.bname = bname;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
-    public String getCname() {
-        return cname;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getName() {

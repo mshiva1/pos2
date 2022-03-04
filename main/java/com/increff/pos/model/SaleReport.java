@@ -2,8 +2,8 @@ package com.increff.pos.model;
 
 public class SaleReport implements Comparable<SaleReport> {
     Integer categoryId;
-    String bname;
-    String cname;
+    String brandName;
+    String categoryName;
     Integer quantity;
     Float revenue;
 
@@ -16,20 +16,20 @@ public class SaleReport implements Comparable<SaleReport> {
         this.categoryId = categoryId;
     }
 
-    public String getBname() {
-        return bname;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setBname(String bname) {
-        this.bname = bname;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
-    public String getCname() {
-        return cname;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Integer getQuantity() {
@@ -50,8 +50,8 @@ public class SaleReport implements Comparable<SaleReport> {
 
     @Override
     public int compareTo(SaleReport o) {
-        int retval = getBname().compareTo(o.getBname());
+        Integer retval = getBrandName().compareTo(o.getBrandName());
         if (retval != 0) return retval;
-        return getCname().compareTo(o.getCname());
+        return getCategoryName().compareTo(o.getCategoryName());
     }
 }

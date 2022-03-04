@@ -15,11 +15,11 @@ public class BrandDao extends AbstractDao {
     private static final String select_id = "select p from BrandPojo p where id=:id";
     private static final String select_all = "select p from BrandPojo p";
     private static final String select_all_id = "select p.id from BrandPojo p";
-    private static final String select_all_bid = "select p.id from BrandPojo p where bname=:bname";
-    private static final String select_all_cid = "select p.id from BrandPojo p where cname=:cname";
-    private static final String search_combo = "select p from BrandPojo p where bname=:bname and cname=:cname";
-    private static final String select_all_bnames = "select distinct p.bname from BrandPojo p order by bname";
-    private static final String select_all_cnames = "select distinct p.cname from BrandPojo p where bname=:bname order by cname";
+    private static final String select_all_bid = "select p.id from BrandPojo p where brandName=:brandName";
+    private static final String select_all_cid = "select p.id from BrandPojo p where categoryName=:categoryName";
+    private static final String search_combo = "select p from BrandPojo p where brandName=:brandName and categoryName=:categoryName";
+    private static final String select_all_brandNames = "select distinct p.brandName from BrandPojo p order by brandName";
+    private static final String select_all_categoryNames = "select distinct p.categoryName from BrandPojo p where brandName=:brandName order by categoryName";
 
     @PersistenceContext
     private EntityManager em;
@@ -31,12 +31,12 @@ public class BrandDao extends AbstractDao {
 
     public BrandPojo search(BrandPojo p) {
         TypedQuery<BrandPojo> query = getQuery(search_combo, BrandPojo.class);
-        query.setParameter("bname", p.getBname());
-        query.setParameter("cname", p.getCname());
+        query.setParameter("brandName", p.getBrandName());
+        query.setParameter("categoryName", p.getCategoryName());
         return getSingle(query);
     }
 
-    public BrandPojo select(int id) {
+    public BrandPojo select(Integer id) {
         TypedQuery<BrandPojo> query = getQuery(select_id, BrandPojo.class);
         query.setParameter("id", id);
         return getSingle(query);
@@ -55,41 +55,41 @@ public class BrandDao extends AbstractDao {
     public void update(BrandPojo p) {
     }
 
-    public String getBname(Integer id) {
-        return select(id).getBname();
+    public String getbrandName(Integer id) {
+        return select(id).getBrandName();
     }
 
-    public String getCname(Integer id) {
-        return select(id).getCname();
+    public String getcategoryName(Integer id) {
+        return select(id).getCategoryName();
     }
 
-    public BrandPojo getBid(String bname, String cname) throws ApiException {
+    public BrandPojo getBid(String brandName, String categoryName) throws ApiException {
         TypedQuery<BrandPojo> query = getQuery(search_combo, BrandPojo.class);
-        query.setParameter("bname", bname);
-        query.setParameter("cname", cname);
+        query.setParameter("brandName", brandName);
+        query.setParameter("categoryName", categoryName);
         return getSingle(query);
     }
 
-    public List<Integer> getAllCname(String bname) {
+    public List<Integer> getAllcategoryName(String brandName) {
         TypedQuery<Integer> query = getQuery(select_all_bid, Integer.class);
-        query.setParameter("bname", bname);
+        query.setParameter("brandName", brandName);
         return query.getResultList();
     }
 
-    public List<Integer> getAllBname(String cname) {
+    public List<Integer> getAllbrandName(String categoryName) {
         TypedQuery<Integer> query = getQuery(select_all_cid, Integer.class);
-        query.setParameter("cname", cname);
+        query.setParameter("categoryName", categoryName);
         return query.getResultList();
     }
 
     public List<String> getBrandNames() {
-        TypedQuery<String> query = getQuery(select_all_bnames, String.class);
+        TypedQuery<String> query = getQuery(select_all_brandNames, String.class);
         return query.getResultList();
     }
 
-    public List<String> getCatNames(String bname) {
-        TypedQuery<String> query = getQuery(select_all_cnames, String.class);
-        query.setParameter("bname", bname);
+    public List<String> getCatNames(String brandName) {
+        TypedQuery<String> query = getQuery(select_all_categoryNames, String.class);
+        query.setParameter("brandName", brandName);
         return query.getResultList();
     }
 }

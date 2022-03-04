@@ -27,6 +27,7 @@ public class OrderServiceTest extends AbstractUnitTest {
         for (OrderData od : all_orders)
             if (od.getStatus().equals("completed"))
                 os.delete(od.getId());
+        throw new ApiException("No completed orders Found");
     }
 
 

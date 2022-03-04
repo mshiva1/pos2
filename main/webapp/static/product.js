@@ -4,8 +4,8 @@ function getProductUrl(){
 	return baseUrl + "/api/product";
 }
 function resetForm(){
-    $("#product-form input[name=bname]").val(null);
-    $("#product-form input[name=cname]").val(null);
+    $("#product-form input[name=brandName]").val(null);
+    $("#product-form input[name=categoryName]").val(null);
 	$("#product-form input[name=name]").val(null);
 	$("#product-form input[name=barcode]").val(null);
 	$("#product-form input[name=mrp]").val(null);
@@ -126,8 +126,8 @@ function uploadRows(){
 	//Process next row
 	var row = fileData[processCount];
 	var row2 = {
-                bname: row["Brand"],
-                cname: row["Category"],
+                brandName: row["Brand"],
+                categoryName: row["Category"],
                 name: row["Name"],
                 barcode: row["Barcode"],
                 mrp: row["Mrp"]
@@ -169,13 +169,13 @@ function displayProductList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		buttonHtml = ' <button class="btn-sm btn-outline-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
+		buttonHtml = ' <button class="btn btn-sm btn-outline-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
 		+ '<td>' + (parseInt(i)+1) + '</td>'
 		+ '<td>' + e.name + '</td>'
         + '<td>'  + e.barcode + '</td>'
-		+ '<td>' + e.bname + '</td>'
-		+ '<td>'  + e.cname + '</td>'
+		+ '<td>' + e.brandName + '</td>'
+		+ '<td>'  + e.categoryName + '</td>'
         + '<td>' + e.mrp + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
@@ -235,8 +235,8 @@ function displayUploadData(){
 }
 
 function displayProduct(data){
-	$("#bname_set").html(data.bname+'<br>');
-	$("#cname_set").html(data.cname);
+	$("#brandName_set").html(data.brandName+'<br>');
+	$("#categoryName_set").html(data.categoryName);
 	$("#product-edit-form input[name=name]").val(data.name);
 	$("#product-edit-form input[name=barcode]").val(data.barcode);
 	$("#product-edit-form input[name=mrp]").val(data.mrp);
@@ -277,7 +277,7 @@ function init(){
     $("#product-edit-form").submit(updateProduct);
 	$('#refresh-data').click(getProductList);
 	$('#upload-data').click(displayUploadData);
-	$('#process-data').click(processData);
+	$('#product-upload').submit(processData);
 	$('#download-errors').click(downloadErrors);
     $('#productFile').on('change', updateFileName);
     $('#inputBrand').on('change',setCat);

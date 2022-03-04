@@ -2,13 +2,13 @@ package com.increff.pos.model;
 
 public class ProductData1 extends ProductData implements Comparable<ProductData1> {
 
-    private int quantity;
+    private Integer quantity;
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

@@ -62,7 +62,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void delete(int id) throws ApiException {
+    public void delete(Integer id) throws ApiException {
         if (get(id).getStatus().equals("completed"))
             throw new ApiException("Completed Orders cant be Cancelled");
         List<OrderItemPojo> items = daoOI.selectByOrderId(id);
@@ -89,7 +89,7 @@ public class OrderService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public OrderPojo get(int id) throws ApiException {
+    public OrderPojo get(Integer id) throws ApiException {
         OrderPojo p = dao.select(id);
         if (p == null) {
             throw new ApiException("given ID does not exist, id: " + id);
@@ -98,7 +98,7 @@ public class OrderService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public String getInvoice(int id) throws ApiException, SQLException {
+    public String getInvoice(Integer id) throws ApiException, SQLException {
         OrderPojo p = dao.select(id);
         if (p == null) {
             throw new ApiException("given ID does not exist, id: " + id);
@@ -112,7 +112,7 @@ public class OrderService {
     @Transactional
     public List<OrderData> getAll() {
         List<OrderPojo> list = dao.selectAll();
-        List<OrderData> list2 = new ArrayList<OrderData>();
+        List<OrderData> list2 = new ArrayList<>();
         for (OrderPojo p : list) {
             list2.add(convert1.convert(p));
         }
@@ -121,7 +121,7 @@ public class OrderService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void confirm(int id) throws ApiException {
+    public void confirm(Integer id) throws ApiException {
         OrderPojo p = dao.select(id);
         List<OrderItemPojo> items = daoOI.selectByOrderId(id);
         if (items.isEmpty())
@@ -131,10 +131,8 @@ public class OrderService {
             InventoryPojo ip = daoI.select(oip.getProduct_id());
             if (ip.getQuantity() < oip.getQuantity())
                 throw new ApiException("Quantity in Stock changed for Item" + daoP.selectId(oip.getProduct_id()).getName() + "(" + daoP.selectId(oip.getProduct_id()).getBarcode() + ")Try removing it and adding it again");
-            if (ip.getQuantity() > oip.getQuantity())
-                ip.setQuantity(ip.getQuantity() - oip.getQuantity());
             else
-                daoI.delete(ip.getProductId());
+                ip.setQuantity(ip.getQuantity() - oip.getQuantity());
         }
         if (p == null)
             throw new ApiException("Order Not Found");
@@ -144,7 +142,7 @@ public class OrderService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void complete(int id) throws ApiException {
+    public void complete(Integer id) throws ApiException {
         OrderPojo p = dao.select(id);
         if (p == null)
             throw new ApiException("Order Not Found");
@@ -192,9 +190,8 @@ public class OrderService {
         }
     }
 
-    public List<Integer> selectOrdersBetween(String start, String end) throws ApiException {
-        List<Integer> ordersList = new ArrayList<>();
-        Timestamp timeStart = null, timeEnd = null;
+    public List<Integer> selectOrdersBetween(String start, String end) {
+        Timestamp timeStart, timeEnd;
 
         //if start is empty means start time is -inf
         if (start.isEmpty())
@@ -211,24 +208,24 @@ public class OrderService {
         return dao.getBetween(timeStart, timeEnd);
     }
 
-    public List<Integer> selectBrandCategory(String bname, String cname) {
+    public List<Integer> selectBrandCategory(String brandName, String categoryName) {
         List<Integer> brandsList = new ArrayList<>();
 
-        if (bname.isEmpty() && cname.isEmpty()) {
-            //all bnames and cnames
+        if (brandName.isEmpty() && categoryName.isEmpty()) {
+            //all brandNames and categoryNames
             List<BrandPojo> brandList = daoB.selectAll();
             for (BrandPojo bp : brandList) {
                 brandsList.add(bp.getId());
             }
-        } else if (bname.isEmpty()) {
-            //all bnames
-            brandsList = daoB.getAllBname(cname);
-        } else if (cname.isEmpty()) {
-            //all cnames
-            brandsList = daoB.getAllCname(bname);
+        } else if (brandName.isEmpty()) {
+            //all brandNames
+            brandsList = daoB.getAllbrandName(categoryName);
+        } else if (categoryName.isEmpty()) {
+            //all categoryNames
+            brandsList = daoB.getAllcategoryName(brandName);
         } else {
             try {
-                Integer id = daoB.getBid(bname, cname).getId();
+                Integer id = daoB.getBid(brandName, categoryName).getId();
                 brandsList.add(id);
             }
             //incase brand category not found
@@ -240,16 +237,16 @@ public class OrderService {
     }
 
     @Transactional
-    public List<SaleReport> saleReport(String start, String end, String bname, String cname) throws ApiException {
+    public List<SaleReport> saleReport(String start, String end, String brandName, String categoryName) {
 
         List<SaleReport> retval = new ArrayList<>();
-        List<Integer> brandsList = selectBrandCategory(bname, cname);
+        List<Integer> brandsList = selectBrandCategory(brandName, categoryName);
         List<Integer> ordersList = selectOrdersBetween(start, end);
         for (Integer i : brandsList) {
             SaleReport r = new SaleReport();
             r.setCategoryId(i);
-            r.setBname(daoB.getBname(i));
-            r.setCname(daoB.getCname(i));
+            r.setBrandName(daoB.getbrandName(i));
+            r.setCategoryName(daoB.getcategoryName(i));
 
             Integer quantity = 0;
             Float revenue = (float) 0;

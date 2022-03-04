@@ -39,9 +39,6 @@ padding : 2px 25px 2px 10px;
 position:absolute;
 right :20px;
 }
-.form-inline .form-control{
-        width:200px;
-}
 #order-control{
     height: 60px;
     width:100%;
@@ -89,36 +86,43 @@ label{
     background-color: #c8e1ff;
     border-radius: 5px;
 }
-.userdef{
-    background-color:   #c8e1ff;
-    border-radius: 5px;
+.navbar-light .navbar-nav .show>.nav-link{
+	cursor: pointer;
+	color: rgba(0,0,0,.5);
+}
+.navbar-light .navbar-nav .show>.nav-link:hover{
+	color: rgba(0,0,0,.7);
 }
 .dropdown-item{
-    background-color:#e9f3ff;
     margin:0;
 }
 .dropdown-menu{
+    background-color:#e9f3ff;
 padding:0;
 }
 #error_box{
     z-index: 1056;
     position: fixed;
     top:5px;
-    right:5px;
-    max-width:800px;
+    right:20px;
+    max-width:20%;
     color: white;
     border-radius: 5px;
     display:none;
+    padding 0px 5px 0px 5px;
     }
 #error_head{
         font-weight: 600;
-    padding :5px 0 0 20px;
+    padding :5px 20px 0 20px;
     }
 #error_panel{
     padding: 10px 20px 20px 20px;
     }
 
 .footer {
+
+		color: rgba(0,0,0,.5);
+        font-weight: 750;
 	    position: absolute;
         bottom: 0;
         width: 100%;
@@ -151,4 +155,27 @@ left:116px;
 position:absolute;
 left:320px;
 }
-
+.close{
+	padding-right:5px;
+	color:white;
+	opacity:1;
+	}
+.close:hover{
+	color:white;
+	opacity:1;
+	}
+.sticky{
+    position:sticky;
+    border:black;
+    background-color:white;
+    top: 60px;
+}
+.form-inline .form-group {
+padding:0;
+}
+.form-inline .form-control{
+	width:100%;
+}
+input required{
+	border: 1px solid red;
+}

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Api
 @RestController
-public class BrandApiController {
+public class BrandController {
 
     @Autowired
     private BrandService service;
@@ -26,7 +26,7 @@ public class BrandApiController {
 
     @ApiOperation(value = "Gets a Brand by ID")
     @RequestMapping(path = "/api/brand/{id}", method = RequestMethod.GET)
-    public BrandData getBrand(@PathVariable int id) throws ApiException {
+    public BrandData getBrand(@PathVariable Integer id) throws ApiException {
         return service.get(id);
     }
 
@@ -38,7 +38,7 @@ public class BrandApiController {
 
     @ApiOperation(value = "Updates an Brand")
     @RequestMapping(path = "/api/brand/{id}", method = RequestMethod.PUT)
-    public void updateBrand(@PathVariable int id, @RequestBody BrandForm f) throws ApiException {
+    public void updateBrand(@PathVariable Integer id, @RequestBody BrandForm f) throws ApiException {
         service.update(id, f);
     }
 

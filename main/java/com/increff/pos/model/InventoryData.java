@@ -2,22 +2,22 @@ package com.increff.pos.model;
 
 public class InventoryData {
 
-    private int productId;
-    private int quantity;
+    private Integer productId;
+    private Integer quantity;
 
-    public int getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

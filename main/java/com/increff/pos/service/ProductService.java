@@ -2,7 +2,6 @@ package com.increff.pos.service;
 
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.dao.InventoryDao;
-import com.increff.pos.dao.OrderItemDao;
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductData1;
@@ -29,11 +28,11 @@ public class ProductService {
     @Autowired
     private InventoryDao daoI;
     @Autowired
-    private OrderItemDao daoOI;
-    @Autowired
     private Convert1 convert;
+    @Autowired
+    private InventoryService serI;
 
-    protected static void normalize(ProductPojo p) throws ApiException {
+    private static void normalize(ProductPojo p) throws ApiException {
         p.setMrp((float) ((double) Math.round(p.getMrp() * 100)) / 100);
         p.setName(StringUtil.toLowerCase(p.getName()));
         if (p.getMrp() <= 0)
@@ -42,7 +41,7 @@ public class ProductService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(ProductForm form) throws ApiException {
-        ProductPojo p = convert.convert(form, getBid(form.getBname(), form.getCname()));
+        ProductPojo p = convert.convert(form, getBid(form.getBrandName(), form.getCategoryName()));
         normalize(p);
         if (p.getBarcode().isEmpty())
             throw new ApiException("Barcode is required");
@@ -50,9 +49,12 @@ public class ProductService {
             throw new ApiException("This Barcode Exists");
         }
         List<Integer> all_category = getAllCId();
-        if (all_category.contains(p.getCategoryId()))
-            dao.insert(p);
-        else
+        if (all_category.contains(p.getCategoryId())) {
+            InventoryPojo ip = new InventoryPojo();
+            ip.setProductId(dao.insert(p));
+            ip.setQuantity(0);
+            serI.add(ip);
+        } else
             throw new ApiException("Brand-Category pair doesn't exist");
     }
 
@@ -62,28 +64,28 @@ public class ProductService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public ProductData get(int id) throws ApiException {
+    public ProductData get(Integer id) throws ApiException {
         ProductPojo pp = getCheck(id);
-        return convert.convert(pp, daoB.getBname(pp.getCategoryId()), daoB.getCname(pp.getCategoryId()));
+        return convert.convert(pp, daoB.getbrandName(pp.getCategoryId()), daoB.getcategoryName(pp.getCategoryId()));
     }
 
     @Transactional
     public List<ProductData1> getAll() throws ApiException {
         List<ProductPojo> list = dao.selectAll();
-        List<ProductData1> list2 = new ArrayList<ProductData1>();
+        List<ProductData1> list2 = new ArrayList<>();
         Integer quantity;
         for (ProductPojo p : list) {
             InventoryPojo ip = daoI.select(p.getId());
             if (ip == null) quantity = 0;
             else quantity = ip.getQuantity();
-            list2.add(convert.convert(p, daoB.getBname(p.getCategoryId()), daoB.getCname(p.getCategoryId()), quantity));
+            list2.add(convert.convert(p, daoB.getbrandName(p.getCategoryId()), daoB.getcategoryName(p.getCategoryId()), quantity));
         }
         Collections.sort(list2);
         return list2;
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void update(int id, ProductPojo p) throws ApiException {
+    public void update(Integer id, ProductPojo p) throws ApiException {
         normalize(p);
         ProductPojo ex = getCheck(id);
         if (dao.selectBarcode(p.getBarcode()) != null && !ex.getBarcode().equals(p.getBarcode())) {
@@ -98,7 +100,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductPojo getCheck(int id) throws ApiException {
+    public ProductPojo getCheck(Integer id) throws ApiException {
         ProductPojo p = dao.selectId(id);
         if (p == null) {
             throw new ApiException("given ID does not exist, id: " + id);
@@ -107,13 +109,13 @@ public class ProductService {
     }
 
     //get Brand-CategoryId from arguments BrandName and CategoryName
-    public Integer getBid(String bname, String cname) throws ApiException {
-        if (bname.isEmpty())
+    public Integer getBid(String brandName, String categoryName) throws ApiException {
+        if (brandName.isEmpty())
             throw new ApiException("Brand Name is Required");
-        if (cname.isEmpty())
+        if (categoryName.isEmpty())
             throw new ApiException("Category Name is Required");
         try {
-            return (daoB.getBid(bname, cname)).getId();
+            return (daoB.getBid(brandName, categoryName)).getId();
         } catch (Exception e) {
             throw new ApiException("Brand Category combo not found");
         }
@@ -125,8 +127,8 @@ public class ProductService {
     }
 
     @Transactional      //get all Category Names with specific BrandName
-    public List<String> getCatNames(String bname) {
-        return daoB.getCatNames(bname);
+    public List<String> getCatNames(String brandName) {
+        return daoB.getCatNames(brandName);
     }
 
 }

@@ -87,7 +87,7 @@ public class OrderItemService {
     }
 
     @Transactional
-    public void delete(int id) throws ApiException {
+    public void delete(Integer id) throws ApiException {
         OrderItemPojo ex = dao.select(id);
         String status = daoO.select(ex.getOrder_id()).getStatus();
         InventoryPojo e = daoI.select(ex.getProduct_id());

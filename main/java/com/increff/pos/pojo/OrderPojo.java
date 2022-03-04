@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 public class OrderPojo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    private Integer Id;
     private String status;
     private Timestamp invoice_time;
     private Timestamp order_time;
@@ -26,11 +26,11 @@ public class OrderPojo {
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         Id = id;
     }
 

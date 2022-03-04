@@ -35,14 +35,16 @@ public class InventoryService {
     @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo p) throws ApiException {
         List<Integer> cur = getAllPId();    //list of all product id(s)
-        if (p.getQuantity() <= 0)
+        if (p.getQuantity() < 0)
             throw new ApiException("Quantity should be positive (Given: " + p.getQuantity() + ")");
         InventoryPojo e = dao.select(p.getProductId());
         if (e != null) {
-            //if already present increment
-            e.setQuantity(e.getQuantity() + p.getQuantity());
-        } else if (cur.contains(p.getProductId())) {
-            //else add new row
+            //if already present update
+            e.setQuantity(p.getQuantity());
+        } else if (!cur.contains(p.getProductId())) {
+            //else throw Exception
+            throw new ApiException("Barcode do not exist");
+        } else {
             dao.insert(p);
         }
     }
@@ -53,12 +55,12 @@ public class InventoryService {
     }
 
     @Transactional
-    public void delete(int id) {
+    public void delete(Integer id) {
         dao.delete(id);
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public InventoryData2 get(int id) throws ApiException {
+    public InventoryData2 get(Integer id) throws ApiException {
         InventoryPojo p = dao.select(id);
         if (p == null) {
             throw new ApiException("Inventory Out of Stock for, Product Id: " + id);
@@ -82,8 +84,8 @@ public class InventoryService {
     public void update(InventoryData f) throws ApiException {
         InventoryPojo p = convert1.convert(f);
         InventoryPojo ex = dao.select(p.getProductId());
-        if (p.getQuantity() <= 0)
-            throw new ApiException("Quantity should be positive");
+        if (p.getQuantity() < 0)
+            throw new ApiException("Quantity should be non-negative");
         ex.setQuantity(p.getQuantity());
         dao.update(ex);
     }

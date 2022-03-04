@@ -9,31 +9,6 @@ function resetForm(){
     $("#inventory-form input[name=quantity]").val(null);
 }
 //BUTTON ACTIONS
-function addInventory(event){
-	//Set the values to update
-	var $form = $("#inventory-form");
-	var json = toJson($form);
-	var url = getInventoryUrl();
-	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },	   
-	   success: function(response) {
-	        resetForm();
-	   		getInventoryList();
-
-	        $('#add-inventory-modal').modal('toggle');
-	        successMessage("Inventory added Successfully");
-	   },
-	   error: handleAjaxError
-	});
-
-	return false;
-}
-
 function updateInventory(event){
 	//Get the ID
 	var id = $("#inventory-edit-form input[name=productId]").val();
@@ -74,20 +49,6 @@ function getInventoryList(){
 	});
 }
 
-function deleteInventory(id){
-	var url = getInventoryUrl() + "/" + id;
-
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getInventoryList();
-
-	        successMessage("Inventory deleted Successfully");
-	   },
-	   error: handleAjaxError
-	});
-}
 
 // FILE UPLOAD METHODS
 var fileData = [];
@@ -105,7 +66,6 @@ function processData(){
 function readFileDataCallback(results){
 	fileData = results.data;
 	uploadRows();
-	getInventoryList();
 }
 
 function uploadRows(){
@@ -127,6 +87,7 @@ function uploadRows(){
                 barcode: row["Barcode"],
                 quantity: row["Quantity"]
             }
+    console.log(processCount);
 	processCount++;
 	
 	var json = JSON.stringify(row2);
@@ -144,7 +105,6 @@ function uploadRows(){
 	   		uploadRows();
 	   },
 	   error: function(response){
-
 	   		response=JSON.parse(response.responseText);
 	   		row.Error=response.message;
 	   		errorData.push(row);
@@ -165,7 +125,7 @@ function displayInventoryList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		buttonHtml = ' <button class="btn-sm btn-outline-primary" onclick="displayEditInventory(' + e.productId + ')">Edit</button>';
+		buttonHtml = ' <button class="btn btn-sm btn-outline-primary" onclick="displayEditInventory(' + e.productId + ')">Edit</button>';
 		var row = '<tr>'
 		+ '<td>' + (parseInt(i)+1) + '</td>'
 		+ '<td>' + e.name + '</td>'
@@ -204,12 +164,9 @@ function resetUploadDialog(){
 
 function updateUploadDialog(){
     if(errorData.length!=0){
-        handleUiError("One are more errors occured while parsing");
         $('#download-errors').css('display','block');
 	}
 	else{
-
-	successMessage("TSV file added successfully");
 	$('#download-errors').css('display','none');
     //inform user that success
 	}
@@ -240,19 +197,14 @@ function displayInventory(data){
 	$('#edit-inventory-modal').modal('toggle');
 }
 
-function displayAddInventory(){
-	$('#add-inventory-modal').modal('toggle');
-	}
 //INITIALIZATION CODE
 function init(){
-	$('#inventory-form').submit(addInventory);
 	$('#inventory-edit-form').submit(updateInventory);  //
 	$('#refresh-data').click(getInventoryList);
 	$('#upload-data').click(displayUploadData);
-	$('#process-data').click(processData);
+	$('#inventory-upload').submit(processData);
 	$('#download-errors').click(downloadErrors);
     $('#inventoryFile').on('change', updateFileName);
-    $('#add-data').click(displayAddInventory);
 }
 
 

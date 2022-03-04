@@ -14,26 +14,26 @@ import java.util.List;
 
 @Api
 @RestController
-public class InventoryApiController {
+public class InventoryController {
 
     @Autowired
     private InventoryService service;
 
-    @ApiOperation(value = "Adds or Increments Inventory")
+    @ApiOperation(value = "Updates Inventory")
     @RequestMapping(path = "/api/inventory", method = RequestMethod.POST)
-    public void addInventory(@RequestBody InventoryData1 form) throws ApiException {
+    public void uploadInventory(@RequestBody InventoryData1 form) throws ApiException {
         service.addFromData(form);
     }
 
     @ApiOperation(value = "Deletes Inventory")
     @RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.DELETE)
-    public void deleteInventory(@PathVariable int id) {
+    public void deleteInventory(@PathVariable Integer id) {
         service.delete(id);
     }
 
     @ApiOperation(value = "Gets a Inventory by ID")
     @RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.GET)
-    public InventoryData2 getInventory(@PathVariable int id) throws ApiException {
+    public InventoryData2 getInventory(@PathVariable Integer id) throws ApiException {
         return service.get(id);
     }
 
@@ -51,7 +51,7 @@ public class InventoryApiController {
 
     @ApiOperation(value = "Gets list of barcodes")
     @RequestMapping(path = "/api/inventory/barcodes", method = RequestMethod.GET)
-    public List<String> getBarcodes() throws ApiException {
+    public List<String> getBarcodes() {
         return service.getBarcodes();
     }
 

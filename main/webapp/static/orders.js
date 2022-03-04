@@ -17,7 +17,11 @@ function getOrdersList(){
 function fromTimestamp(time){
     if(time==null) return "NA";
     var d= new Date(time);
-    return d.getDate()+"-"+(d.getMonth()+1)+"-"+d.getFullYear()+"  "+d.getHours()+":"+d.getMinutes();
+	var min=d.getMinutes();
+    if(min<9) min= '0'+min;
+    var hours=d.getHours();
+    if(hours<9) hours= '0'+hours;
+    return d.getDate()+" "+(d.toLocaleString('default', { month: 'short' }))+" "+d.getFullYear()+"  "+hours+":"+min;
     }
 function displayOrdersList(data){
   var $tbody = $('#orders-table').find('tbody');
@@ -29,13 +33,13 @@ function displayOrdersList(data){
     var status;
     if(e.status=='confirmed'){
     status='<td>'  + (e.status).toUpperCase() + '</td>'
-      buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteOrder(' + e.id + ')">Cancel</button>'
-      buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="editOrder(' + e.id + ')">Edit</button>'
-      buttonHtml += ' <button class="btn-sm btn-outline-success" onclick="fulfilOrder(' + e.id + ')">Generate Invoice</button>'
+      buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(' + e.id + ')">Cancel</button>'
+      buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="editOrder(' + e.id + ')">Edit</button>'
+      buttonHtml += ' <button class="btn btn-sm btn-outline-success" onclick="fulfilOrder(' + e.id + ')">Generate Invoice</button>'
     }
     else if(e.status=='completed'){
     status='<td style="color:green">'  + (e.status).toUpperCase() + '</td>'
-      buttonHtml = '<button class="btn-sm btn-outline-success" onclick="downloadInvoice(' + e.id + ')">Download Invoice</button>'
+      buttonHtml = '<button class="btn btn-sm btn-outline-success" onclick="downloadInvoice(' + e.id + ')">Download Invoice</button>'
     }
     else{
     status='<td style="color:red">'  + (e.status).toUpperCase() + '</td>'

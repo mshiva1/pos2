@@ -11,16 +11,16 @@ public class BrandServiceTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void testAdd() throws ApiException {
         BrandForm p = new BrandForm();
-        p.setBname("Brand");
-        p.setCname("");
+        p.setBrandName("Brand");
+        p.setCategoryName("");
         bs.add(p);
     }
 
     @Test(expected = ApiException.class)
     public void testDuplicateAdd() throws ApiException {
         BrandForm p = new BrandForm();
-        p.setBname("Brand");
-        p.setCname("Category");
+        p.setBrandName("Brand");
+        p.setCategoryName("Category");
         bs.add(p);
         bs.add(p);
     }
@@ -28,10 +28,10 @@ public class BrandServiceTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void testNormalise() throws ApiException {
         BrandForm p = new BrandForm();
-        p.setBname("Brand");
-        p.setCname("Category");
+        p.setBrandName("Brand");
+        p.setCategoryName("Category");
         bs.add(p);
-        p.setCname(" Category ");
+        p.setCategoryName(" Category ");
         bs.add(p);
     }
 }

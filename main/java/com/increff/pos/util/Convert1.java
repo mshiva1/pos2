@@ -10,16 +10,16 @@ public class Convert1 {
 
     public BrandData convert(BrandPojo p) {
         BrandData d = new BrandData();
-        d.setBname(p.getBname());
-        d.setCname(p.getCname());
+        d.setBrandName(p.getBrandName());
+        d.setCategoryName(p.getCategoryName());
         d.setId(p.getId());
         return d;
     }
 
     public BrandPojo convert(BrandForm f) {
         BrandPojo p = new BrandPojo();
-        p.setBname(f.getBname());
-        p.setCname(f.getCname());
+        p.setBrandName(f.getBrandName());
+        p.setCategoryName(f.getCategoryName());
         return p;
     }
 
@@ -59,8 +59,8 @@ public class Convert1 {
 
     public OrderItemData1 convert(OrderItemPojo f, ProductPojo pp, BrandPojo bp) {
         OrderItemData1 p = new OrderItemData1();
-        p.setBname(bp.getBname());
-        p.setCname(bp.getCname());
+        p.setBrandName(bp.getBrandName());
+        p.setCategoryName(bp.getCategoryName());
         p.setBarcode(pp.getBarcode());
         p.setMrp(pp.getMrp());
         p.setName(pp.getName());
@@ -71,23 +71,23 @@ public class Convert1 {
         return p;
     }
 
-    public ProductData convert(ProductPojo p, String bname, String cname) {
+    public ProductData convert(ProductPojo p, String brandName, String categoryName) {
         ProductData d = new ProductData();
         d.setBarcode(p.getBarcode());
-        d.setBname(bname);
-        d.setCname(cname);
+        d.setBrandName(brandName);
+        d.setCategoryName(categoryName);
         d.setMrp(p.getMrp());
         d.setName(p.getName());
         d.setId(p.getId());
         return d;
     }
 
-    public ProductData1 convert(ProductPojo p, String bname, String cname, Integer quantity) {
+    public ProductData1 convert(ProductPojo p, String brandName, String categoryName, Integer quantity) {
         ProductData1 d = new ProductData1();
         d.setQuantity(quantity);
         d.setBarcode(p.getBarcode());
-        d.setBname(bname);
-        d.setCname(cname);
+        d.setBrandName(brandName);
+        d.setCategoryName(categoryName);
         d.setMrp(p.getMrp());
         d.setName(p.getName());
         d.setId(p.getId());

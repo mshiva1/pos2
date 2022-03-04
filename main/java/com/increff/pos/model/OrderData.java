@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class OrderData {
 
-    private int id;
+    private Integer id;
     private String status;
     private Timestamp invoice_time;
     private Timestamp order_time;
@@ -19,11 +19,11 @@ public class OrderData {
         this.invoice = invoice;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

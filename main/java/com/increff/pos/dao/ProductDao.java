@@ -22,11 +22,14 @@ public class ProductDao extends AbstractDao {
     @PersistenceContext
     private EntityManager em;
 
-    public void insert(ProductPojo p) {
+    public Integer insert(ProductPojo p) {
+        //create a new product and return its ID
         em.persist(p);
+        em.flush();
+        return p.getId();
     }
 
-    public ProductPojo selectId(int id) {
+    public ProductPojo selectId(Integer id) {
         TypedQuery<ProductPojo> query = getQuery(select_id, ProductPojo.class);
         query.setParameter("id", id);
         return getSingle(query);

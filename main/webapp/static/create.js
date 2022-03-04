@@ -145,13 +145,13 @@ function displayItemList(data){
 	var total=0;
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button class="btn-sm btn-outline-danger" onclick="deleteItem(' + e.id + ')">Delete</button>'
-		buttonHtml += ' <button class="btn-sm btn-outline-primary" onclick="displayEditItem(' + e.id + ')">Edit</button>'
+		var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + e.id + ')">Delete</button>'
+		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="displayEditItem(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
 		+ '<td>' + (parseInt(i)+1) + '</td>'
 		+ '<td>' + e.name + '</td>'
 		+ '<td>' + e.barcode + '</td>'
-		+ '<td>'  +e.bname+'-'+e.cname + '</td>'
+		+ '<td>'  +e.brandName+'-'+e.categoryName + '</td>'
 		+ '<td>' + e.mrp + '</td>'
 		+ '<td>'  +e.sellingPrice + '</td>'
 		+ '<td>' + e.quantity + '</td>'

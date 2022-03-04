@@ -44,7 +44,7 @@
                         <fo:table-column column-width="proportional-column-width(30)"/>
                         <fo:table-column column-width="proportional-column-width(20)"/>
                         <fo:table-column column-width="proportional-column-width(25)"/>
-                        <fo:table-column column-width="proportional-column-width(30)"/>
+                        <fo:table-column column-width="proportional-column-width(35)"/>
                         <fo:table-body font-size="95%">
                             <fo:table-row height="8mm">
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
@@ -66,10 +66,10 @@
                                     <fo:block>Quantity</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block>Price</fo:block>
+                                    <fo:block>Price (in Rs)</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block>Total</fo:block>
+                                    <fo:block>Sub-Total (in Rs)</fo:block>
                                 </fo:table-cell>
                             </fo:table-row>
                             <xsl:for-each select="table-data">
@@ -91,12 +91,12 @@
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
                                         <fo:block margin-left="1mm" text-align="left">
-                                            <xsl:value-of select="bname"/>
+                                            <xsl:value-of select="brandName"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
                                         <fo:block margin-left="1mm" text-align="left">
-                                            <xsl:value-of select="cname"/>
+                                            <xsl:value-of select="categoryName"/>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell xsl:use-attribute-sets="tableBorder">
@@ -120,7 +120,8 @@
                     </fo:table>
 
                     <fo:block text-align="right" font-size="125%">
-                        Total :<xsl:value-of select="header-section/total"/>
+                        Grand Total : Rs
+                        <xsl:value-of select="header-section/total"/>
                     </fo:block>
 
                     <fo:block id="end-of-document">

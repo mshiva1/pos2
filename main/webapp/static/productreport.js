@@ -64,8 +64,8 @@ function displayProductList(data){
 		+ '<td>' + (parseInt(iter)) + '</td>'
 		+ '<td>' + e.name + '</td>'
         + '<td>'  + e.barcode + '</td>'
-		+ '<td>' + e.bname + '</td>'
-		+ '<td>'  + e.cname + '</td>'
+		+ '<td>' + e.brandName + '</td>'
+		+ '<td>'  + e.categoryName + '</td>'
         + '<td>' + e.quantity + '</td>'
 		+ '</tr>';
         if(e.quantity!=0){

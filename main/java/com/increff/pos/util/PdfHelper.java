@@ -30,7 +30,7 @@ public class PdfHelper {
 
     public String getxmlStream(Timestamp order, Timestamp invoice, Integer id, List<OrderItemData1> items, Float total) {
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm");
         StringBuilder ret = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <?xml-stylesheet type=\"application/xml\"?> <users-data> <header-section> <data-type >Invoice</data-type> <odate>");
         ret.append(dateFormat.format(new Date(order.getTime())));
         ret.append("</odate><idate>");
@@ -44,11 +44,11 @@ public class PdfHelper {
         for (OrderItemData1 oip : items) {
             ret.append("<table-data><sno>");
             ret.append(++i);
-            ret.append("</sno><bname>");
-            ret.append(oip.getBname());
-            ret.append("</bname><cname>");
-            ret.append(oip.getCname());
-            ret.append("</cname><name>");
+            ret.append("</sno><brandName>");
+            ret.append(oip.getBrandName());
+            ret.append("</brandName><categoryName>");
+            ret.append(oip.getCategoryName());
+            ret.append("</categoryName><name>");
             ret.append(oip.getName());
             ret.append("</name><barcode>");
             ret.append(oip.getBarcode());
