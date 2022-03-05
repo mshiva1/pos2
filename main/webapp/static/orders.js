@@ -31,7 +31,7 @@ function displayOrdersList(data){
     var buttonHtml='';
     var row = '';
     var status;
-    if(e.status=='confirmed'){
+    if(e.status=='created'){
     status='<td>'  + (e.status).toUpperCase() + '</td>'
       buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(' + e.id + ')">Cancel</button>'
       buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="editOrder(' + e.id + ')">Edit</button>'

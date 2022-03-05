@@ -24,13 +24,6 @@ public class Convert1 {
     }
 
 
-    public InventoryData convert(InventoryPojo f) {
-        InventoryData p = new InventoryData();
-        p.setQuantity(f.getQuantity());
-        p.setProductId(f.getProductId());
-        return p;
-    }
-
     public InventoryPojo convert(InventoryData f) {
         InventoryPojo p = new InventoryPojo();
         p.setQuantity(f.getQuantity());
@@ -45,15 +38,6 @@ public class Convert1 {
         p.setInvoice_time(f.getInvoice_time());
         p.setOrder_time(f.getOrder_time());
         p.setInvoice(null);
-        return p;
-    }
-
-    public OrderItemData1 convert(OrderItemPojo f) {
-        OrderItemData1 p = new OrderItemData1();
-        p.setQuantity(f.getQuantity());
-        p.setProductId(f.getProduct_id());
-        p.setSellingPrice(f.getSellingPrice());
-        p.setId(f.getId());
         return p;
     }
 
@@ -103,12 +87,6 @@ public class Convert1 {
         return d;
     }
 
-    public InventoryPojo convert(InventoryData1 f, Integer pid) {
-        InventoryPojo p = new InventoryPojo();
-        p.setQuantity(f.getQuantity());
-        p.setProductId(pid);
-        return p;
-    }
 
     public InventoryData2 convert(InventoryPojo p, ProductPojo pp) {
         InventoryData2 i = new InventoryData2();
@@ -117,14 +95,5 @@ public class Convert1 {
         i.setBarcode(pp.getBarcode());
         i.setName(pp.getName());
         return i;
-    }
-
-    public OrderItemPojo convert(OrderItemForm p, Integer product_id) {
-        OrderItemPojo oip = new OrderItemPojo();
-        oip.setProduct_id(product_id);
-        oip.setQuantity(p.getQuantity());
-        oip.setSellingPrice(p.getSellingPrice());
-        oip.setOrder_id(p.getOrderId());
-        return oip;
     }
 }

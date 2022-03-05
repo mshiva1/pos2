@@ -1,18 +1,9 @@
 package com.increff.pos.model;
 
 public class OrderItemForm {
-    private Integer orderId;
     private String barcode;
     private Integer quantity;
     private float sellingPrice;
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
 
     public String getBarcode() {
         return barcode;

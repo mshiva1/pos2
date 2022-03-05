@@ -1,3 +1,5 @@
+var total=0;
+var editsstatus=0;
 
 function getItemUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
@@ -13,32 +15,144 @@ function resetForm(){
     $("#item-form input[name=quantity]").val(null);
 	$("#item-form input[name=sellingPrice]").val(null);
 }
-function setOrderId(id){
-    $("#order-id-value").html(id);
-    $("#item-edit-form input[name=orderId]").val(id);
-    $("#item-form input[name=orderId]").val(id);
-    getItemList();
-    }
-function getOrderId(event){
-	var url = getOrdersUrl()+"/add";
+//BUTTON ACTIONS
+
+function addItem(){
+	var url = getItemUrl();
+	barcode=$("#item-form input[name=barcode]").val();
+    quantity=$("#item-form input[name=quantity]").val();
+    sellingPrice=$("#item-form input[name=sellingPrice]").val();
+	string = 'barcode='+ barcode+'&quantity='+quantity+'&sellingPrice='+ sellingPrice;
+	// this ajax call get details of specific item and check quantity validation
 	$.ajax({
 	   url: url,
 	   type: 'GET',
-	   success: function(data) {
-	   		setOrderId(data.id);
+	   data: string,
+	   headers: {
+       	'Content-Type': 'application/json'
+       },
+	   success: function(response) {
+	        addRow(response)
 	   },
 	   error: handleAjaxError
 	});
-
+	return false;
 }
-//BUTTON ACTIONS
+function addRow(e){
+    var table = document.getElementById("item-table"); //get the table
 
+	var $tbody = $('#item-table').find('tbody');
+    var rowcount = table.rows.length; //get no. of rows in the table
+
+    var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + rowcount + ')">Delete</button>'
+    		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="EditItem(' + rowcount + ')">Edit</button>'
+        var row = '<tr id="row'+rowcount+'" class="item">'
+        + '<td style="display:none" class="rownumber">' + rowcount + '</td>'
+        + '<td style="display:none" id="productId'+rowcount+'">' + e.productId + '</td>'
+        + '<td>' + e.name + '</td>'
+        + '<td id="barcode'+rowcount+'">' + e.barcode + '</td>'
+        + '<td>'  +e.brandName+'-'+e.categoryName + '</td>'
+        + '<td>' + e.mrp + '</td>'
+        + '<td id="price'+rowcount+'">'  +e.sellingPrice + '</td>'
+        + '<td id="quantity'+rowcount+'">' + e.quantity + '</td>'
+        + '<td id="subtotal'+rowcount+'">' + e.quantity*e.sellingPrice + '</td>'
+        + '<td id="button'+rowcount+'">' + buttonHtml + '</td>'
+        + '</tr>';
+    		total+=e.quantity*e.sellingPrice;
+        $tbody.append(row);
+        resetForm();
+	updateAmount();
+}
+
+function deleteItem(id){
+	initialQuantity =$("#quantity"+id).html();
+	initialPrice =$("#price"+id).html();
+	total=total-initialQuantity*initialPrice;
+	$("#row"+id).remove();
+	updateAmount();
+}
+
+function EditItem(id){
+	initialQuantity =$("#quantity"+id).html();
+	initialPrice =$("#price"+id).html();
+	qHtml='<input class="form-control intable" type= number steps="1" min="1" form="edit-form" id="newQuantity'+id+'" required value="'+initialQuantity+'">';
+	pHtml='<input class="form-control intable" type= number steps="any" min="0" form="edit-form" id="newPrice'+id+'"  value="'+initialPrice+'">';
+
+    var buttonHtml = '<button class="btn btn-sm btn-outline-secondary"  onclick="cancelEdit(' + id + ')">Back</button>'
+    		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="completeEdit(' + id + ')">Save</button>'
+	$("#quantity"+id).html(qHtml);
+	$("#price"+id).html(pHtml);
+	$("#button"+id).html(buttonHtml);
+    editsstatus++;
+	updateAmount();
+}
+function updateRow(id,data){
+	$("#quantity"+id).html(data.quantity);
+    $("#price"+id).html(data.sellingPrice);
+    var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + id + ')">Delete</button>'
+                buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="EditItem(' + id + ')">Edit</button>'
+	total=total-$("#subtotal"+id).html();
+	$("#subtotal"+id).html(data.sellingPrice*data.quantity)
+	total+=data.sellingPrice*data.quantity;
+    $("#button"+id).html(buttonHtml);
+    editsstatus--;
+	updateAmount();
+}
+function completeEdit(id){
+	barcode= $("#barcode"+id).html(),
+	quantity=$("#newQuantity"+id).val(),
+	sellingPrice= $("#newPrice"+id).val()
+	string = 'barcode='+ barcode+'&quantity='+quantity+'&sellingPrice='+ sellingPrice;
+	var url = getItemUrl();
+	// this ajax call get details of specific item and check quantity validation
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   data: string,
+	   headers: {
+       	'Content-Type': 'application/json'
+       },
+	   success: function(response) {
+	        updateRow(id,response)
+	   },
+	   error: handleAjaxError
+	});
+	return false;
+}
+function updateAmount(){
+	var table = document.getElementById("item-table");
+	var rowcount = table.rows.length;
+	if(total>0 && editsstatus==0)
+		    $("#confirm").prop('disabled',false);
+		else
+		    $("#confirm").prop('disabled',true);
+	$("#order-total-value").html(total);
+}
+function cancelEdit(id){
+//TODO
+}
 function confirmOrder(event){
-    var id=$("#item-form input[name=orderId]").val();
-    var url=getOrdersUrl()+'confirm-'+id;
+var allItems=$(".rownumber")
+var totalItems=allItems.length
+data = new Array()
+for( var i=0;i<totalItems;i++){
+	var row = {
+                productId: $("#productId"+allItems[i].innerHTML).html(),
+                orderId: 0,
+                quantity:$("#quantity"+allItems[i].innerHTML).html(),
+                sellingPrice:$("#price"+allItems[i].innerHTML).html()
+            }
+    data.push(row)
+}
+data = JSON.stringify(data);
+    var url=getItemUrl();
     $.ajax({
         url:url,
         type:'POST',
+        data: data,
+		headers: {
+			'Content-Type': 'application/json'
+		},
         success: function(response){
         var baseUrl = $("meta[name=baseUrl]").attr("content");
         window.location.replace(baseUrl+'/site/orders');
@@ -46,174 +160,14 @@ function confirmOrder(event){
 	   error: handleAjaxError
     });
 }
-function deleteOrder(event){
-    var id=$("#item-form input[name=orderId]").val();
-  var url = getOrdersUrl() + id;
-  $.ajax({
-     url: url,
-     type: 'DELETE',
-     success: function(data) {
-
-	    successMessage("All Items Cleared Successfully");
-        getOrderId();
-     },
-     error: handleAjaxError
-  });
+function refreshPage(){
+	document. location. reload()
 }
-function addItem(event){
-	//Set the values to update
-	var $form = $("#item-form");
-	var json = toJson($form);
-	var url = getItemUrl();
-
-	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },
-	   success: function(response) {
-	        resetForm();
-	   		getItemList();
-	   },
-	   error: handleAjaxError
-	});
-
-	return false;
-}
-
-function updateItem(event){
-	//Get the ID
-	var id = $("#item-edit-form input[name=id]").val();
-	var url = getItemUrl() + id;
-
-	//Set the values to update
-	var $form = $("#item-edit-form");
-	var json = toJson($form);
-
-	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },
-	   success: function(response) {
-	   		getItemList();
-	        $('#edit-item-modal').modal('toggle');
-	        successMessage("Item Updated Successfully");
-	   },
-	   error: handleAjaxError
-	});
-
-	return false;
-}
-
-
-function getItemList(){
-    var id=$("#item-form input[name=orderId]").val();
-	var url = getItemUrl()+"order/"+id;
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayItemList(data);
-	   },
-	   error: handleAjaxError
-	});
-}
-
-function deleteItem(id){
-	var url = getItemUrl() + "/" + id;
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getItemList();
-	        successMessage("Item removed Successfully");
-	   },
-	   error: handleAjaxError
-	});
-}
-
-//UI DISPLAY METHODS
-
-function displayItemList(data){
-	var $tbody = $('#item-table').find('tbody');
-	$tbody.empty();
-	var total=0;
-	for(var i in data){
-		var e = data[i];
-		var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + e.id + ')">Delete</button>'
-		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="displayEditItem(' + e.id + ')">Edit</button>'
-		var row = '<tr>'
-		+ '<td>' + (parseInt(i)+1) + '</td>'
-		+ '<td>' + e.name + '</td>'
-		+ '<td>' + e.barcode + '</td>'
-		+ '<td>'  +e.brandName+'-'+e.categoryName + '</td>'
-		+ '<td>' + e.mrp + '</td>'
-		+ '<td>'  +e.sellingPrice + '</td>'
-		+ '<td>' + e.quantity + '</td>'
-		+ '<td>' + e.quantity*e.sellingPrice + '</td>'
-		+ '<td>' + buttonHtml + '</td>'
-		+ '</tr>';
-		total+=e.quantity*e.sellingPrice;
-        $tbody.append(row);
-	}
-	if(total<=0)
-	    $("#confirm").prop('disabled',true);
-	else
-	    $("#confirm").prop('disabled',false);
-	$("#order-total-value").html(total);
-}
-
-function displayEditItem(id){
-	var url = getItemUrl() + "/" + id;
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayItem(data);
-	   },
-	   error: handleAjaxError
-	});
-}
-
-function displayItem(data){
-	$("#barcode_set").html(data.barcode);
-	$('#item-edit-form input[name=productId]').val(data.productId);
-    $("#item-edit-form input[name=sellingPrice]").val(data.sellingPrice);
-    $("#item-edit-form input[name=quantity]").val(data.quantity);
-    $("#item-edit-form input[name=id]").val(data.id);
-	$('#edit-item-modal').modal('toggle');
-}
-
-// dropdown handler
-
-function setInventory(){
-    var url = getOrdersUrl()+'barcodes';
-    	$.ajax({
-    	   url: url,
-    	   type: 'GET',
-    	   success: function(data) {
-    	   		updateDropdown(data,"inputBarcode");
-    	   },
-    	   error: handleAjaxError
-    	});
-}
-
-
 //INITIALIZATION CODE
 function init(){
 	$("#item-form").submit(addItem);
-	$('#item-edit-form').submit(updateItem);   //inside modal
 	$('#confirm').click(confirmOrder);
-	$('#cancel-order').click(deleteOrder);
-	setInventory();
+	$('#cancel-order').click(refreshPage);
 }
-
-
 $(document).ready(init);
-$(document).ready(getOrderId);
 

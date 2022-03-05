@@ -1,7 +1,6 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.model.OrderItemData1;
-import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.OrderItemForm1;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.OrderItemService;
@@ -19,16 +18,10 @@ public class OrderItemController {
     @Autowired
     private OrderItemService service;
 
-    @ApiOperation(value = "Adds or update items")
-    @RequestMapping(path = "/api/item/", method = RequestMethod.POST)
-    public void addItem(@RequestBody OrderItemForm form) throws ApiException {
-        service.add(form, true);
-    }
-
-    @ApiOperation(value = "Deletes Items")
-    @RequestMapping(path = "/api/item/{id}", method = RequestMethod.DELETE)
-    public void deleteItem(@PathVariable Integer id) throws ApiException {
-        service.delete(id);
+    @ApiOperation(value = "Get Details of Specific Item")
+    @RequestMapping(path = "/api/item/", method = RequestMethod.GET)
+    public OrderItemData1 getItem(String barcode, String quantity, String sellingPrice) throws ApiException {
+        return service.get(barcode, quantity, sellingPrice, true);
     }
 
     @ApiOperation(value = "Gets list of all Items in Order")
@@ -37,15 +30,9 @@ public class OrderItemController {
         return service.getAll(id);
     }
 
-    @ApiOperation(value = "Gets specific Item")
-    @RequestMapping(path = "/api/item/{id}", method = RequestMethod.GET)
-    public OrderItemData1 get(@PathVariable Integer id) throws ApiException {
-        return service.get(id);
-    }
-
-    @ApiOperation(value = "Update item")
-    @RequestMapping(path = "/api/item/{id}", method = RequestMethod.POST)
-    public void updateItem(@RequestBody OrderItemForm1 form, @PathVariable Integer id) throws ApiException {
-        service.update(form, id);
+    @ApiOperation(value = "Creates order and push all items into it")
+    @RequestMapping(path = "/api/item", method = RequestMethod.POST)
+    public void updateItem(@RequestBody List<OrderItemForm1> forms) throws ApiException {
+        service.createOrder(forms);
     }
 }

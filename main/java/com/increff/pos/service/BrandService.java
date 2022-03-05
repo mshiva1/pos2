@@ -59,7 +59,7 @@ public class BrandService {
     public List<BrandData> getAll() {
         List<BrandPojo> list = dao.selectAll();
         Collections.reverse(list);
-        List<BrandData> list2 = new ArrayList<BrandData>();
+        List<BrandData> list2 = new ArrayList<>();
         for (BrandPojo p : list) {
             list2.add(convert1.convert(p));
         }

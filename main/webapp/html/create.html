@@ -39,8 +39,6 @@
                                step="any" type="number">
                     </div>
                 </div>
-                <input name="orderId" type="hidden">
-                <input name="productId" type="hidden">
                 <button class="btn btn-primary" form="item-form" id="add-item" type="submit">Add</button>
             </form>
         </div>
@@ -54,7 +52,6 @@
             <table class="table  table-striped" id="item-table">
                 <thead>
                 <tr>
-                    <th scope="col">S No</th>
                     <th scope="col">Name</th>
                     <th scope="col">Barcode</th>
                     <th scope="col">Brand-Category</th>
@@ -71,47 +68,6 @@
 
         </div>
     </div>
-
-    <!-- Item Edit Modal -->
-    <div class="modal" id="edit-item-modal" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Item</h5>
-                </div>
-                <div class="modal-body">
-                    <form class="form-inline" id="item-edit-form">
-                        <div class="form-group">
-                            <label class="col-sm-2 col-form-label" for="inputBarcode">Barcode</label>
-                            <div class="info" id="barcode_set">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 col-form-label" for="inputPrice">Price</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" min="0" name="sellingPrice" required step="any"
-                                       type="number">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 col-form-label" for="inputQuantity">Quantity</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" name="quantity" pattern="[1-9][0-9]*" type="text">
-                            </div>
-                        </div>
-                        <input name="productId" type="hidden">
-                        <input name="orderId" type="hidden">
-                        <input disabled name="id" type="hidden">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-primary" form="item-edit-form" id="update-item" type="submit">Update</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 <div id="order-control">
     <h3>Amount:<span id="order-total-value">0</span>

@@ -13,10 +13,8 @@ import java.util.List;
 public class OrderDao extends AbstractDao {
 
     private static final String select_id = "select p from OrderPojo p where id=:id";
-    private static final String select_all = "select p from OrderPojo p where status!='created'";
-    private static final String select_all_order = "select p.id from OrderPojo p";
-    private static final String get_order = "select p.id from OrderPojo p where status=:status and p.id > 0";
-    private static final String get_between = "select p.id from OrderPojo p where (status='completed' or status='confirmed') and invoice_time < :end and invoice_time > :start";
+    private static final String select_all = "select p from OrderPojo p";
+    private static final String get_between = "select p.id from OrderPojo p invoice_time < :end and invoice_time > :start";
 
     @PersistenceContext
     private EntityManager em;
@@ -37,17 +35,6 @@ public class OrderDao extends AbstractDao {
 
     public List<OrderPojo> selectAll() {
         TypedQuery<OrderPojo> query = getQuery(select_all, OrderPojo.class);
-        return query.getResultList();
-    }
-
-    public List<Integer> getAllOrderId() {
-        TypedQuery<Integer> query = getQuery(select_all_order, Integer.class);
-        return query.getResultList();
-    }
-
-    public List<Integer> getOrder(String status) {
-        TypedQuery<Integer> query = getQuery(get_order, Integer.class);
-        query.setParameter("status", status);
         return query.getResultList();
     }
 

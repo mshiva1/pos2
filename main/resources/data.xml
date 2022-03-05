@@ -2,19 +2,9 @@
 <users-data>
     <header-section>
         <data-type>Invoice</data-type>
-        <odate>04 Mar 2022 09:06</odate>
-        <idate>04 Mar 2022 14:45</idate>
-        <id>6</id>
-        <total>1234.0</total>
+        <odate>04 Mar 2022 14:54</odate>
+        <idate>05 Mar 2022 20:57</idate>
+        <id>8</id>
+        <total>0.0</total>
     </header-section>
-    <table-data>
-        <sno>1</sno>
-        <brandName>b1</brandName>
-        <categoryName>c1</categoryName>
-        <name>1</name>
-        <barcode>1</barcode>
-        <quantity>1</quantity>
-        <price>1234.0</price>
-        <total>1234.0</total>
-    </table-data>
 </users-data>

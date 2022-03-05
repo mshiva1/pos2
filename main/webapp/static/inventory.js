@@ -96,7 +96,7 @@ function uploadRows(){
 	//Make ajax call
 	$.ajax({
 	   url: url,
-	   type: 'POST',
+	   type: 'PUT',
 	   data: json,
 	   headers: {
        	'Content-Type': 'application/json'

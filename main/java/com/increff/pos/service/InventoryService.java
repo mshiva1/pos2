@@ -3,7 +3,6 @@ package com.increff.pos.service;
 import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.InventoryData;
-import com.increff.pos.model.InventoryData1;
 import com.increff.pos.model.InventoryData2;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.util.Convert1;
@@ -24,13 +23,6 @@ public class InventoryService {
     private ProductDao daoP;
     @Autowired
     private Convert1 convert1;
-
-    @Transactional(rollbackOn = ApiException.class)
-    public void addFromData(InventoryData1 f) throws ApiException {
-        Integer pid = this.getProductIdBarcode(f.getBarcode());
-        InventoryPojo p = convert1.convert(f, pid);
-        this.add(p);
-    }
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo p) throws ApiException {
@@ -90,17 +82,5 @@ public class InventoryService {
         dao.update(ex);
     }
 
-    @Transactional
-    public Integer getProductIdBarcode(String barcode) throws ApiException {
-        try {
-            return daoP.selectBarcode(barcode).getId();
-        } catch (Exception e) {
-            throw new ApiException("Barcode do not exist");
-        }
-    }
-
-    public List<String> getBarcodes() {
-        return daoP.getBarcodes();
-    }
 
 }

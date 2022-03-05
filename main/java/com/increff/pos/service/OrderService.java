@@ -1,7 +1,9 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.*;
-import com.increff.pos.model.*;
+import com.increff.pos.model.OrderData;
+import com.increff.pos.model.OrderItemData1;
+import com.increff.pos.model.SaleReport;
 import com.increff.pos.pojo.BrandPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -42,25 +44,6 @@ public class OrderService {
     @Autowired
     private Convert1 convert1;
 
-    @Transactional(rollbackOn = ApiException.class)
-    public IntegerData add() throws ApiException {
-        IntegerData id = new IntegerData();
-        //if partial order present
-        List<Integer> p1 = dao.getOrder("created");
-        if (!p1.isEmpty()) {
-            id.setId(p1.get(0));
-        }
-        //if no partial order present
-        else {
-            OrderPojo p = new OrderPojo();
-            p.setStatus("created");
-            p.setOrder_time(Timestamp.from(Instant.now()));
-            p.setInvoice(null);
-            id.setId(dao.insert(p));
-        }
-        return id;
-    }
-
     @Transactional
     public void delete(Integer id) throws ApiException {
         if (get(id).getStatus().equals("completed"))
@@ -68,7 +51,7 @@ public class OrderService {
         List<OrderItemPojo> items = daoOI.selectByOrderId(id);
         String status = dao.select(id).getStatus();
         for (OrderItemPojo oip : items) {
-            if (status.equals("confirmed")) {
+            if (status.equals("created")) {
                 //only add to inventory if confirmed order is cancelled
                 InventoryPojo ip = new InventoryPojo();
                 ip.setProductId(oip.getProduct_id());
@@ -121,27 +104,6 @@ public class OrderService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void confirm(Integer id) throws ApiException {
-        OrderPojo p = dao.select(id);
-        List<OrderItemPojo> items = daoOI.selectByOrderId(id);
-        if (items.isEmpty())
-            throw new ApiException("Order cannot be empty");
-        //remove items from inventory
-        for (OrderItemPojo oip : items) {
-            InventoryPojo ip = daoI.select(oip.getProduct_id());
-            if (ip.getQuantity() < oip.getQuantity())
-                throw new ApiException("Quantity in Stock changed for Item" + daoP.selectId(oip.getProduct_id()).getName() + "(" + daoP.selectId(oip.getProduct_id()).getBarcode() + ")Try removing it and adding it again");
-            else
-                ip.setQuantity(ip.getQuantity() - oip.getQuantity());
-        }
-        if (p == null)
-            throw new ApiException("Order Not Found");
-        if (p.getStatus().equals("created"))
-            p.setStatus("confirmed");
-        p.setOrder_time(Timestamp.from(Instant.now()));
-    }
-
-    @Transactional(rollbackOn = ApiException.class)
     public void complete(Integer id) throws ApiException {
         OrderPojo p = dao.select(id);
         if (p == null)
@@ -150,44 +112,6 @@ public class OrderService {
         p.setInvoice_time(Timestamp.from(Instant.now()));
         p.setInvoice(generateInvoice(p.getId(), p.getOrder_time(), p.getInvoice_time()));
         System.out.println("invoice saved");
-    }
-
-    public List<String> getBarcodes() {
-        List<Integer> pids = daoI.getProducts();
-        List<String> retval = new ArrayList<>();
-        for (Integer i : pids) {
-            retval.add(daoP.selectId(i).getBarcode());
-        }
-        return retval;
-    }
-
-    @Transactional
-    public void copy(CopyForm cf) throws ApiException {
-        Integer fromId = cf.getFromId();
-        Integer toId = cf.getToId();
-
-        if (dao.select(toId).getStatus().equals("completed"))
-            throw new ApiException(" This order is completed.No Changes Allowed");
-        this.get(toId);
-        this.delete(toId);
-        //remove all items of toId
-        this.get(toId).setStatus("created");
-        //set status of to toId created
-        List<OrderItemPojo> oip = daoOI.selectByOrderId(fromId);
-        for (OrderItemPojo i : oip) {
-            OrderItemForm oif = new OrderItemForm();
-            oif.setBarcode(daoP.selectId(i.getProduct_id()).getBarcode());
-            oif.setOrderId(toId);
-            oif.setQuantity(i.getQuantity());
-            oif.setSellingPrice(i.getSellingPrice());
-            serOI.add(oif, false);
-        }
-        //copy all items from fromId to toId
-
-        if (cf.getFromId() == 0) {
-            this.confirm(toId);
-            //confirm toId
-        }
     }
 
     public List<Integer> selectOrdersBetween(String start, String end) {
@@ -228,7 +152,7 @@ public class OrderService {
                 Integer id = daoB.getBid(brandName, categoryName).getId();
                 brandsList.add(id);
             }
-            //incase brand category not found
+            //in case brand category not found
             catch (ApiException e) {
                 return null;
             }

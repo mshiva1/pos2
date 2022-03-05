@@ -15,7 +15,6 @@ public class OrderItemDao extends AbstractDao {
     private static final String delete_id = "delete from OrderItemPojo p where id=:id";
     private static final String select_id = "select p from OrderItemPojo p where id=:id";
     private static final String select_order = "select p from OrderItemPojo p where order_id=:order_id";
-    private static final String select_pid = "select p.product_id from OrderItemPojo p";
     private static final String delete_items = "delete from OrderItemPojo where order_id=:id";
     private static final String select_with = "select p from OrderItemPojo p where product_id=:pid AND order_id=:oid";
 
@@ -51,11 +50,6 @@ public class OrderItemDao extends AbstractDao {
         Query query1 = em.createQuery(delete_items);
         query1.setParameter("id", id);
         query1.executeUpdate();
-    }
-
-    public List<Integer> getAllPId() {
-        TypedQuery<Integer> query = getQuery(select_pid, Integer.class);
-        return query.getResultList();
     }
 
     public List<OrderItemPojo> select(Integer pid, Integer oid) {
