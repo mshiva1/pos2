@@ -35,7 +35,7 @@ public class ProductController {
 
     @ApiOperation(value = "Gets list of all Products")
     @RequestMapping(path = "/api/product", method = RequestMethod.GET)
-    public List<ProductData1> getAll() throws ApiException {
+    public List<ProductData1> getAllProducts() throws ApiException {
         return service.getAll();
     }
 
@@ -53,7 +53,7 @@ public class ProductController {
 
     @ApiOperation(value = "Gets list of Categories related to brandName")
     @RequestMapping(path = "/api/product/brands/{brandName}", method = RequestMethod.GET)
-    public List<String> getBrandNames(@PathVariable String brandName) {
+    public List<String> getCategoryNames(@PathVariable String brandName) {
         return service.getCatNames(brandName);
     }
 

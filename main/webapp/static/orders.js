@@ -14,6 +14,7 @@ function getOrdersList(){
      error: handleAjaxError
   });
 }
+
 function fromTimestamp(time){
     if(time==null) return "NA";
     var d= new Date(time);
@@ -35,7 +36,7 @@ function displayOrdersList(data){
     status='<td>'  + (e.status).toUpperCase() + '</td>'
       buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(' + e.id + ')">Cancel</button>'
       buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="editOrder(' + e.id + ')">Edit</button>'
-      buttonHtml += ' <button class="btn btn-sm btn-outline-success" onclick="fulfilOrder(' + e.id + ')">Generate Invoice</button>'
+      buttonHtml += ' <button class="btn btn-sm btn-outline-success" onclick="completeOrder(' + e.id + ')">Generate Invoice</button>'
     }
     else if(e.status=='completed'){
     status='<td style="color:green">'  + (e.status).toUpperCase() + '</td>'
@@ -66,15 +67,15 @@ function deleteOrder(id){
   });
 }
 function editOrder(id){
-        sessionStorage.setItem("toEditId", id);
-        var baseUrl = $("meta[name=baseUrl]").attr("content");
-        window.location.replace(baseUrl+'/site/edit');
+//todo modal toggle
+//delete table in modal
+//load data // pass control to edit.js
   }
-function fulfilOrder(id){
-  var url = getOrdersUrl() + "/fulfil-" + id;
+function completeOrder(id){
+  var url = getOrdersUrl() + "/" + id;
   $.ajax({
      url: url,
-     type: 'POST',
+     type: 'PUT',
      success: function(data) {
         downloadInvoice(id);
         getOrdersList();
@@ -122,9 +123,15 @@ function downloadInvoice(id){
      error: handleAjaxError
   });
 }
+function newOrder(){
+        var baseUrl = $("meta[name=baseUrl]").attr("content");
+        window.location.replace(baseUrl+'/site/neworder');
+}
 //INITIALIZATION CODE
 function init(){
     $('#refresh-data').click(getOrdersList);
+    $('#new-order').click(newOrder);
+
 }
 $(document).ready(init);
 $(document).ready(getOrdersList);

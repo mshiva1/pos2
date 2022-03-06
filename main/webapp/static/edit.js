@@ -1,204 +1,167 @@
-
+var total=0;
+var editsstatus=0;
+var currentOrderId;
 function getItemUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/item/";
 }
-
-function getOrdersUrl(){
-    var baseUrl = $("meta[name=baseUrl]").attr("content")
-    return baseUrl + "/api/order/";
+//
+function loadData(data){
+		total=0;
+		editsstatus=0;
+		var table = document.getElementById("item-table"); //get the table
+        var $tbody = $('#item-table').find('tbody');
+            var rowcount = table.rows.length;//get no. of rows in the table
+		for (var e in data){
+            var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + rowcount + ')">Delete</button>'
+            		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="EditItem(' + rowcount + ')">Edit</button>';
+            var row = '<tr id="row'+rowcount+'" class="item">'
+            + '<td style="display:none" class="rownumber">' + rowcount + '</td>'
+            + '<td style="display:none" id="productId'+rowcount+'">' + e.productId + '</td>'
+            + '<td>' + e.name + '</td>'
+            + '<td id="barcode'+rowcount+'">' + e.barcode + '</td>'
+            + '<td>'  +e.brandName+'-'+e.categoryName + '</td>'
+            + '<td>' + e.mrp + '</td>'
+            + '<td id="price'+rowcount+'">'  +e.sellingPrice + '</td>'
+            + '<td id="quantity'+rowcount+'">' + e.quantity + '</td>'
+            + '<td id="subtotal'+rowcount+'">' + e.quantity*e.sellingPrice + '</td>'
+            + '<td id="button'+rowcount+'">' + buttonHtml + '</td>'
+            + '</tr>';
+                total+=e.quantity*e.sellingPrice;
+            $tbody.append(row);
+        	updateAmount();
+        	rowcount++;
+		}
 }
-
-async function copyInto(from,to){
-    var url=getOrdersUrl()+'copy';
-    var row = {
-            fromId: parseInt(from),
-            toId: parseInt(to)
-        }
-	var json = JSON.stringify(row);
-    await $.ajax({
-        url:url,
-        type:'PUT',
-	   data: json,
-	   headers: {
-              	'Content-Type': 'application/json'
-              },
-        success:function(response){
-        getItemList();
-        return 1;
-        },
-	   error:function(response){ handleAjaxError(response);
-	   return 0;
-        }
-    });
+function loadOrderDetails(orderId){
+	currentOrderId=orderId
+	url=getItemUrl+orderId;
+	$.ajax({
+    	   url: url,
+    	   type: 'GET',
+    	   success: function(response) {
+    	        loadData(response)
+    	   },
+    	   error: handleAjaxError
+    	});
 }
-    var edit;
-function setOrderId(){
-    edit=sessionStorage.getItem('toEditId');
-    $("#order-id-value").html(0);
-    $("#item-edit-form input[name=orderId]").val(0);
-    $("#old-order").html(edit);
-    copyInto(edit,0);
-    getItemList();
-    }
-//BUTTON ACTIONS
+//button actions
 
-function confirmOrder(event){
-    if(copyInto(0,edit)) //copy from 0 to old id, if error then it will deal
-     var baseUrl = $("meta[name=baseUrl]").attr("content");
-             window.location.replace(baseUrl+'/site/orders');
+function EditItem(id){
+	cancelAllEdits();
+	initialQuantity =$("#quantity"+id).html();
+	initialPrice =$("#price"+id).html();
+	qHtml='<input class="form-control intable" type= number steps="1" min="1" form="edit-form" id="newQuantity'+id+'" required value="'+initialQuantity+'"><div style="display:none" id="initialQ'+id+'" >'+initialQuantity+'</div>';
+	pHtml='<input class="form-control intable" type= number steps="any" min="0" form="edit-form" id="newPrice'+id+'"  value="'+initialPrice+'"><div style="display:none" id="initialP'+id+'" >'+initialPrice+'</div>';
+
+    var buttonHtml = '<button class="btn btn-sm btn-outline-secondary cancelClass" id="cancel'+id+'"  onclick="cancelEdit(' + id + ')">Back</button>'
+    		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="completeEdit(' + id + ')">Save</button>'
+	$("#quantity"+id).html(qHtml);
+	$("#price"+id).html(pHtml);
+	$("#button"+id).html(buttonHtml);
+    editsstatus++;
+	updateAmount();
 }
-function deleteOrder(event){
-    // go to orders page
-    var id=$("#item-edit-form input[name=orderId]").val();
-  var url = getOrdersUrl() + id;
-  $.ajax({
-     url: url,
-     type: 'DELETE',
-     success: function(data) {
-     var baseUrl = $("meta[name=baseUrl]").attr("content");
-             window.location.replace(baseUrl+'/site/orders');
-     },
-     error: handleAjaxError
-  });
+function updateRow(id,data){
+	$("#quantity"+id).html(data.quantity);
+    $("#price"+id).html(data.sellingPrice);
+    var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + id + ')">Delete</button>'
+                buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="EditItem(' + id + ')">Edit</button>'
+	total=total-$("#subtotal"+id).html();
+	$("#subtotal"+id).html(data.sellingPrice*data.quantity)
+	total+=data.sellingPrice*data.quantity;
+    $("#button"+id).html(buttonHtml);
+    editsstatus--;
+	updateAmount();
 }
-function updateItem(event){
-	//Get the ID
-	var id = $("#item-edit-form input[name=id]").val();
-	var url = getItemUrl() + id;
-
-	//Set the values to update
-	var $form = $("#item-edit-form");
-	var json = toJson($form);
-
+function completeEdit(id){
+	barcode= $("#barcode"+id).html()
+	quantity=$("#newQuantity"+id).val()
+	sellingPrice= $("#newPrice"+id).val()
+	added=(-1)*parseInt($("#initialQ"+id).html());
+	string = 'barcode='+ barcode+'&quantity='+quantity+'&sellingPrice='+ sellingPrice+'&added='+ added;
+	var url = getItemUrl();
+	// this ajax call get details of specific item and check quantity validation
 	$.ajax({
 	   url: url,
-	   type: 'POST',
-	   data: json,
+	   type: 'GET',
+	   data: string,
 	   headers: {
        	'Content-Type': 'application/json'
        },
 	   success: function(response) {
-	   		getItemList();
-	        $('#edit-item-modal').modal('toggle');
-	        successMessage("Item updated Successfully");
+	        updateRow(id,response)
 	   },
 	   error: handleAjaxError
 	});
-
 	return false;
 }
-
-
-function getItemList(){
-    var id=$("#item-edit-form input[name=orderId]").val();
-	var url = getItemUrl()+"order/"+id;
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayItemList(data);
-	   },
-	   error: handleAjaxError
-	});
-}
-
 function deleteItem(id){
-	var url = getItemUrl()  + id;
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getItemList();
-	        successMessage("Item removed Successfully");
-	   },
-	   error: handleAjaxError
-	});
+	initialQuantity =$("#quantity"+id).html();
+	initialPrice =$("#price"+id).html();
+	total=total-initialQuantity*initialPrice;
+	$("#row"+id).remove();
+	updateAmount();
 }
 
-//UI DISPLAY METHODS
-
-function displayItemList(data){
-	var $tbody = $('#item-table').find('tbody');
-	$tbody.empty();
-	var total=0;
-	var quantity=0;
-	for(var i in data){
-		var e = data[i];
-		var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + e.id + ')">Delete</button>'
-		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="displayEditItem(' + e.id + ')">Edit</button>'
-		var row = '<tr>'
-		+ '<td>' + (parseInt(i)+1) + '</td>'
-		+ '<td>' + e.name + '</td>'
-		+ '<td>' + e.barcode + '</td>'
-		+ '<td>'  +e.brandName+'-'+e.categoryName + '</td>'
-		+ '<td>' + e.mrp + '</td>'
-		+ '<td>'  +e.sellingPrice + '</td>'
-		+ '<td>' + e.quantity + '</td>'
-		+ '<td>' + e.quantity*e.sellingPrice + '</td>'
-		+ '<td>' + buttonHtml + '</td>'
-		+ '</tr>';
-		total+=e.quantity*e.sellingPrice;
-        $tbody.append(row);
-        quantity+=1;
-	}
-	if(quantity==1){
-		for(var i in data){
-				$tbody.empty();
-        		var e = data[i];
-        		var buttonHtml = '<button class="btn btn-sm btn-outline-disabled" disabled onclick="deleteItem(' + e.id + ')">Delete</button>'
-        		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="displayEditItem(' + e.id + ')">Edit</button>'
-        		var row = '<tr>'
-        		+ '<td>' + (parseInt(i)+1) + '</td>'
-        		+ '<td>' + e.name + '</td>'
-        		+ '<td>' + e.barcode + '</td>'
-        		+ '<td>'  +e.brandName+'-'+e.categoryName + '</td>'
-        		+ '<td>' + e.mrp + '</td>'
-        		+ '<td>'  +e.sellingPrice + '</td>'
-        		+ '<td>' + e.quantity + '</td>'
-        		+ '<td>' + e.quantity*e.sellingPrice + '</td>'
-        		+ '<td>' + buttonHtml + '</td>'
-        		+ '</tr>';
-        		total+=e.quantity*e.sellingPrice;
-                $tbody.append(row);
-        	}
-	}
-	if(total<=0)
-	    $("#confirm").prop('disabled',true);
-	else
-	    $("#confirm").prop('disabled',false);
+function updateAmount(){
+	var table = document.getElementById("item-table");
+	var rowcount = table.rows.length;
+	if(total>0 && editsstatus==0)
+		    $("#confirm").prop('disabled',false);
+		else
+		    $("#confirm").prop('disabled',true);
 	$("#order-total-value").html(total);
 }
-
-function displayEditItem(id){
-	var url = getItemUrl() + "/" + id;
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayItem(data);
-	   },
+function cancelAllEdits(){
+var allEdits=	$(".cancelClass");
+	for( i=0;i<allEdits.length;i++){
+	var id=allEdits[i].id.slice(6);
+	cancelEdit(id);
+	}
+}
+function cancelEdit(id){
+	initialQuantity =$("#initialQ"+id).html();
+    initialPrice =$("#initialP"+id).html();
+    $("#quantity"+id).html(initialQuantity);
+    $("#price"+id).html(initialPrice);
+    var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + id + ')">Delete</button>'
+    buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="EditItem(' + id + ')">Edit</button>'
+    $("#button"+id).html(buttonHtml);
+    editsstatus--;
+    updateAmount();
+}
+function confirmOrder(event){
+	var allItems=$(".rownumber")
+	var totalItems=allItems.length
+	data = new Array()
+	for( var i=0;i<totalItems;i++){
+		var row = {
+	                productId: $("#productId"+allItems[i].innerHTML).html(),
+	                orderId: currentOrderId,
+	                quantity:$("#quantity"+allItems[i].innerHTML).html(),
+	                sellingPrice:$("#price"+allItems[i].innerHTML).html()
+	            }
+	    data.push(row)
+}
+data = JSON.stringify(data);
+    var url=getItemUrl()+"/"+currentOrderId;
+    $.ajax({
+        url:url,
+        type:'PUT',
+        data: data,
+		headers: {
+			'Content-Type': 'application/json'
+		},
+        success: function(response){
+        var baseUrl = $("meta[name=baseUrl]").attr("content");
+        window.location.replace(baseUrl+'/site/orders');
+        },
 	   error: handleAjaxError
-	});
+    });
 }
-
-function displayItem(data){
-	$("#barcode_set").html(data.barcode);
-	$('#item-edit-form input[name=productId]').val(data.productId);
-    $("#item-edit-form input[name=sellingPrice]").val(data.sellingPrice);
-    $("#item-edit-form input[name=quantity]").val(data.quantity);
-    $("#item-edit-form input[name=id]").val(data.id);
-	$('#edit-item-modal').modal('toggle');
-}
-
 //INITIALIZATION CODE
 function init(){
-	$('#item-edit-form').submit(updateItem);   //inside modal
-	$('#confirm').click(confirmOrder);
-	$('#cancel-order').click(deleteOrder);
+	$('#completeEdit').click(completeEdit);
 }
-
-
 $(document).ready(init);
-$(document).ready(setOrderId);
-

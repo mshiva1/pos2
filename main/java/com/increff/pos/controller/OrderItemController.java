@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Api
@@ -20,19 +21,24 @@ public class OrderItemController {
 
     @ApiOperation(value = "Get Details of Specific Item")
     @RequestMapping(path = "/api/item/", method = RequestMethod.GET)
-    public OrderItemData1 getItem(String barcode, String quantity, String sellingPrice) throws ApiException {
-        return service.get(barcode, quantity, sellingPrice, true);
+    public OrderItemData1 getItem(String barcode, String quantity, String sellingPrice,String added) throws ApiException {
+        return service.get(barcode, quantity, sellingPrice,added);
     }
 
     @ApiOperation(value = "Gets list of all Items in Order")
-    @RequestMapping(path = "/api/item/order/{id}", method = RequestMethod.GET)
-    public List<OrderItemData1> getAll(@PathVariable Integer id) {
+    @RequestMapping(path = "/api/item/{id}", method = RequestMethod.GET)
+    public List<OrderItemData1> getAllByOrderId(@PathVariable Integer id) {
         return service.getAll(id);
     }
 
     @ApiOperation(value = "Creates order and push all items into it")
     @RequestMapping(path = "/api/item", method = RequestMethod.POST)
-    public void updateItem(@RequestBody List<OrderItemForm1> forms) throws ApiException {
+    public void newOrder(@RequestBody List<OrderItemForm1> forms) throws ApiException {
         service.createOrder(forms);
+    }
+    @ApiOperation(value = "Creates order and push all items into it")
+    @RequestMapping(path = "/api/item/{id}", method = RequestMethod.PUT)
+    public void editOrder(@PathVariable Integer id, @RequestBody List<OrderItemForm1> forms) throws ApiException {
+            service.editOrder(forms,id);
     }
 }

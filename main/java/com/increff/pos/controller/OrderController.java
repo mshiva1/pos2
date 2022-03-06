@@ -41,9 +41,9 @@ public class OrderController {
     }
 
 
-    @ApiOperation(value = "confirmed to completed")
-    @RequestMapping(path = "/api/order/fulfil-{id}", method = RequestMethod.POST)
-    public void fulfilOrder(@PathVariable Integer id) throws ApiException {
+    @ApiOperation(value = "created to completed")
+    @RequestMapping(path = "/api/order/{id}", method = RequestMethod.PUT)
+    public void completeOrder(@PathVariable Integer id) throws ApiException {
         service.complete(id);
     }
 

@@ -111,7 +111,6 @@ public class OrderService {
         p.setStatus("completed");
         p.setInvoice_time(Timestamp.from(Instant.now()));
         p.setInvoice(generateInvoice(p.getId(), p.getOrder_time(), p.getInvoice_time()));
-        System.out.println("invoice saved");
     }
 
     public List<Integer> selectOrdersBetween(String start, String end) {

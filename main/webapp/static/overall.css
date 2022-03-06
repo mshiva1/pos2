@@ -49,7 +49,6 @@ right :20px;
     opacity:1;
     background-color:white;
     text-align:right;
-    margin-right: 100px;
 }
 html {
 	position: relative;
@@ -97,8 +96,9 @@ label{
     margin:0;
 }
 .dropdown-menu{
+	width:max-content;
     background-color:#e9f3ff;
-padding:0;
+	padding:0;
 }
 #error_box{
     z-index: 1056;
@@ -120,7 +120,6 @@ padding:0;
     }
 
 .footer {
-
 		color: rgba(0,0,0,.5);
         font-weight: 750;
 	    position: absolute;
@@ -180,5 +179,9 @@ input required{
 	border: 1px solid red;
 }
 .intable{
-width: 200px;
+padding: 0 10px;
+height:auto;
+}
+table{
+table-layout: fixed;
 }

@@ -64,7 +64,6 @@ public class BrandService {
             list2.add(convert1.convert(p));
         }
         Collections.sort(list2);
-        System.out.println(list2);
         return list2;
     }
 

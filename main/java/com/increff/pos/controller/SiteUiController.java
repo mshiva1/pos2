@@ -14,12 +14,12 @@ public class SiteUiController extends AbstractUiController {
         return mav("orders.html");
     }
 
-    @RequestMapping(value = "/site/brand")
+    @RequestMapping(value = "/site/brands")
     public ModelAndView brand() {
         return mav("brand.html");
     }
 
-    @RequestMapping(value = "/site/product")
+    @RequestMapping(value = "/site/products")
     public ModelAndView product() {
         return mav("product.html");
     }
@@ -29,9 +29,9 @@ public class SiteUiController extends AbstractUiController {
         return mav("inventory.html");
     }
 
-    @RequestMapping(value = "/site/create")
+    @RequestMapping(value = "/site/neworder")
     public ModelAndView create() {
-        return mav("create.html");
+        return mav("neworder.html");
     }
 
     @RequestMapping(value = "/site/orders")

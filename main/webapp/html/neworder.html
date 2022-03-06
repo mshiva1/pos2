@@ -9,12 +9,13 @@
 <body>
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 <div class="content1">
-
+    <h3>New Order</h3>
+    <br>
     <!-- Top row with form-->
     <div class="row">
         <div class="col-12">
             <form class="form-inline" id="item-form">
-                <div class="form-group col-4">
+                <div class="form-group col-3">
                     <label class="col-sm-3 col-form-label" for="inputBarcode">Barcode</label>
                     <div class="col-sm-8">
                         <input class="form-control" id="inputBarcode" name="barcode" placeholder="Enter Barcode"
@@ -23,7 +24,7 @@
                         </input>
                     </div>
                 </div>
-                <div class="form-group col-4">
+                <div class="form-group col-3">
                     <label class="col-sm-3 col-form-label" for="inputQuantity">Quantity</label>
                     <div class="col-sm-8">
 
@@ -39,7 +40,7 @@
                                step="any" type="number">
                     </div>
                 </div>
-                <button class="btn btn-primary" form="item-form" id="add-item" type="submit">Add</button>
+                <button class="btn btn-primary col-1" form="item-form" id="add-item" type="submit">Add</button>
             </form>
         </div>
     </div>
@@ -65,18 +66,17 @@
                 <tbody>
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>
 <div id="order-control">
     <h3>Amount:<span id="order-total-value">0</span>
-        <button class="btn btn-outline-secondary" id="cancel-order" type="button">Clear All</button>
-        <button class="btn btn-success" disabled id="confirm" type="button">Confirm</button>
+        <button class="btn btn-outline-secondary col-1" id="cancel-order" type="button">Clear All</button>
+        <button class="btn btn-success col-1" disabled id="confirm" type="button">Confirm</button>
     </h3>
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>
-<script th:src="@{/static/create.js}"></script>
+<script th:src="@{/static/neworder.js}"></script>
 <script th:src="@{/static/app.js}"></script>
 </body>
 

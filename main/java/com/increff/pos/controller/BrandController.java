@@ -32,7 +32,7 @@ public class BrandController {
 
     @ApiOperation(value = "Gets list of all Brands")
     @RequestMapping(path = "/api/brand", method = RequestMethod.GET)
-    public List<BrandData> getAll() {
+    public List<BrandData> getAllBrand() {
         return service.getAll();
     }
 

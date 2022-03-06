@@ -33,7 +33,7 @@
                     <fo:block>
                         &#160;&#160;
                     </fo:block>
-                    <fo:block>ORDER DETAILS</fo:block>
+                    <fo:block>ITEMS:</fo:block>
                     <fo:table table-layout="fixed" width="100%" font-size="10pt" border-color="black"
                               border-width="0.35mm" border-style="solid" text-align="center" display-align="center"
                               space-after="5mm">

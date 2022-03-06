@@ -10,7 +10,10 @@
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 <div class="content">
     <h3>Orders</h3>
+    <br>
     <div class="row" id="buttons">
+        <button class="btn btn-primary" id="new-order" type="button">New Order</button>
+        &nbsp;&nbsp;
         <button class="btn btn-outline-secondary" id="refresh-data" type="button">Refresh</button>
     </div>
     <br>
@@ -33,6 +36,44 @@
 
         </div>
     </div>
+
+    <!-- Order Edit Modal -->
+    <div class="modal" id="edit-inventory-modal" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Order Items</h5>
+                </div>
+                <div class="modal-body">
+                    <!-- Table -->
+                    <div class="col-12">
+                        <table class="table  table-striped" id="item-table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Barcode</th>
+                                <th scope="col">Brand-Category</th>
+                                <th scope="col">MRP</th>
+                                <th scope="col">Selling Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary"  id="completeEdit" type="button">
+                        Update
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>
 <script th:src="@{/static/orders.js}"></script>

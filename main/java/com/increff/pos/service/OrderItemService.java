@@ -27,14 +27,15 @@ public class OrderItemService {
     @Autowired
     private InventoryDao daoI;
     @Autowired
+    private BrandDao daoB;
+    @Autowired
     private Convert1 convert;
     @Autowired
-    private BrandDao daoB;
+    private OrderService serO;
 
     @Transactional(rollbackOn = ApiException.class)
-    public OrderItemData1 get(String barcode, String quantity, String sellingPrice, Boolean validations) throws ApiException {
+    public OrderItemData1 get(String barcode, String quantity, String sellingPrice,String added) throws ApiException {
         OrderItemForm p = new OrderItemForm();
-        System.out.println(barcode + quantity + sellingPrice);
         p.setBarcode(barcode);
         if (sellingPrice.isEmpty())
             p.setSellingPrice(0);
@@ -51,9 +52,7 @@ public class OrderItemService {
         if (p.getSellingPrice() == 0)
             p.setSellingPrice(pp.getMrp());
 
-        if (validations) {
-            p = validateAdd(p, pp, ip);
-        }
+        p = validateAdd(p, pp, ip,Integer.parseInt(added));
 
         OrderItemData1 oid = new OrderItemData1();
         oid.setBarcode(p.getBarcode());
@@ -67,13 +66,13 @@ public class OrderItemService {
         return oid;
     }
 
-    private OrderItemForm validateAdd(OrderItemForm p, ProductPojo p1, InventoryPojo ip) throws ApiException {
+    private OrderItemForm validateAdd(OrderItemForm p, ProductPojo p1, InventoryPojo ip,Integer added) throws ApiException {
 
         Integer available;
         if (ip == null)
             throw new ApiException("Product not in Inventory");
         else
-            available = ip.getQuantity();
+            available = ip.getQuantity()-added;
 
         p.setSellingPrice((float) ((double) Math.round(p.getSellingPrice() * 100)) / 100);
         if (p.getQuantity() > available)
@@ -134,6 +133,34 @@ public class OrderItemService {
         Integer orderId = daoO.insert(op);
 
         //add items to OrderItemPojo after decrementing inventory
+        for (OrderItemForm1 oif : forms) {
+            OrderItemPojo oip = new OrderItemPojo();
+            InventoryPojo ip = daoI.select(oif.getProductId());
+            if (ip.getQuantity() < oif.getQuantity())
+                throw new ApiException("Inventory Not available for" + daoP.selectId(oip.getProduct_id()).getName() + "(" + daoP.selectId(oip.getProduct_id()).getBarcode() + ")Try removing it and adding it again");
+            else
+                ip.setQuantity(ip.getQuantity() - oif.getQuantity());
+            oip.setOrder_id(orderId);
+            oip.setProduct_id(oif.getProductId());
+            oip.setSellingPrice(oif.getSellingPrice());
+            oip.setQuantity(oif.getQuantity());
+            dao.insert(oip);
+        }
+    }
+
+    @Transactional(rollbackOn = ApiException.class)
+    public void editOrder(List<OrderItemForm1> forms,Integer orderId) throws ApiException {
+        try{
+            serO.delete(orderId);
+        }
+        catch (ApiException e){
+            throw new ApiException("Completed orders cant be Edited");
+        }
+        //remove all items regarding to orderId
+        OrderPojo op= daoO.select(orderId);
+        op.setStatus("created");
+        op.setOrder_time(Timestamp.from(Instant.now()));
+        //add all items to OrderItemPojo
         for (OrderItemForm1 oif : forms) {
             OrderItemPojo oip = new OrderItemPojo();
             InventoryPojo ip = daoI.select(oif.getProductId());

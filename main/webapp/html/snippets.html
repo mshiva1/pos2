@@ -29,16 +29,13 @@
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/site/brand}">Brands</a>
+                <a class="nav-link" th:href="@{/site/brands}">Brands</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/site/product}">Products</a>
+                <a class="nav-link" th:href="@{/site/products}">Products</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/site/inventory}">Inventory</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/site/create}">Create Order</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/site/orders}">Orders</a>
@@ -51,14 +48,13 @@
                 </a>
 
                 <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-                    <a class="nav-link" onclick="getBrandReport()">Brand Report</a>
-                    <a class="nav-link" onclick="getProductReport()">Inventory Report</a>
+                    <a class="nav-link" onclick="getBrandReport()">Download Brand Report</a>
+                    <a class="nav-link" onclick="getProductReport()">Download Inventory Report</a>
                     <a class="nav-link" th:href="@{/site/salesreport}">Sales Report</a>
                 </div>
             </li>
         </ul>
     </div>
-
 </nav>
 
 
