@@ -117,13 +117,13 @@ public class OrderService {
         Timestamp timeStart, timeEnd;
 
         //if start is empty means start time is -inf
-        if (start.isEmpty())
+        if (start==null)
             timeStart = new Timestamp(0);
         else
             timeStart = Timestamp.valueOf(start + " 00:00:01");
 
         //if end is empty means end is today
-        if (end.isEmpty())
+        if (end==null)
             timeEnd = Timestamp.from(Instant.now());
         else
             timeEnd = Timestamp.valueOf(end + " 23:59:59");
@@ -165,6 +165,7 @@ public class OrderService {
         List<SaleReport> retval = new ArrayList<>();
         List<Integer> brandsList = selectBrandCategory(brandName, categoryName);
         List<Integer> ordersList = selectOrdersBetween(start, end);
+
         for (Integer i : brandsList) {
             SaleReport r = new SaleReport();
             r.setCategoryId(i);

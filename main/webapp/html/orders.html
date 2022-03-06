@@ -38,8 +38,8 @@
     </div>
 
     <!-- Order Edit Modal -->
-    <div class="modal" id="edit-inventory-modal" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="edit-order-modal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-xl" id="edit-order-modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Order Items</h5>
@@ -50,25 +50,25 @@
                         <table class="table  table-striped" id="item-table">
                             <thead>
                             <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Barcode</th>
-                                <th scope="col">Brand-Category</th>
-                                <th scope="col">MRP</th>
-                                <th scope="col">Selling Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col" width="10%">Name</th>
+                                <th scope="col" width="10%">Barcode</th>
+                                <th scope="col" width="10%">MRP</th>
+                                <th scope="col" width="12%">Selling Price</th>
+                                <th scope="col" width="8%">Quantity</th>
+                                <th scope="col" width="10%">Total</th>
+                                <th scope="col" width="15%">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             </tbody>
                         </table>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-primary"  id="completeEdit" type="button">
-                        Update
-                    </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                        <button class="btn btn-primary"  id="confirmEdit" type="button">
+                            Update
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,6 +77,7 @@
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>
 <script th:src="@{/static/orders.js}"></script>
+<script th:src="@{/static/edit.js}"></script>
 <script th:src="@{/static/app.js}"></script>
 </body>
 

@@ -11,16 +11,17 @@ function loadData(data){
 		editsstatus=0;
 		var table = document.getElementById("item-table"); //get the table
         var $tbody = $('#item-table').find('tbody');
+        $tbody.empty();
             var rowcount = table.rows.length;//get no. of rows in the table
-		for (var e in data){
-            var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + rowcount + ')">Delete</button>'
+		for (var i in data){
+			var e= data[i];
+            var buttonHtml = '<button class="btn btn-sm btn-outline-danger deleteItem" onclick="deleteItem(' + rowcount + ')">Delete</button>'
             		buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="EditItem(' + rowcount + ')">Edit</button>';
             var row = '<tr id="row'+rowcount+'" class="item">'
             + '<td style="display:none" class="rownumber">' + rowcount + '</td>'
             + '<td style="display:none" id="productId'+rowcount+'">' + e.productId + '</td>'
             + '<td>' + e.name + '</td>'
             + '<td id="barcode'+rowcount+'">' + e.barcode + '</td>'
-            + '<td>'  +e.brandName+'-'+e.categoryName + '</td>'
             + '<td>' + e.mrp + '</td>'
             + '<td id="price'+rowcount+'">'  +e.sellingPrice + '</td>'
             + '<td id="quantity'+rowcount+'">' + e.quantity + '</td>'
@@ -35,7 +36,7 @@ function loadData(data){
 }
 function loadOrderDetails(orderId){
 	currentOrderId=orderId
-	url=getItemUrl+orderId;
+	url=getItemUrl()+orderId;
 	$.ajax({
     	   url: url,
     	   type: 'GET',
@@ -65,7 +66,7 @@ function EditItem(id){
 function updateRow(id,data){
 	$("#quantity"+id).html(data.quantity);
     $("#price"+id).html(data.sellingPrice);
-    var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + id + ')">Delete</button>'
+    var buttonHtml = '<button class="btn btn-sm btn-outline-danger deleteItem" onclick="deleteItem(' + id + ')">Delete</button>'
                 buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="EditItem(' + id + ')">Edit</button>'
 	total=total-$("#subtotal"+id).html();
 	$("#subtotal"+id).html(data.sellingPrice*data.quantity)
@@ -80,6 +81,7 @@ function completeEdit(id){
 	sellingPrice= $("#newPrice"+id).val()
 	added=(-1)*parseInt($("#initialQ"+id).html());
 	string = 'barcode='+ barcode+'&quantity='+quantity+'&sellingPrice='+ sellingPrice+'&added='+ added;
+	console.log(string);
 	var url = getItemUrl();
 	// this ajax call get details of specific item and check quantity validation
 	$.ajax({
@@ -108,10 +110,18 @@ function updateAmount(){
 	var table = document.getElementById("item-table");
 	var rowcount = table.rows.length;
 	if(total>0 && editsstatus==0)
-		    $("#confirm").prop('disabled',false);
+		    $("#confirmEdit").prop('disabled',false);
 		else
-		    $("#confirm").prop('disabled',true);
+		    $("#confirmEdit").prop('disabled',true);
 	$("#order-total-value").html(total);
+	 if($(".deleteItem").length==1){
+                 $(".deleteItem").prop('disabled',true);
+             //disable
+             }
+     else{
+            $(".deleteItem").prop('disabled',false);
+              //disable
+              }
 }
 function cancelAllEdits(){
 var allEdits=	$(".cancelClass");
@@ -125,11 +135,12 @@ function cancelEdit(id){
     initialPrice =$("#initialP"+id).html();
     $("#quantity"+id).html(initialQuantity);
     $("#price"+id).html(initialPrice);
-    var buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteItem(' + id + ')">Delete</button>'
+    var buttonHtml = '<button class="btn btn-sm btn-outline-danger deleteItem" onclick="deleteItem(' + id + ')">Delete</button>'
     buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="EditItem(' + id + ')">Edit</button>'
     $("#button"+id).html(buttonHtml);
     editsstatus--;
     updateAmount();
+
 }
 function confirmOrder(event){
 	var allItems=$(".rownumber")
@@ -154,14 +165,10 @@ data = JSON.stringify(data);
 			'Content-Type': 'application/json'
 		},
         success: function(response){
-        var baseUrl = $("meta[name=baseUrl]").attr("content");
-        window.location.replace(baseUrl+'/site/orders');
+	$("#edit-order-modal").modal("toggle");
         },
 	   error: handleAjaxError
     });
 }
 //INITIALIZATION CODE
-function init(){
-	$('#completeEdit').click(completeEdit);
-}
-$(document).ready(init);
+$('#confirmEdit').click(confirmOrder);

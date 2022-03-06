@@ -202,7 +202,7 @@ function init(){
 	$('#inventory-edit-form').submit(updateInventory);  //
 	$('#refresh-data').click(getInventoryList);
 	$('#upload-data').click(displayUploadData);
-	$('#inventory-upload').submit(processData);
+	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#inventoryFile').on('change', updateFileName);
 }

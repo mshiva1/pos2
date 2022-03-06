@@ -36,7 +36,7 @@ public class OrderItemController {
     public void newOrder(@RequestBody List<OrderItemForm1> forms) throws ApiException {
         service.createOrder(forms);
     }
-    @ApiOperation(value = "Creates order and push all items into it")
+    @ApiOperation(value = "Edits order and push all items into it")
     @RequestMapping(path = "/api/item/{id}", method = RequestMethod.PUT)
     public void editOrder(@PathVariable Integer id, @RequestBody List<OrderItemForm1> forms) throws ApiException {
             service.editOrder(forms,id);

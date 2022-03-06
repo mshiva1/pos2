@@ -23,7 +23,6 @@ public class Convert1 {
         return p;
     }
 
-
     public InventoryPojo convert(InventoryData f) {
         InventoryPojo p = new InventoryPojo();
         p.setQuantity(f.getQuantity());

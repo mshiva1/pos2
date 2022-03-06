@@ -85,7 +85,7 @@ var errorCount=0;
 function processData(){
 	var file = $('#brandFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
-	getBrandList();
+	//getBrandList();
     resetUploadDialog();
 }
 
@@ -118,7 +118,7 @@ function uploadRows(){
 
 	var json = JSON.stringify(row2);
 	var url = getBrandUrl();
-
+	console.log(json);
 	//Make ajax call
 	$.ajax({
 	   url: url,
@@ -137,6 +137,7 @@ function uploadRows(){
 	   		uploadRows();
 	   }
 	});
+
 }
 
 function downloadErrors(){
@@ -176,7 +177,7 @@ function displayEditBrand(id){
 function resetUploadDialog(){
 	//Reset file name
 	var $file = $('#brandFile');
-	//$file.val('');
+	$file.val('');
 	$('#brandFileName').html("Choose File");
 	//Reset various counts
 	processCount = 0;
@@ -229,8 +230,7 @@ function init(){
 	$('#update-brand').click(updateBrand);
 	$('#refresh-data').click(getBrandList);
 	$('#upload-data').click(displayUploadData);
-//	$('#process-data').click(processData);
-	$("#upload-brand").submit(processData);
+	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#brandFile').on('change', updateFileName);
     $('#add-data').click(displayAddBrand);

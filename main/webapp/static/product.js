@@ -277,7 +277,7 @@ function init(){
     $("#product-edit-form").submit(updateProduct);
 	$('#refresh-data').click(getProductList);
 	$('#upload-data').click(displayUploadData);
-	$('#product-upload').submit(processData);
+	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#productFile').on('change', updateFileName);
     $('#inputBrand').on('change',setCat);

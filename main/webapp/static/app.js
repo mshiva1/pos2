@@ -20,7 +20,7 @@ function notifyUser(bgcolor,head,body,delay){
     else delay=delay*1000;
     $('#error_box').remove();
     $('body').append(
-   '<div class="error-box" id="error_box"> <button aria-label="Close" class="close" onclick="removeNotification()" id="error_close" color="white" type="button"><span aria-hidden="true">&times;</span></button>  <div id="error_head">Error</div> <div id="error_panel"></div></div>'
+   '<div class="error-box" id="error_box"> <button aria-label="Close" class="close" onclick="removeNotification()" id="error_close" color="white" type="button"><span aria-hidden="true" style="padding: 0 5px 0 0">&times;</span></button>  <div id="error_head">Error</div> <div id="error_panel"></div></div>'
     );
     $('#error_head').html(head);
     $('#error_panel').html(body);
@@ -103,7 +103,7 @@ function getProductUrl(){
 	return baseUrl + "/api/product";
 }
 
-function generateReport(items, filename,columns,columns_names) {
+function generateReport(items, filename,columns,columns_names,ignoreOnZero) {
     let csv = "";
     let keysCounter = 0;
     let row = 0;
@@ -122,15 +122,17 @@ function generateReport(items, filename,columns,columns_names) {
     // Loop the array of objects
     for (let row = 0; row < items.length; row++) {
         let keysAmount = columns.length;
-        // If this is the first row, generate the headings
-        for (let key in items[row]) {
-		index=columns_names.indexOf(key)
-            if(index>=0){
-	            csv += items[row][key] + (keysCounter + 1 < keysAmount ? ',' : '\r\n')
-	            keysCounter++
-            }
+        if(items[row][ignoreOnZero]!=0){
+	        // If this is the first row, generate the headings
+	        for (let key in items[row]) {
+			index=columns_names.indexOf(key)
+	            if(index>=0){
+		            csv += items[row][key] + (keysCounter + 1 < keysAmount ? ',' : '\r\n')
+		            keysCounter++
+	            }
+	        }
+	        keysCounter = 0
         }
-        keysCounter = 0
     }
 
     // Once we are done looping, download the .csv by creating a link
@@ -150,7 +152,7 @@ function getBrandReport(){
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		generateReport(data,"BrandsReports.csv",columns,columns_names);
+	   		generateReport(data,"BrandsReports.csv",columns,columns_names,"nothing");
 	   },
 	   error: handleAjaxError
 	});
@@ -170,7 +172,7 @@ function getProductReport(){
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		generateReport(data,datetime+"-InventoryReport.csv",columns,columns_names);
+	   		generateReport(data,datetime+"-InventoryReport.csv",columns,columns_names,"quantity");
 	   },
 	   error: handleAjaxError
 	});

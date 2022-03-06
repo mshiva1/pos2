@@ -28,7 +28,7 @@ function salesReport(){
        	'Content-Type': 'application/json'
        },
 	   success: function(data) {
-	   		generateReport(data,datetime+"-SalesReport.csv",columns,columns_names);
+	   		generateReport(data,datetime+"-SalesReport.csv",columns,columns_names,"quantity");
 	   },
 	   error: handleAjaxError
 	});

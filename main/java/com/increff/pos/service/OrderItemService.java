@@ -156,7 +156,7 @@ public class OrderItemService {
         catch (ApiException e){
             throw new ApiException("Completed orders cant be Edited");
         }
-        //remove all items regarding to orderId
+        //remove all items regarding orderId
         OrderPojo op= daoO.select(orderId);
         op.setStatus("created");
         op.setOrder_time(Timestamp.from(Instant.now()));

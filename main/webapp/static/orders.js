@@ -67,15 +67,15 @@ function deleteOrder(id){
   });
 }
 function editOrder(id){
-//todo modal toggle
-//delete table in modal
-//load data // pass control to edit.js
+	$("#edit-order-modal").modal("toggle");
+	loadOrderDetails(id)
+	//load data // pass control to edit.js
   }
 function completeOrder(id){
   var url = getOrdersUrl() + "/" + id;
   $.ajax({
      url: url,
-     type: 'PUT',
+     type: 'PATCH',
      success: function(data) {
         downloadInvoice(id);
         getOrdersList();

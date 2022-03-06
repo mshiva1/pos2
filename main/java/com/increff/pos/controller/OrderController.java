@@ -40,9 +40,8 @@ public class OrderController {
         return service.getAll();
     }
 
-
     @ApiOperation(value = "created to completed")
-    @RequestMapping(path = "/api/order/{id}", method = RequestMethod.PUT)
+    @RequestMapping(path = "/api/order/{id}", method = RequestMethod.PATCH)
     public void completeOrder(@PathVariable Integer id) throws ApiException {
         service.complete(id);
     }

@@ -14,7 +14,7 @@ public class OrderDao extends AbstractDao {
 
     private static final String select_id = "select p from OrderPojo p where id=:id";
     private static final String select_all = "select p from OrderPojo p";
-    private static final String get_between = "select p.id from OrderPojo p invoice_time < :end and invoice_time > :start";
+    private static final String get_between = "select p.id from OrderPojo p where invoice_time < :end and invoice_time > :start";
 
     @PersistenceContext
     private EntityManager em;
