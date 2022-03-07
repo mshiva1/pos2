@@ -73,7 +73,22 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" tabindex="-1" id="confirm-cancel" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Cancel Order</h5>
+                </div>
+                <div class="modal-body">
+                    <p style="color:red">This action cannot be undone. Are you sure to cancel this Order (Order Id : <span id="cancel-order-id"></span>)?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                    <button type="button" id="confirmed-cancel" class="btn btn-danger">Cancel Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>
 <script th:src="@{/static/orders.js}"></script>

@@ -5,6 +5,7 @@ import com.increff.pos.dao.ProductDao;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryData2;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.Convert1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,7 +75,14 @@ public class InventoryService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void update(InventoryData f) throws ApiException {
-        InventoryPojo p = convert1.convert(f);
+        InventoryPojo p;
+        if(f.getProductId()==null) {
+            ProductPojo pp = daoP.selectBarcode(f.getBarcode());
+            if(pp==null)
+                throw new ApiException("Barcode do not exist");
+            f.setProductId(pp.getId());
+        }
+        p= convert1.convert(f);
         InventoryPojo ex = dao.select(p.getProductId());
         if (p.getQuantity() < 0)
             throw new ApiException("Quantity should be non-negative");

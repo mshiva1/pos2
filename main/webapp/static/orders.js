@@ -34,7 +34,7 @@ function displayOrdersList(data){
     var status;
     if(e.status=='created'){
     status='<td>'  + (e.status).toUpperCase() + '</td>'
-      buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(' + e.id + ')">Cancel</button>'
+      buttonHtml = '<button class="btn btn-sm btn-outline-danger" onclick="confirmDeleteOrder(' + e.id + ')">Cancel</button>'
       buttonHtml += ' <button class="btn btn-sm btn-outline-primary" onclick="editOrder(' + e.id + ')">Edit</button>'
       buttonHtml += ' <button class="btn btn-sm btn-outline-success" onclick="completeOrder(' + e.id + ')">Generate Invoice</button>'
     }
@@ -54,14 +54,22 @@ function displayOrdersList(data){
         $tbody.append(row);
   }
 }
-function deleteOrder(id){
+function confirmDeleteOrder(id){
+		$("#cancel-order-id").html(id);
+		$("#confirm-cancel").modal("toggle");
+		//toggle
+}
+function deleteOrder(){
+  var id=$("#cancel-order-id").html();
   var url = getOrdersUrl() + "/" + id;
   $.ajax({
      url: url,
      type: 'DELETE',
      success: function(data) {
         getOrdersList();
+		$("#confirm-cancel").modal("toggle");
         successMessage("Order Cancelled successfully");
+        //toggle
      },
      error: handleAjaxError
   });
@@ -131,7 +139,7 @@ function newOrder(){
 function init(){
     $('#refresh-data').click(getOrdersList);
     $('#new-order').click(newOrder);
-
+    $('#confirmed-cancel').click(deleteOrder);
 }
 $(document).ready(init);
 $(document).ready(getOrdersList);
