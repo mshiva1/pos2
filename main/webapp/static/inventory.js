@@ -205,9 +205,26 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#inventoryFile').on('change', updateFileName);
+    setValidity();
 }
 
 
 $(document).ready(init);
 $(document).ready(getInventoryList);
 
+function setValidity(){
+	element=$("#quantity")
+	element.on("invalid", function(event)
+			{
+				event.target.setCustomValidity("");
+				if ( ! event.target.validity.valid)
+				{
+					event.target.setCustomValidity("Enter Valid Number");
+				}
+			});
+
+			element.on("input", function(event)
+			{
+				event.target.setCustomValidity("");
+			});
+}

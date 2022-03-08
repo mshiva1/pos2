@@ -35,9 +35,8 @@
                 <div class="form-group col-4">
                     <label class="col-sm-4 col-form-label" for="inputPrice">Selling Price</label>
                     <div class="col-sm-7">
-                        <input class="form-control" id="inputPrice" min="0" name="sellingPrice"
-                               placeholder="Enter Price (Optional)"
-                               step="any" type="number">
+                        <input class="form-control" id="inputPrice" name="sellingPrice" pattern="([0-9]*.[0-9]*)|([0-9]*)"
+                               placeholder="Enter Price (Optional)" type="text">
                     </div>
                 </div>
                 <button class="btn btn-primary col-1" form="item-form" id="add-item" type="submit">Add</button>

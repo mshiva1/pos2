@@ -28,6 +28,7 @@ function getAdded(barcode,id){
     return added;
 }
 function addItem(){
+	cancelAllEdits();
 	var url = getItemUrl();
 	barcode=$("#item-form input[name=barcode]").val();
     quantity=$("#item-form input[name=quantity]").val();
@@ -208,10 +209,41 @@ function refreshPage(){
         var baseUrl = $("meta[name=baseUrl]").attr("content");
         window.location.replace(baseUrl+'/site/orders');
 }
+function setValidity(){
+	element=$("#inputPrice")
+    	element.on("invalid", function(event)
+    			{
+    				event.target.setCustomValidity("");
+    				if ( ! event.target.validity.valid)
+    				{
+    					event.target.setCustomValidity("Please Enter Valid Price");
+    				}
+    			});
+
+    			element.on("input", function(event)
+    			{
+    				event.target.setCustomValidity("");
+    			});
+    element=$("#inputQuantity")
+    	element.on("invalid", function(event)
+    			{
+    				event.target.setCustomValidity("");
+    				if ( ! event.target.validity.valid)
+    				{
+    					event.target.setCustomValidity("Please Enter Valid Number");
+    				}
+    			});
+
+    			element.on("input", function(event)
+    			{
+    				event.target.setCustomValidity("");
+    			});
+}
 //INITIALIZATION CODE
 function init(){
 	$("#item-form").submit(addItem);
 	$('#confirm').click(confirmOrder);
 	$('#cancel-order').click(refreshPage);
+	setValidity();
 }
 $(document).ready(init);

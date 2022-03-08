@@ -88,7 +88,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputMrp">MRP</label>
                             <div class="col-sm-10">
-                                <input class="form-control" id="inputMrp" name="mrp" pattern="[0-9]*.[0-9]*"
+                                <input class="form-control" id="inputMrp" name="mrp" pattern="([0-9]*.[0-9]*)|([0-9]*)"
                                        placeholder="Enter MRP" required type="text">
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-form-label" for="inputMrp">MRP</label>
                             <div class="col-sm-10">
-                                <input class="form-control" name="mrp"
+                                <input class="form-control" name="mrp" id="inputEditMrp"
                                        pattern="[0-9]*.[0-9]*" placeholder="Enter MRP" type="text">
                             </div>
                         </div>
@@ -192,9 +192,9 @@
     </div>
 </div>
 <footer th:replace="snippets.html :: name_footer"></footer>
-<script th:src="@{/static/product.js}"/>
+<script th:src="@{/static/product.js}">
 </script>
-<script th:src="@{/static/app.js}"/>
+<script th:src="@{/static/app.js}">
 </script>
 </body>
 

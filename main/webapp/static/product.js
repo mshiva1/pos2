@@ -285,8 +285,38 @@ function init(){
     getProductList();
     setBrands();
     updateDropdown(null,"inputCategory");
+    setValidity();
 }
-
-
 $(document).ready(init);
 
+
+function setValidity(){
+	element=$("#inputMrp")
+    	element.on("invalid", function(event)
+    			{
+    				event.target.setCustomValidity("");
+    				if ( ! event.target.validity.valid)
+    				{
+    					event.target.setCustomValidity("Please Enter Valid Mrp");
+    				}
+    			});
+
+    			element.on("input", function(event)
+    			{
+    				event.target.setCustomValidity("");
+    			});
+    element=$("#inputEditMrp")
+    	element.on("invalid", function(event)
+    			{
+    				event.target.setCustomValidity("");
+    				if ( ! event.target.validity.valid)
+    				{
+    					event.target.setCustomValidity("Please Enter Valid Mrp");
+    				}
+    			});
+
+    			element.on("input", function(event)
+    			{
+    				event.target.setCustomValidity("");
+    			});
+}
