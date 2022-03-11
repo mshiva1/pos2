@@ -62,7 +62,6 @@ public class InventoryService {
     }
 
 
-    @Transactional
     public List<InventoryData2> getAll() {
         List<InventoryPojo> ret = dao.selectAll();
         List<InventoryData2> retval = new ArrayList<>();

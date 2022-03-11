@@ -12,7 +12,7 @@
     <h3>Orders</h3>
     <br>
     <div class="row" id="buttons">
-        <button class="btn btn-primary" id="new-order" type="button">New Order</button>
+        <button class="btn btn-primary" id="new-order" type="button">New</button>
         &nbsp;&nbsp;
         <button class="btn btn-outline-secondary" id="refresh-data" type="button">Refresh</button>
     </div>
@@ -77,14 +77,14 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirm Cancel Order</h5>
+                    <h5 class="modal-title">Order Cancellation</h5>
                 </div>
                 <div class="modal-body">
-                    <p style="color:red">This action cannot be undone. Are you sure to cancel this Order (Order Id : <span id="cancel-order-id"></span>)?</p>
+                    <p>This action cannot be undone. Are you sure to cancel Order <span id="cancel-order-id"></span>?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-                    <button type="button" id="confirmed-cancel" class="btn btn-danger">Cancel Order</button>
+                    <button type="button" id="confirmed-cancel" class="btn btn-danger">Confirm</button>
                 </div>
             </div>
         </div>

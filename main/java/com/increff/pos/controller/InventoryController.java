@@ -35,5 +35,4 @@ public class InventoryController {
     public void updateInventory(@RequestBody InventoryData f) throws ApiException {
         service.update(f);
     }
-
 }

@@ -2,6 +2,7 @@ package com.increff.pos.service;
 
 import com.increff.pos.dao.*;
 import com.increff.pos.model.OrderData;
+import com.increff.pos.model.OrderIdNumberData;
 import com.increff.pos.model.OrderItemData1;
 import com.increff.pos.model.SaleReport;
 import com.increff.pos.pojo.BrandPojo;
@@ -104,8 +105,8 @@ public class OrderService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void complete(Integer id) throws ApiException {
-        OrderPojo p = dao.select(id);
+    public void complete(OrderIdNumberData oin) throws ApiException {
+        OrderPojo p = dao.select(oin.getOrderId());
         if (p == null)
             throw new ApiException("Order Not Found");
         p.setStatus("completed");
@@ -213,5 +214,9 @@ public class OrderService {
             System.out.println(e);
             return null;
         }
+    }
+    @Transactional (rollbackOn = ApiException.class)
+    public void delete(OrderIdNumberData oin) throws ApiException {
+        this.delete(oin.getOrderId());
     }
 }

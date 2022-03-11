@@ -20,7 +20,7 @@
                     <fo:block text-align="center" font-size="200%">
                         <fo:basic-link external-destination="http://increff.com">INVOICE</fo:basic-link>
                     </fo:block>
-                    <fo:block>Order Id:<xsl:value-of select="header-section/id"/>
+                    <fo:block>Order ID:<xsl:value-of select="header-section/id"/>
                     </fo:block>
                     <fo:block>Invoice Date:
                         <xsl:value-of select="header-section/idate"/>
@@ -66,10 +66,10 @@
                                     <fo:block>Quantity</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block>Price (in Rs)</fo:block>
+                                    <fo:block>Unit Price (in Rs)</fo:block>
                                 </fo:table-cell>
                                 <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block>Sub-Total (in Rs)</fo:block>
+                                    <fo:block>Amount (in Rs)</fo:block>
                                 </fo:table-cell>
                             </fo:table-row>
                             <xsl:for-each select="table-data">

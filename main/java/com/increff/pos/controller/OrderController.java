@@ -1,16 +1,14 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.model.OrderData;
+import com.increff.pos.model.OrderIdNumberData;
 import com.increff.pos.model.SaleReport;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -23,9 +21,9 @@ public class OrderController {
     private OrderService service;
 
     @ApiOperation(value = "Cancels Order")
-    @RequestMapping(path = "/api/order/{id}", method = RequestMethod.DELETE)
-    public void deleteOrder(@PathVariable Integer id) throws ApiException {
-        service.delete(id);
+    @RequestMapping(path = "/api/order/delete", method = RequestMethod.PATCH)
+    public void deleteOrder(@RequestBody OrderIdNumberData oin) throws ApiException  {
+        service.delete(oin);
     }
 
     @ApiOperation(value = "Gets Invoice of Order by ID")
@@ -41,9 +39,9 @@ public class OrderController {
     }
 
     @ApiOperation(value = "created to completed")
-    @RequestMapping(path = "/api/order/{id}", method = RequestMethod.PATCH)
-    public void completeOrder(@PathVariable Integer id) throws ApiException {
-        service.complete(id);
+    @RequestMapping(path = "/api/order/complete", method = RequestMethod.PATCH)
+    public void completeOrder(@RequestBody OrderIdNumberData oin) throws ApiException {
+        service.complete(oin);
     }
 
     @ApiOperation(value = "Gets Sale Record")

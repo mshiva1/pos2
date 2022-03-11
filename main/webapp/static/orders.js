@@ -61,10 +61,18 @@ function confirmDeleteOrder(id){
 }
 function deleteOrder(){
   var id=$("#cancel-order-id").html();
-  var url = getOrdersUrl() + "/" + id;
+  var url = getOrdersUrl() + "delete";
+  var row = {
+              orderId: id
+          }
+  var json=JSON.stringify(row)
   $.ajax({
      url: url,
-     type: 'DELETE',
+     type: 'PATCH',
+	 data: json,
+	 headers: {
+			'Content-Type': 'application/json'
+		},
      success: function(data) {
         getOrdersList();
 		$("#confirm-cancel").modal("toggle");
@@ -80,10 +88,18 @@ function editOrder(id){
 	//load data // pass control to edit.js
   }
 function completeOrder(id){
-  var url = getOrdersUrl() + "/" + id;
+  var url = getOrdersUrl() + "/complete";
+  var row = {
+                orderId: id
+            }
+    var json=JSON.stringify(row)
   $.ajax({
      url: url,
      type: 'PATCH',
+	 data: json,
+	 headers: {
+			'Content-Type': 'application/json'
+		},
      success: function(data) {
         downloadInvoice(id);
         getOrdersList();
