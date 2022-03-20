@@ -21,7 +21,7 @@ public class OrderController {
     private OrderService service;
 
     @ApiOperation(value = "Cancels Order")
-    @RequestMapping(path = "/api/order/delete", method = RequestMethod.PATCH)
+    @RequestMapping(path = "/api/order/{id}", method = RequestMethod.PATCH)
     public void deleteOrder(@RequestBody OrderIdNumberData oin) throws ApiException  {
         service.delete(oin);
     }

@@ -41,7 +41,17 @@ public class SiteUiController extends AbstractUiController {
 
     @RequestMapping(value = "/site/salesreport")
     public ModelAndView salesreport() {
-        return mav("salesreport.html");
+        return mav("salesreports.html");
+    }
+
+    @RequestMapping(value = "/site/inventoryreport")
+    public ModelAndView inventoryreport() {
+        return mav("productreport.html");
+    }
+
+    @RequestMapping(value = "/site/brandreport")
+    public ModelAndView brandreport() {
+        return mav("brandreport.html");
     }
 
 }

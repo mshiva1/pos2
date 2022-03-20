@@ -48,8 +48,8 @@
                 </a>
 
                 <div aria-labelledby="dropdownMenuLink" class="dropdown-menu">
-                    <a class="nav-link" onclick="getBrandReport()">Download Brand Report</a>
-                    <a class="nav-link" onclick="getProductReport()">Download Inventory Report</a>
+                    <a class="nav-link" th:href="@{/site/brandreport}">Brand Report</a>
+                    <a class="nav-link" th:href="@{/site/inventoryreport}">Inventory Report</a>
                     <a class="nav-link" th:href="@{/site/salesreport}">Sales Report</a>
                 </div>
             </li>
